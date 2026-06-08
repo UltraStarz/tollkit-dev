@@ -114,73 +114,31 @@
   .product .product-body { color: #b0b0b0; font-size: 0.95rem; flex: 1; }
   .product .product-meta { color: #707070; font-size: 0.85rem; margin: 0.75rem 0 0; padding-top: 0.75rem; border-top: 1px solid #1f1f1f; }
   .product .product-meta a { color: #4a8eff; }
-  /* The entire .install block IS the button — single unified clickable surface */
-  .product .install {
-    margin: 1.1rem 0 0; padding: 1rem 1.1rem 1.1rem;
-    background: linear-gradient(180deg, #0f1e35 0%, #0e1a2a 100%);
-    border: 1.5px solid #4a8eff;
-    border-radius: 10px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 0.9rem;
+  /* Compact install action — single button, hidden snippet copied on click */
+  .product .install-wrap { margin: 1rem 0 0; }
+  .product .install-btn {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    padding: 0.55rem 1rem;
+    background: transparent;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
     color: #e5e5e5;
-    overflow-x: auto;
-    cursor: pointer; position: relative;
-    user-select: none;  /* prevent text-selection from blocking click on code */
-    -webkit-user-select: none;
-    transition: border-color 150ms ease, background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
-    box-shadow: 0 0 0 0 rgba(74, 142, 255, 0);
-  }
-  .product .install:hover {
-    border-color: #6ea4ff; background: linear-gradient(180deg, #142948 0%, #112338 100%);
-    box-shadow: 0 6px 22px -4px rgba(74, 142, 255, 0.55);
-    transform: translateY(-1px);
-  }
-  .product .install:focus-visible { outline: 2px solid #6ea4ff; outline-offset: 2px; }
-  .product .install:active { transform: translateY(0); box-shadow: 0 2px 8px -2px rgba(74, 142, 255, 0.45); }
-
-  /* Top row: label on the left, copy-action affordance on the right.
-     Together they read as one button — not "code + a separate button." */
-  .product .install .label-row {
-    display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
-    margin-bottom: 0.65rem;
-  }
-  .product .install .label {
-    color: #8eb4ff; font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.09em;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.88rem; font-weight: 600;
+    cursor: pointer;
+    transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
+    line-height: 1;
   }
-  .product .install .copy-hint {
-    display: inline-flex; align-items: center; gap: 0.35rem;
-    color: #8eb4ff;
-    font-size: 0.72rem; font-weight: 600;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    text-transform: uppercase; letter-spacing: 0.08em;
-    transition: color 120ms ease;
-  }
-  .product .install .copy-hint svg { width: 14px; height: 14px; flex-shrink: 0; }
-  .product .install:hover .copy-hint { color: #ffffff; }
-
-  /* The code itself stays selectable for users who want to triple-click,
-     but the surrounding click target is the whole block. */
-  .product .install pre {
-    margin: 0;
-    white-space: pre; overflow-x: auto;
-    font-family: inherit; font-size: inherit; color: inherit;
-    line-height: 1.5;
-    user-select: text; -webkit-user-select: text;
-    pointer-events: none;  /* clicks on the pre bubble up to the .install */
-  }
-
-  /* Copied state — the whole block goes green, label changes */
-  .product .install.copied {
+  .product .install-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+  .product .install-btn:hover { border-color: #4a8eff; background: #141a2a; color: #ffffff; }
+  .product .install-btn:focus-visible { outline: 2px solid #4a8eff; outline-offset: 2px; }
+  .product .install-btn.copied {
     border-color: #4caf50;
-    background: linear-gradient(180deg, #0f2a14 0%, #0c2410 100%);
-    box-shadow: 0 6px 22px -4px rgba(76, 175, 80, 0.55);
+    background: #0f2a14;
+    color: #6ce687;
   }
-  .product .install.copied .label { color: #6ce687; }
-  .product .install.copied .copy-hint { color: #ffffff; }
-  .product .install.copied .copy-hint .copy-text::before { content: "✓ Copied!"; }
-  .product .install:not(.copied) .copy-hint .copy-text::before { content: "Click to copy"; }
+  .product .install-btn.copied .btn-text::before { content: "✓ Copied — paste into your MCP config"; }
+  .product .install-btn:not(.copied) .btn-text::before { content: "Copy install snippet"; }
 
   /* ── How it works ──────────────────────────────────────────────── */
   .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; counter-reset: step; }
@@ -266,19 +224,15 @@
         <div class="product-meta">
           <a href="https://sms.tollkit.dev">sms.tollkit.dev →</a>
         </div>
-        <div class="install" role="button" tabindex="0" aria-label="Click to copy MCP install snippet to clipboard" onclick="copyInstall(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();copyInstall(this)}">
-          <div class="label-row">
-            <span class="label">Install (Claude Desktop / Cursor / Windsurf)</span>
-            <span class="copy-hint" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              <span class="copy-text"></span>
-            </span>
-          </div>
-<pre>"x402-sms": {
+        <div class="install-wrap">
+          <button type="button" class="install-btn" aria-label="Copy MCP install snippet to clipboard" onclick="copyInstall(this)" data-snippet='"x402-sms": {
   "command": "npx",
   "args": ["-y", "x402-sms-mcp"],
   "env": { "BUYER_PRIVATE_KEY": "0xYOUR_KEY" }
-}</pre>
+}'>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="btn-text"></span>
+          </button>
         </div>
       </div>
 
@@ -365,13 +319,18 @@
 
 <script>
   function copyInstall(el) {
-    var code = el.querySelector('pre');
-    if (!code) return;
-    var text = code.textContent;
+    // Snippet can live on a data-snippet attribute (new button form)
+    // or in an inner <pre> (legacy block form).
+    var text = el.getAttribute('data-snippet');
+    if (!text) {
+      var pre = el.querySelector('pre');
+      if (pre) text = pre.textContent;
+    }
+    if (!text) return;
     var done = function() {
       el.classList.add('copied');
       clearTimeout(el._copiedTimer);
-      el._copiedTimer = setTimeout(function() { el.classList.remove('copied'); }, 1600);
+      el._copiedTimer = setTimeout(function() { el.classList.remove('copied'); }, 2200);
     };
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(done).catch(function() { fallback(text, done); });
