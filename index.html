@@ -114,8 +114,36 @@
   .product .product-body { color: #b0b0b0; font-size: 0.95rem; flex: 1; }
   .product .product-meta { color: #707070; font-size: 0.85rem; margin: 0.75rem 0 0; padding-top: 0.75rem; border-top: 1px solid #1f1f1f; }
   .product .product-meta a { color: #4a8eff; }
-  .product .install { margin: 0.85rem 0 0; padding: 0.6rem 0.75rem; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 6px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.78rem; color: #c8c8c8; overflow-x: auto; }
-  .product .install .label { color: #707070; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 0.35rem; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+  .product .install {
+    margin: 0.85rem 0 0; padding: 0.6rem 0.75rem;
+    background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.78rem;
+    color: #c8c8c8; overflow-x: auto;
+    cursor: pointer; position: relative;
+    transition: border-color 120ms ease, background 120ms ease;
+  }
+  .product .install:hover { border-color: #4a8eff; background: #1c1c1c; }
+  .product .install:focus { outline: 2px solid #4a8eff; outline-offset: -1px; }
+  .product .install .label {
+    color: #707070; font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.06em; display: block; margin-bottom: 0.35rem;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .product .install pre {
+    margin: 0; white-space: pre; overflow-x: auto;
+    font-family: inherit; font-size: inherit; color: inherit;
+  }
+  .product .install .copy-icon {
+    position: absolute; top: 0.5rem; right: 0.6rem;
+    color: #555; font-size: 0.7rem; letter-spacing: 0.05em;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    transition: color 120ms ease;
+  }
+  .product .install:hover .copy-icon { color: #4a8eff; }
+  .product .install.copied { border-color: #2e7d3e; background: #0f2a14; }
+  .product .install.copied .copy-icon { color: #6ce687; }
+  .product .install.copied .copy-icon::before { content: "✓ Copied"; }
+  .product .install:not(.copied) .copy-icon::before { content: "Copy"; }
 
   /* ── How it works ──────────────────────────────────────────────── */
   .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; counter-reset: step; }
@@ -201,9 +229,14 @@
         <div class="product-meta">
           <a href="https://sms.tollkit.dev">sms.tollkit.dev →</a>
         </div>
-        <div class="install">
-          <span class="label">Install (MCP)</span>
-          npx -y x402-sms-mcp
+        <div class="install" role="button" tabindex="0" onclick="copyInstall(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();copyInstall(this)}">
+          <span class="label">Install (Claude Desktop / Cursor / Windsurf)</span>
+          <span class="copy-icon" aria-hidden="true"></span>
+<pre>"x402-sms": {
+  "command": "npx",
+  "args": ["-y", "x402-sms-mcp"],
+  "env": { "BUYER_PRIVATE_KEY": "0xYOUR_KEY" }
+}</pre>
         </div>
       </div>
 
@@ -288,5 +321,32 @@
   </div>
 </footer>
 
+<script>
+  function copyInstall(el) {
+    var code = el.querySelector('pre');
+    if (!code) return;
+    var text = code.textContent;
+    var done = function() {
+      el.classList.add('copied');
+      clearTimeout(el._copiedTimer);
+      el._copiedTimer = setTimeout(function() { el.classList.remove('copied'); }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function() { fallback(text, done); });
+    } else {
+      fallback(text, done);
+    }
+  }
+  function fallback(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+</script>
 </body>
 </html>
