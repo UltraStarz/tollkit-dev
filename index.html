@@ -114,6 +114,8 @@
   .product .product-body { color: #b0b0b0; font-size: 0.95rem; flex: 1; }
   .product .product-meta { color: #707070; font-size: 0.85rem; margin: 0.75rem 0 0; padding-top: 0.75rem; border-top: 1px solid #1f1f1f; }
   .product .product-meta a { color: #4a8eff; }
+  .product .install { margin: 0.85rem 0 0; padding: 0.6rem 0.75rem; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 6px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.78rem; color: #c8c8c8; overflow-x: auto; }
+  .product .install .label { color: #707070; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 0.35rem; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
 
   /* ── How it works ──────────────────────────────────────────────── */
   .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; counter-reset: step; }
@@ -197,9 +199,11 @@
           Send transactional SMS to US recipients. Twilio-backed, toll-free verified, TCPA-compliant. $0.03 USDC per message.
         </div>
         <div class="product-meta">
-          <a href="https://sms.tollkit.dev">sms.tollkit.dev →</a> &nbsp;·&nbsp;
-          <a href="https://www.npmjs.com/package/x402-sms-mcp" target="_blank" rel="noopener">npm</a> &nbsp;·&nbsp;
-          <a href="https://github.com/UltraStarz/x402-sms-mcp" target="_blank" rel="noopener">github</a>
+          <a href="https://sms.tollkit.dev">sms.tollkit.dev →</a>
+        </div>
+        <div class="install">
+          <span class="label">Install (MCP)</span>
+          npx -y x402-sms-mcp
         </div>
       </div>
 
