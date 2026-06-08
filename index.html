@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tollkit.dev — paid developer tools for AI agents</title>
+<meta name="description" content="A family of pay-per-call developer tools that AI agents can use without API keys, contracts, or monthly subscriptions. Built on x402.">
+<meta property="og:title" content="tollkit.dev">
+<meta property="og:description" content="Paid developer tools for AI agents. Built on x402.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tollkit.dev">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: #0a0a0a;
+    color: #e5e5e5;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  .container { max-width: 980px; margin: 0 auto; padding: 0 1.5rem; }
+  a { color: #4a8eff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  strong { color: #f5f5f5; }
+  code, .mono { font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  code { background: #1f1f1f; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.92em; color: #e5e5e5; }
+
+  /* ── Top nav ───────────────────────────────────────────────────── */
+  nav.top {
+    border-bottom: 1px solid #1f1f1f;
+    padding: 1.1rem 0;
+    position: sticky; top: 0; background: rgba(10,10,10,0.85);
+    backdrop-filter: saturate(120%) blur(8px);
+    -webkit-backdrop-filter: saturate(120%) blur(8px);
+    z-index: 10;
+  }
+  nav.top .container { display: flex; align-items: center; justify-content: space-between; }
+  nav.top .brand { font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 700; font-size: 1rem; color: #f5f5f5; letter-spacing: -0.01em; }
+  nav.top .brand .dot { color: #4a8eff; }
+  nav.top .links { display: flex; gap: 1.5rem; font-size: 0.92rem; }
+  nav.top .links a { color: #a0a0a0; }
+  nav.top .links a:hover { color: #e5e5e5; text-decoration: none; }
+
+  /* ── Hero ──────────────────────────────────────────────────────── */
+  .hero { padding: 5rem 0 4rem; text-align: left; }
+  .hero h1 {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    font-size: clamp(2.6rem, 7vw, 4.5rem);
+    font-weight: 700;
+    margin: 0 0 1rem;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    color: #f5f5f5;
+  }
+  .hero h1 .dot { color: #4a8eff; }
+  .hero .tag { font-size: clamp(1.15rem, 2.2vw, 1.45rem); color: #c8c8c8; margin: 0 0 0.75rem; max-width: 36rem; }
+  .hero .sub { font-size: 1rem; color: #888; margin: 0 0 2.25rem; max-width: 38rem; }
+  .hero .ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.4rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 120ms ease, border-color 120ms ease;
+    line-height: 1;
+  }
+  .btn-primary { background: #f5f5f5; color: #0a0a0a; }
+  .btn-primary:hover { background: #ffffff; text-decoration: none; }
+  .btn-secondary { background: transparent; color: #e5e5e5; border: 1px solid #2a2a2a; }
+  .btn-secondary:hover { border-color: #4a4a4a; background: #141414; text-decoration: none; }
+
+  /* ── Section ───────────────────────────────────────────────────── */
+  section { padding: 3.5rem 0; border-top: 1px solid #1a1a1a; }
+  section h2 {
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem;
+    font-weight: 600;
+    color: #f5f5f5;
+    letter-spacing: -0.01em;
+  }
+  section .section-sub { color: #888; margin: 0 0 2rem; font-size: 0.95rem; max-width: 38rem; }
+
+  /* ── Product grid ──────────────────────────────────────────────── */
+  .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+  .product {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: border-color 120ms ease, background 120ms ease;
+    display: flex; flex-direction: column;
+  }
+  .product:hover { border-color: #333; background: #131313; }
+  .product .product-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+  .product h3 { margin: 0; font-size: 1.1rem; font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 700; color: #f5f5f5; }
+  .product .badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.55rem;
+    border-radius: 99px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .product .badge.live { background: #0f2a14; color: #6ce687; border: 1px solid #1f5d2d; }
+  .product .badge.soon { background: #1a1a1a; color: #888; border: 1px solid #333; }
+  .product .product-body { color: #b0b0b0; font-size: 0.95rem; flex: 1; }
+  .product .product-meta { color: #707070; font-size: 0.85rem; margin: 0.75rem 0 0; padding-top: 0.75rem; border-top: 1px solid #1f1f1f; }
+  .product .product-meta a { color: #4a8eff; }
+
+  /* ── How it works ──────────────────────────────────────────────── */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; counter-reset: step; }
+  .step { background: #111; border: 1px solid #222; border-radius: 10px; padding: 1.25rem 1.5rem; }
+  .step .num {
+    display: inline-block;
+    width: 1.8rem; height: 1.8rem;
+    border-radius: 50%;
+    background: #1a1a1a;
+    color: #4a8eff;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.8rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    border: 1px solid #2a2a2a;
+  }
+  .step h4 { margin: 0 0 0.35rem; font-size: 1rem; color: #f5f5f5; font-weight: 600; }
+  .step p { margin: 0; font-size: 0.9rem; color: #a0a0a0; }
+
+  /* ── For developers ────────────────────────────────────────────── */
+  .dev-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+  .dev-meta .chip {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: #111; border: 1px solid #2a2a2a; padding: 0.5rem 0.85rem;
+    border-radius: 8px; font-size: 0.85rem; color: #c8c8c8;
+    text-decoration: none;
+    transition: border-color 120ms ease, color 120ms ease;
+  }
+  .dev-meta .chip:hover { border-color: #4a4a4a; color: #f5f5f5; text-decoration: none; }
+  .dev-meta .chip .label { color: #707070; }
+
+  /* ── Footer ───────────────────────────────────────────────────── */
+  footer { border-top: 1px solid #1a1a1a; padding: 2.5rem 0 4rem; color: #707070; font-size: 0.85rem; }
+  footer .row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem; }
+  footer .brand { font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 700; color: #c8c8c8; font-size: 0.9rem; }
+  footer .brand .dot { color: #4a8eff; }
+  footer .legal { color: #555; font-size: 0.78rem; margin-top: 1.5rem; max-width: 38rem; line-height: 1.55; }
+  footer a { color: #888; }
+  footer a:hover { color: #e5e5e5; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="container">
+    <span class="brand">tollkit<span class="dot">.dev</span></span>
+    <div class="links">
+      <a href="#products">Products</a>
+      <a href="#how">How it works</a>
+      <a href="https://github.com/UltraStarz" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <h1>tollkit<span class="dot">.dev</span></h1>
+    <p class="tag">Paid developer tools for AI agents.</p>
+    <p class="sub">A family of pay-per-call APIs that AI agents can use without API keys, contracts, or monthly subscriptions. Plug in a wallet, call the endpoint, settle in USDC over <a href="https://x402.org" target="_blank" rel="noopener">x402</a>.</p>
+    <div class="ctas">
+      <a class="btn btn-primary" href="#products">View products</a>
+      <a class="btn btn-secondary" href="https://github.com/UltraStarz" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<section id="products">
+  <div class="container">
+    <h2>Products</h2>
+    <p class="section-sub">Each tool is an independent paid endpoint. Drop the matching MCP into Claude Desktop, Cursor, or Windsurf — the agent calls it on your behalf, your wallet settles the toll.</p>
+    <div class="products">
+
+      <div class="product">
+        <div class="product-head">
+          <h3>x402-sms</h3>
+          <span class="badge live">Live</span>
+        </div>
+        <div class="product-body">
+          Send transactional SMS to US recipients. Twilio-backed, toll-free verified, TCPA-compliant. $0.03 USDC per message.
+        </div>
+        <div class="product-meta">
+          <a href="https://sms.tollkit.dev">sms.tollkit.dev →</a> &nbsp;·&nbsp;
+          <a href="https://www.npmjs.com/package/x402-sms-mcp" target="_blank" rel="noopener">npm</a> &nbsp;·&nbsp;
+          <a href="https://github.com/UltraStarz/x402-sms-mcp" target="_blank" rel="noopener">github</a>
+        </div>
+      </div>
+
+      <div class="product">
+        <div class="product-head">
+          <h3>x402-extract</h3>
+          <span class="badge soon">Coming soon</span>
+        </div>
+        <div class="product-body">
+          Pay-per-call structured web extraction. Point an agent at a URL, get clean structured data back. Per-page pricing.
+        </div>
+        <div class="product-meta">In development.</div>
+      </div>
+
+      <div class="product">
+        <div class="product-head">
+          <h3>Got a tool in mind?</h3>
+          <span class="badge soon">Open</span>
+        </div>
+        <div class="product-body">
+          tollkit.dev is an umbrella for paid agent-facing APIs. If there's a service you wish your agent could just call and pay for, we'd love to hear it.
+        </div>
+        <div class="product-meta">
+          <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="container">
+    <h2>How it works</h2>
+    <p class="section-sub">Three steps from zero to a working paid tool call.</p>
+    <div class="steps">
+      <div class="step">
+        <span class="num">1</span>
+        <h4>Fund a wallet</h4>
+        <p>Drop USDC and a little ETH into any wallet on Base. That's the buyer's tab.</p>
+      </div>
+      <div class="step">
+        <span class="num">2</span>
+        <h4>Install the MCP</h4>
+        <p>Add the tool's MCP server to Claude Desktop, Cursor, or Windsurf. Paste your wallet key into the config.</p>
+      </div>
+      <div class="step">
+        <span class="num">3</span>
+        <h4>Let the agent call</h4>
+        <p>Ask your agent to do the thing. The MCP signs the payment, the server settles over x402, you get the result.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="developers">
+  <div class="container">
+    <h2>Built for developers</h2>
+    <p class="section-sub">Open-source clients, public seller code, no vendor lock-in. If you want to host your own seller for a tool, the patterns are reusable.</p>
+    <div class="dev-meta">
+      <a class="chip" href="https://github.com/UltraStarz" target="_blank" rel="noopener"><span class="label">GitHub:</span> @UltraStarz</a>
+      <a class="chip" href="https://www.npmjs.com/~jehenry87" target="_blank" rel="noopener"><span class="label">npm:</span> jehenry87</a>
+      <a class="chip" href="https://x402.org" target="_blank" rel="noopener"><span class="label">Protocol:</span> x402</a>
+      <a class="chip" href="https://base.org" target="_blank" rel="noopener"><span class="label">Settlement:</span> Base (USDC)</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div>
+        <div class="brand">tollkit<span class="dot">.dev</span></div>
+        <div style="margin-top:0.35rem; color:#707070;">Paid developer tools for AI agents.</div>
+      </div>
+      <div>
+        Contact: <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
+      </div>
+    </div>
+    <div class="legal">
+      tollkit.dev is a sole proprietorship. Built on the open <a href="https://x402.org" target="_blank" rel="noopener">x402</a> protocol. Settlement on Base in USDC. © 2026.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
