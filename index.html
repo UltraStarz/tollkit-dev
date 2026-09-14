@@ -137,8 +137,8 @@
     background: #0f2a14;
     color: #6ce687;
   }
-  .product .install-btn.copied .btn-text::before { content: "✓ Copied — paste into your MCP config"; }
-  .product .install-btn:not(.copied) .btn-text::before { content: "Copy install snippet"; }
+  .product .install-btn.copied .btn-text::before { content: "✓ Copied — add it as a remote MCP server"; }
+  .product .install-btn:not(.copied) .btn-text::before { content: "Copy connector URL"; }
 
   /* ── How it works ──────────────────────────────────────────────── */
   .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; counter-reset: step; }
@@ -210,26 +210,22 @@
 <section id="products">
   <div class="container">
     <h2>Products</h2>
-    <p class="section-sub">Each tool is an independent paid endpoint. Drop the matching MCP into Claude Desktop, Cursor, or Windsurf — the agent calls it on your behalf, your wallet settles the toll.</p>
+    <p class="section-sub">Each tool is an independent paid endpoint. Add the connector URL to Claude Desktop, Cursor, or Windsurf — nothing to install and no API key. The agent calls the tool, and pays the toll in the request itself.</p>
     <div class="products">
 
       <div class="product">
         <div class="product-head">
-          <h3>x402-sms</h3>
+          <h3>tollkit-sms</h3>
           <span class="badge live">Live</span>
         </div>
         <div class="product-body">
-          Send transactional SMS to US recipients over a Twilio toll-free number. Consent attestation required on every send, enforced opt-out list, and prohibited-content screening. $0.03 USDC per message.
+          Send a text message to a US phone from a verified toll-free sender. Consent attestation required on every send, enforced opt-out list, and prohibited-content screening. $0.10 USDC per message — refusals are free.
         </div>
         <div class="product-meta">
           <a href="https://sms.tollkit.dev">sms.tollkit.dev →</a>
         </div>
         <div class="install-wrap">
-          <button type="button" class="install-btn" aria-label="Copy MCP install snippet to clipboard" onclick="copyInstall(this)" data-snippet='"x402-sms": {
-  "command": "npx",
-  "args": ["-y", "x402-sms-mcp"],
-  "env": { "BUYER_PRIVATE_KEY": "0xYOUR_KEY" }
-}'>
+          <button type="button" class="install-btn" aria-label="Copy the connector URL to clipboard" onclick="copyInstall(this)" data-snippet="https://mcp.tollkit.dev/mcp">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             <span class="btn-text"></span>
           </button>
@@ -238,13 +234,13 @@
 
       <div class="product">
         <div class="product-head">
-          <h3>x402-extract</h3>
+          <h3>tollkit-extract</h3>
           <span class="badge soon">Coming soon</span>
         </div>
         <div class="product-body">
-          Pay-per-call structured web extraction. Point an agent at a URL, get clean structured data back. Per-page pricing.
+          Give it a product page URL, get back structured schema.org/Product JSON — name, brand, price, currency, availability, variants. Renders the page in a headless browser, so it works on sites that build themselves in JavaScript. $0.01 USDC per call. A page it cannot read is never charged for.
         </div>
-        <div class="product-meta">In development.</div>
+        <div class="product-meta">Built and tested. Not deployed yet.</div>
       </div>
 
       <div class="product">
@@ -267,24 +263,25 @@
 <section id="how">
   <div class="container">
     <h2>How it works</h2>
-    <p class="section-sub">Three steps from zero to a working paid tool call.</p>
+    <p class="section-sub">There is no signup, no API key and nothing to install. The price is part of the response.</p>
     <div class="steps">
       <div class="step">
         <span class="num">1</span>
-        <h4>Fund a wallet</h4>
-        <p>Drop USDC and a little ETH into any wallet on Base. That's the buyer's tab.</p>
+        <h4>Add the connector</h4>
+        <p>Paste the tool's URL into Claude Desktop, Cursor, or Windsurf as a remote MCP server. That is the whole setup.</p>
       </div>
       <div class="step">
         <span class="num">2</span>
-        <h4>Install the MCP</h4>
-        <p>Add the tool's MCP server to Claude Desktop, Cursor, or Windsurf. Paste your wallet key into the config.</p>
+        <h4>Fund a wallet</h4>
+        <p>Put USDC and a little ETH on Base in a wallet your agent can sign with. That is the tab it draws against.</p>
       </div>
       <div class="step">
         <span class="num">3</span>
         <h4>Let the agent call</h4>
-        <p>Ask your agent to do the thing. The MCP signs the payment, the server settles over x402, you get the result.</p>
+        <p>The first call comes back with the price, the asset and the recipient. Your agent signs it, calls again, and gets the result. Work we refuse is free.</p>
       </div>
     </div>
+    <p class="section-sub" style="margin:1.75rem 0 0;">Prefer to keep the key on your own machine? The original stdio servers still work — <code>npx -y x402-sms-mcp</code> with <code>BUYER_PRIVATE_KEY</code> in the config — but the connector URL above needs neither.</p>
   </div>
 </section>
 
