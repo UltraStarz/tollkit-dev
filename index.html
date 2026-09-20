@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>tollkit.dev — paid developer tools for AI agents</title>
-<meta name="description" content="A family of pay-per-call developer tools that AI agents can use without API keys, contracts, or monthly subscriptions. Built on x402.">
+<meta name="description" content="Pay-per-call tools AI agents can use without API keys or subscriptions: send a text, read a product page, or get signed proof of what a page said. Built on x402.">
 <meta property="og:title" content="tollkit.dev">
-<meta property="og:description" content="Paid developer tools for AI agents. Built on x402.">
+<meta property="og:description" content="Send a text, read a product page, or prove what a page said. Pay per call in USDC, no account. Built on x402.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tollkit.dev">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
@@ -255,6 +255,26 @@
 
       <div class="product">
         <div class="product-head">
+          <h3>tollkit-attest</h3>
+          <span class="badge live">Live</span>
+        </div>
+        <div class="product-body">
+          Proof of what a page said, at a moment in time. Give it a URL and get back a signed, timestamped record &mdash; the rendered text and its hash, a screenshot and its hash, the response headers, the IP that served it and the TLS certificate the site presented &mdash; all hashed into one claim and signed, so a single altered byte breaks the signature. For terms you agreed to, a price you acted on, a policy you relied on, a claim a competitor published. <strong>$0.25</strong> per call. <strong>Verification is free, needs no account, and does not depend on us continuing to exist</strong> &mdash; the maths is public and anyone can redo it. We keep no copy, so the response you receive <em>is</em> the evidence.
+        </div>
+        <div class="product-meta">
+          <a href="https://attest.tollkit.dev">attest.tollkit.dev &rarr;</a>
+          <a href="https://attest.tollkit.dev/attest/signer">Who signs &rarr;</a>
+        </div>
+        <div class="install-wrap">
+          <button type="button" class="install-btn" aria-label="Copy the connector URL to clipboard" onclick="copyInstall(this)" data-snippet="https://extract.tollkit.dev/mcp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="btn-text"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="product">
+        <div class="product-head">
           <h3>Got a tool in mind?</h3>
           <span class="badge soon">Open</span>
         </div>
@@ -272,8 +292,8 @@
 
 <section id="guarantees">
   <div class="container">
-    <h2>What extract promises</h2>
-    <p class="section-sub">Every line here is a branch in the code with a test behind it. They are also the things a general-purpose &ldquo;read any page&rdquo; service cannot promise, which is the reason to point a shopping agent at this one.</p>
+    <h2>What these tools promise</h2>
+    <p class="section-sub">Every line here is a branch in the code with a test behind it &mdash; not marketing. They are also the things a general-purpose &ldquo;read any page&rdquo; service structurally cannot promise, which is the reason to point an agent at these instead.</p>
     <div class="products">
 
       <div class="product">
@@ -301,6 +321,13 @@
         <div class="product-head"><h3>Nothing is invented</h3></div>
         <div class="product-body">
           Image URLs are copied from the page, never constructed. A field the page doesn&rsquo;t state comes back <code>null</code> rather than guessed. Where the merchant publishes schema.org data, that is what you get &mdash; real SKUs, real GTINs, real variant lists.
+        </div>
+      </div>
+
+      <div class="product">
+        <div class="product-head"><h3>Proof you can check without us</h3></div>
+        <div class="product-body">
+          An attestation is worth what it is worth to someone who does not trust us &mdash; the other side of a dispute, an auditor. So verifying one is free, needs no account, and holds no database: re-hash the claim, check the signature against a published address, done. The maths is public and anyone can redo it by hand. An attestation naming a different signer was not issued here, whatever it claims.
         </div>
       </div>
 
