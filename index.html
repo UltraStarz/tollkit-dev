@@ -189,6 +189,7 @@
     <span class="brand">tollkit<span class="dot">.dev</span></span>
     <div class="links">
       <a href="#products">Products</a>
+      <a href="#guarantees">Guarantees</a>
       <a href="#how">How it works</a>
       <a href="https://github.com/UltraStarz" target="_blank" rel="noopener">GitHub</a>
     </div>
@@ -238,10 +239,11 @@
           <span class="badge live">Live</span>
         </div>
         <div class="product-body">
-          Give it a product page URL, get back structured schema.org/Product JSON — name, brand, price, currency, availability, images, variants. Renders the page in a headless browser, so it works on sites that build themselves in JavaScript. $0.01 USDC per call. A page it cannot read is never charged for.
+          Give it a product page URL, get back structured schema.org/Product JSON — name, brand, sku, price, currency, availability, images, variants. Renders the page in a real headless browser, so it works on sites that build themselves in JavaScript, and reads the store's own schema.org data before inferring anything. <strong>$0.01</strong> per call, or <strong>$0.04</strong> for up to five URLs in one payment — for comparing one product across several stores without paying and signing per store. A page it cannot read is never charged for.
         </div>
         <div class="product-meta">
           <a href="https://extract.tollkit.dev">extract.tollkit.dev →</a>
+          <a href="https://extract.tollkit.dev/preview">See real output, free →</a>
         </div>
         <div class="install-wrap">
           <button type="button" class="install-btn" aria-label="Copy the connector URL to clipboard" onclick="copyInstall(this)" data-snippet="https://extract.tollkit.dev/mcp">
@@ -261,6 +263,44 @@
         </div>
         <div class="product-meta">
           <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="guarantees">
+  <div class="container">
+    <h2>What extract promises</h2>
+    <p class="section-sub">Every line here is a branch in the code with a test behind it. They are also the things a general-purpose &ldquo;read any page&rdquo; service cannot promise, which is the reason to point a shopping agent at this one.</p>
+    <div class="products">
+
+      <div class="product">
+        <div class="product-head"><h3>It won&rsquo;t answer about the wrong product</h3></div>
+        <div class="product-body">
+          Dead product URLs redirect to category pages all the time. A generic reader extracts whatever it lands on and hands you a real price for a different item &mdash; and nothing about the answer looks wrong. We refuse instead, and don&rsquo;t charge. Pass <code>allow_redirect</code> if you want whatever the URL resolves to.
+        </div>
+      </div>
+
+      <div class="product">
+        <div class="product-head"><h3>Failures are free</h3></div>
+        <div class="product-body">
+          Every failure path returns an error status, and x402 settles nothing on an error. Blocked sites, dead pages, pages that never load: you pay for none of them.
+        </div>
+      </div>
+
+      <div class="product">
+        <div class="product-head"><h3>Cached answers say so</h3></div>
+        <div class="product-body">
+          Repeat calls inside five minutes are re-served fast. They come back marked <code>cached</code>, with the age in seconds and the timestamp of the original render &mdash; never the time of your call. A five-minute-old price sold as live would be a lie.
+        </div>
+      </div>
+
+      <div class="product">
+        <div class="product-head"><h3>Nothing is invented</h3></div>
+        <div class="product-body">
+          Image URLs are copied from the page, never constructed. A field the page doesn&rsquo;t state comes back <code>null</code> rather than guessed. Where the merchant publishes schema.org data, that is what you get &mdash; real SKUs, real GTINs, real variant lists.
         </div>
       </div>
 
