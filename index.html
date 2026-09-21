@@ -45,7 +45,7 @@
   nav.top .links a:hover { color: #e5e5e5; text-decoration: none; }
   /* Six links do not fit a phone. Keep the three that get someone started. */
   @media (max-width: 720px) { nav.top .links { gap: 0.9rem; } nav.top .links a { white-space: nowrap; } nav.top .links .nav-more { display: none; } }
-  @media (max-width: 420px) { nav.top .links { gap: 0.75rem; font-size: 0.85rem; } }
+  @media (max-width: 420px) { nav.top .links { gap: 0.6rem; font-size: 0.82rem; } nav.top .links .nav-wide { display: none; } }
 
   /* ── Hero ──────────────────────────────────────────────────────── */
   .hero { padding: 5rem 0 4rem; text-align: left; }
@@ -201,6 +201,28 @@
   footer .legal { color: #555; font-size: 0.78rem; margin-top: 1.5rem; max-width: 38rem; line-height: 1.55; }
   footer a { color: #888; }
   footer a:hover { color: #e5e5e5; text-decoration: none; }
+
+  /* Weigh Station */
+  .ws { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; align-items: start; background: #0e1626; border: 1px solid #1e3358; border-radius: 12px; padding: 1.75rem; }
+  .ws > div { min-width: 0; }
+  .ws h2 { margin-top: .6rem; }
+  .ws .section-sub { margin-bottom: 1rem; }
+  .badge-free { display: inline-block; font-size: .72rem; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; color: #6ce687; background: #0f2a14; border: 1px solid #1f5d2d; border-radius: 99px; padding: .15rem .6rem; }
+  .ws-points { margin: 0; padding-left: 1.1rem; color: #a0a0a0; font-size: .92rem; }
+  .ws-points li { margin: .4rem 0; }
+  .ws-points b { color: #f5f5f5; }
+  .ws-label { margin: 0 0 .45rem; font-size: .8rem; color: #8a8a8a; }
+  .ws-cmd, .ws-btn { margin-bottom: 1.1rem; }
+  .ws-cmd { display: flex; align-items: center; gap: .6rem; width: 100%; justify-content: space-between; background: #08090c; border: 1px solid #2a2a2a; border-radius: 8px; padding: .65rem .8rem; cursor: pointer; color: #e5e5e5; font: inherit; }
+  .ws-cmd:hover { border-color: #4a8eff; }
+  .ws-cmd code { min-width: 0; background: none; padding: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85rem; color: #cfe0ff; overflow-x: auto; white-space: nowrap; }
+  .ws-copy-label { color: #8a8a8a; font-size: .8rem; flex-shrink: 0; }
+  .ws-cmd.copied .ws-copy-label { color: #6ce687; }
+  .ws-cmd.copied .ws-copy-label::after { content: "ed"; }
+  .ws-btn { width: 100%; text-align: center; }
+  .ws-small { margin: 0; font-size: .8rem; color: #707070; }
+  .ws-small code { color: #cfe0ff; font-size: .78rem; }
+  @media (max-width: 760px) { .ws { grid-template-columns: 1fr; padding: 1.25rem; gap: 1.25rem; } .ws-cmd code { white-space: normal; text-align: left; font-size: .8rem; } }
 </style>
 </head>
 <body>
@@ -209,8 +231,9 @@
   <div class="container">
     <span class="brand">tollkit<span class="dot">.dev</span></span>
     <div class="links">
-      <a href="#products">Products</a>
+      <a class="nav-wide" href="#products">Products</a>
       <a href="/connect">Connect</a>
+      <a href="#weigh-station">Weigh Station</a>
       <a href="/fund">Fund agents</a>
       <a class="nav-more" href="#guarantees">Guarantees</a>
       <a class="nav-more" href="#how">How it works</a>
@@ -231,6 +254,30 @@
     </div>
   </div>
 </header>
+
+<section id="weigh-station">
+  <div class="container">
+    <div class="ws">
+      <div class="ws-copy">
+        <span class="badge-free">Free &middot; for any x402 seller</span>
+        <h2>Weigh Station</h2>
+        <p class="section-sub">Before your agent pays an x402 service, it pulls in here. Like a highway weigh station, it checks the load matches the paperwork: what the service actually charges, and who gets the money, against what its public listing says. Nothing is paid, and nobody can buy a better result.</p>
+        <ul class="ws-points">
+          <li><b>Find a paid tool.</b> Describe the job (&ldquo;product price lookup&rdquo;, &ldquo;send SMS&rdquo;) and get matching services, each checked live.</li>
+          <li><b>Check before paying.</b> Real price, network and recipient, with a warning if the wallet getting paid differs from the listing.</li>
+          <li><b>No paid placement.</b> Ranked by live price quote, then by how many different wallets have paid it. Tollkit&rsquo;s own tools get no boost.</li>
+        </ul>
+      </div>
+      <div class="ws-use">
+        <p class="ws-label">Add it to a coding agent (Claude Code, Codex, Cursor and 75+ more)</p>
+        <button type="button" class="install-btn ws-cmd" data-snippet="npx skills add https://tollkit.dev" onclick="copyInstall(this)"><code>npx skills add https://tollkit.dev</code><span class="ws-copy-label">Copy</span></button>
+        <p class="ws-label">Or use it in a chat app</p>
+        <button type="button" class="btn btn-secondary ws-btn" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
+        <p class="ws-small">Tools <code>find_service</code> and <code>check_service</code>. Also plain HTTP: <a href="https://extract.tollkit.dev/check?url=https://attest.tollkit.dev/attest">/check</a> &middot; <a href="https://extract.tollkit.dev/find?q=product%20price%20lookup">/find</a> &middot; <a href="/skills/weigh-station.zip">skill .zip</a></p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="products">
   <div class="container">
