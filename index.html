@@ -257,7 +257,10 @@
   .ws-title { margin: .6rem 0 .5rem; font-size: 1.35rem; font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 700; color: #f5f5f5; }
   .ws-lead { margin: 0 0 .9rem; color: #b0b0b0; font-size: .97rem; }
   .ws-featured .ws-small { margin-top: .2rem; }
-  #sellers { padding-top: 0; border-top: 0; }
+  .product-featured { border-color: #2f5fb0; background: #0e1626; box-shadow: 0 0 0 1px #2f5fb033, 0 10px 40px #4a8eff14; }
+  .product-featured:hover { border-color: #4a8eff; background: #0f1a2e; }
+  #products .products { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 700px) { #products .products { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -268,7 +271,7 @@
     <div class="links">
       <a class="nav-wide" href="#products">Products</a>
       <a href="/connect">Connect</a>
-      <a href="#weigh-station">Weigh Station</a>
+      <a href="/weigh-station">Weigh Station</a>
       <a href="/fund">Fund agents</a>
       <a class="nav-more" href="#how">How it works</a>
     </div>
@@ -291,27 +294,21 @@
   <div class="container">
     <h2>Products</h2>
     <p class="section-sub">Press <b>Connect to your AI</b> and pick your app. Failed calls are never charged.</p>
-    <div class="ws ws-featured" id="weigh-station">
-      <div class="ws-copy">
-        <span class="badge-free">New &middot; Free</span>
-        <h3 class="ws-title">weigh-station</h3>
-        <p class="ws-lead">Before your agent pays a service, it pulls in here. Like a highway weigh station, we check the load matches the paperwork: the real price and the wallet that gets paid, against its public listing.</p>
-        <ul class="ws-points">
-          <li><b>Find a paid tool</b> for any job, each result checked live.</li>
-          <li><b>Check before paying:</b> a warning if the money would go to the wrong wallet.</li>
-          <li><b>Neutral:</b> covers every x402 seller, and nobody can pay for a better result.</li>
-        </ul>
-      </div>
-      <div class="ws-use">
-        <p class="ws-label">Coding agents (Claude Code, Codex, Cursor and more)</p>
-        <button type="button" class="install-btn ws-cmd" data-snippet="npx skills add https://tollkit.dev" onclick="copyInstall(this)"><code>npx skills add https://tollkit.dev</code><span class="ws-copy-label">Copy</span></button>
-        <p class="ws-label">Chat apps</p>
-        <button type="button" class="btn btn-primary ws-btn" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-        <p class="ws-small">Selling on x402? <a href="#weigh-sellers">Monitor your endpoint for $5&nbsp;&rarr;</a></p>
-      </div>
-    </div>
-
     <div class="products">
+
+      <div class="product product-featured">
+        <div class="product-head">
+          <h3>weigh-station</h3>
+          <span class="badge live">New &middot; Free</span>
+        </div>
+        <div class="product-body">
+          Before your agent pays a service, see what it really charges and which wallet gets the money, checked against its public listing. Also finds paid tools for any job. Covers every x402 seller; nobody can pay for a better result. <a class="read-more" href="/weigh-station">Read more&nbsp;&rarr;</a>
+        </div>
+        <div class="product-actions">
+          <button type="button" class="btn btn-primary" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
+          <a class="fund-link" href="/weigh-station">Free &middot; Or install as a skill&nbsp;&rarr;</a>
+        </div>
+      </div>
 
       <div class="product">
         <div class="product-head">
@@ -379,27 +376,6 @@
         <h4>Your agent pays per call</h4>
         <p>Each call shows its price first. Your agent pays, gets the result. Failed calls cost nothing.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section id="sellers">
-  <div class="container">
-    <div class="ws-sellers" id="weigh-sellers">
-      <p class="ws-kicker">For x402 sellers &middot; $5 per endpoint / 30 days</p>
-      <h3>Know the moment your endpoint breaks</h3>
-      <p class="ws-sub">We check it every 15 minutes and send a signed webhook when it goes down or comes back, changes price, or starts asking buyers to pay <b>a wallet that isn&rsquo;t yours</b>. Paid in USDC; nothing renews by itself. Paying never changes what the checks say or how you rank.</p>
-      <details class="ws-how">
-        <summary>How to sign up (3 steps)</summary>
-        <ol class="ws-steps">
-          <li><b>Prepare (free).</b> We read the wallet your endpoint asks buyers to pay.
-            <pre>curl -s -X POST https://extract.tollkit.dev/weigh/prepare \
-  -H 'content-type: application/json' \
-  -d '{"url":"https://your-api.com/endpoint","webhookUrl":"https://your-app.com/hooks/weigh"}'</pre></li>
-          <li><b>Sign</b> the returned <code>message</code> with that wallet. Free, moves no money.</li>
-          <li><b>Pay $5</b>: POST the same fields plus <code>signature</code> to <code>/weigh/subscribe</code> with any x402 client. A bad signature is never charged.</li>
-        </ol>
-      </details>
     </div>
   </div>
 </section>

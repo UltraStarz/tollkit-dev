@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weigh Station — Tollkit</title>
+<meta name="description" content="Find a paid x402 tool for any job and check what a service really charges, and who gets the money, before your agent pays. Free, for every seller.">
+<meta property="og:title" content="Weigh Station by Tollkit">
+<meta property="og:description" content="Check an x402 service before your agent pays it. Free and neutral.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tollkit.dev/weigh-station">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
+<style>
+  :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --panel-2:#151515; --line:#242424; --line-soft:#1c1c1c;
+    --text:#e5e5e5; --muted:#8a8a8a; --dim:#707070; --accent:#4a8eff; --accent-dim:#2f5fb0;
+    --warn:#e0a33a; --warn-bg:#1a1408; --warn-line:#3a2f14; --ok:#3ecf8e; --ok-bg:#0b1a13; --ok-line:#1c3b2c; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .container { max-width:780px; margin:0 auto; padding:0 16px; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  code, .mono { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  nav.top { border-bottom:1px solid var(--line-soft); padding:.9rem 0; }
+  nav.top .container { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  .brand { font-weight:700; letter-spacing:-.02em; color:var(--text); }
+  .brand .dot { color:var(--accent); }
+  nav.top .links { display:flex; gap:1.1rem; font-size:.9rem; }
+  nav.top .links a { color:var(--muted); }
+  header.head { padding:2.6rem 0 1rem; }
+  h1 { font-size:2rem; letter-spacing:-.03em; margin:0 0 .5rem; }
+  .lede { color:var(--muted); margin:0; font-size:1.02rem; }
+  .lede strong { color:var(--text); }
+
+  .urlbox { display:flex; gap:.5rem; align-items:center; background:#08090c; border:1px solid var(--accent-dim); border-radius:10px; padding:.55rem .55rem .55rem .9rem; margin:1.4rem 0 .4rem; }
+  .urlbox code { flex:1; font-size:.95rem; color:#cfe0ff; overflow-x:auto; white-space:nowrap; }
+  .urlnote { font-size:.82rem; color:var(--dim); margin:0 0 1.6rem; }
+
+  .apps { display:grid; grid-template-columns:repeat(auto-fit,minmax(118px,1fr)); gap:.5rem; margin-bottom:1rem; }
+  .app { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:.7rem .6rem; color:var(--text); font:600 .9rem/1.2 inherit; cursor:pointer; text-align:center; }
+  .app:hover { border-color:#3a3a3a; }
+  .app[aria-selected="true"] { border-color:var(--accent); background:#0e1626; }
+  .app small { display:block; font-weight:400; color:var(--dim); font-size:.72rem; margin-top:.15rem; }
+
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.3rem 1.4rem; }
+  .panel h2 { font-size:1.1rem; margin:0 0 .2rem; }
+  .panel .who { color:var(--dim); font-size:.84rem; margin:0 0 1rem; }
+  ol.steps { margin:0; padding-left:1.3rem; }
+  ol.steps li { margin:.45rem 0; padding-left:.2rem; }
+  ol.steps b { color:#fff; }
+  .kbd { font-family:ui-monospace,monospace; font-size:.85em; background:#1a1a1a; border:1px solid var(--line); border-radius:5px; padding:.05rem .35rem; }
+  .cmd { display:flex; gap:.5rem; align-items:flex-start; background:#08090c; border:1px solid var(--line); border-radius:10px; padding:.6rem .6rem .6rem .9rem; margin:.6rem 0; }
+  .cmd pre { flex:1; margin:0; font-family:ui-monospace,monospace; font-size:.82rem; color:#cdd6e4; white-space:pre-wrap; word-break:break-all; }
+  .btn { display:inline-flex; align-items:center; gap:.4rem; border-radius:8px; padding:.45rem .85rem; font-size:.85rem; font-weight:600; cursor:pointer; border:1px solid transparent; font-family:inherit; white-space:nowrap; }
+  .btn-primary { background:var(--accent); color:#05070d; }
+  .btn-primary:hover { background:#63a0ff; text-decoration:none; }
+  .btn-secondary { background:transparent; color:var(--text); border-color:var(--line); }
+  .btn-secondary:hover { border-color:#3a3a3a; }
+  .note { font-size:.84rem; color:var(--muted); border-left:2px solid var(--line); padding-left:.8rem; margin:1rem 0 0; }
+  .warnnote { font-size:.84rem; color:#e6d3a8; background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:8px; padding:.6rem .8rem; margin:.9rem 0 0; }
+  .or { font-size:.8rem; color:var(--dim); margin:.8rem 0 .2rem; text-transform:uppercase; letter-spacing:.06em; }
+
+  .picker { padding:1.4rem; margin-top:0; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.2rem 1.4rem; margin-top:1rem; }
+  .card h2 { font-size:1.02rem; margin:0 0 .4rem; }
+  .card p { margin:.3rem 0; color:var(--muted); font-size:.9rem; }
+  .card p strong { color:var(--text); }
+  .tools { display:grid; grid-template-columns:auto 1fr auto; gap:.35rem .9rem; font-size:.87rem; margin-top:.6rem; }
+  .tools code { color:#cfe0ff; }
+  .tools .free { color:var(--ok); font-weight:600; font-size:.78rem; }
+  .tools .paid { color:var(--muted); font-size:.78rem; }
+  .tools span { color:var(--muted); }
+  footer { border-top:1px solid var(--line-soft); margin-top:2.5rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; }
+  [hidden] { display:none !important; }
+  @media (max-width:560px) { h1 { font-size:1.6rem; } .panel, .card { padding:1.1rem 1rem; } .tools { grid-template-columns:1fr auto; } .tools span { grid-column:1 / -1; margin-top:-.25rem; margin-bottom:.35rem; } }
+</style>
+<style>
+  .hero-badge { display:inline-block; font-size:.72rem; font-weight:600; letter-spacing:.02em; text-transform:uppercase; color:var(--ok); background:var(--ok-bg); border:1px solid var(--ok-line); border-radius:99px; padding:.15rem .6rem; margin-bottom:.8rem; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin-top:1rem; }
+  .use { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.1rem 1.2rem; }
+  .use h3 { margin:0 0 .3rem; font-size:1rem; }
+  .use p { margin:.2rem 0 .7rem; color:var(--muted); font-size:.88rem; }
+  .alerts { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.55rem; margin:.9rem 0 .4rem; }
+  .alert { background:var(--panel-2); border:1px solid var(--line); border-radius:10px; padding:.7rem .85rem; font-size:.84rem; color:var(--muted); }
+  .alert b { display:block; color:var(--text); font-size:.9rem; margin-bottom:.1rem; }
+  .alert.warn { border-color:var(--warn-line); background:var(--warn-bg); }
+  .alert.warn b { color:#e6d3a8; }
+  .price { font-size:1.6rem; font-weight:700; color:var(--text); margin:.2rem 0 0; }
+  .price small { font-size:.9rem; color:var(--muted); font-weight:400; }
+  ol.steps pre { margin:.45rem 0 0; background:#08090c; border:1px solid var(--line); border-radius:8px; padding:.6rem .8rem; font:.76rem/1.5 ui-monospace,Menlo,monospace; color:#cdd6e4; overflow-x:auto; white-space:pre; }
+  .faq dt { font-weight:600; font-size:.92rem; margin-top:.9rem; color:var(--text); }
+  .faq dd { margin:.15rem 0 0; color:var(--muted); font-size:.88rem; }
+  ol.steps { font-size:.9rem; color:var(--muted); }
+  ol.steps li { min-width:0; }
+  ol.steps pre { max-width:100%; }
+  .use .cmd pre { white-space:nowrap; overflow-x:auto; word-break:normal; }
+  .note code, .use code { word-break:break-word; }
+  .card, .use { min-width:0; overflow:hidden; }
+  @media (max-width:640px) { .grid2 { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="container">
+    <a class="brand" href="/">Toll<span class="dot">kit</span></a>
+    <div class="links"><a href="/#products">Products</a><a href="/connect">Connect</a><a href="/fund">Fund agents</a></div>
+  </div>
+</nav>
+
+<header class="head">
+  <div class="container">
+    <span class="hero-badge">Free &middot; for any x402 seller</span>
+    <h1>Weigh Station</h1>
+    <p class="lede">Before your agent pays a service, it pulls in here. Like a highway weigh station, we check the load matches the paperwork: <strong>the real price and the wallet that gets paid</strong>, against the service&rsquo;s public listing. Nothing is paid, and nobody can buy a better result.</p>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="grid2">
+    <div class="use">
+      <h3>Coding agents</h3>
+      <p>Claude Code, Codex, Cursor and 75+ more. Paste into your terminal:</p>
+      <div class="cmd"><pre>npx skills add https://tollkit.dev</pre><button class="btn btn-secondary" data-copy="npx skills add https://tollkit.dev">Copy</button></div>
+    </div>
+    <div class="use">
+      <h3>Chat apps</h3>
+      <p>Claude, ChatGPT and others. Add the Tollkit connector; the tools are <code>find_service</code> and <code>check_service</code>.</p>
+      <button class="btn btn-primary" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2>What it does</h2>
+    <p><strong>Find a paid tool.</strong> Describe the job (&ldquo;product price lookup&rdquo;, &ldquo;send SMS&rdquo;). You get matching services from Coinbase&rsquo;s public x402 index, each checked live.</p>
+    <p><strong>Check before paying.</strong> For any x402 address: the live price, the network, and the wallet the money goes to. If that wallet differs from the public listing, you get a clear warning.</p>
+    <p><strong>Neutral.</strong> Results are ordered by whether a service answered with a live price, then by how many different wallets have paid it. No paid placement, and Tollkit&rsquo;s own tools get no boost.</p>
+  </section>
+
+  <section class="card">
+    <h2>Try it in your browser</h2>
+    <p>Both are free and need no key. They open the raw results your agent would read.</p>
+    <p><a href="https://extract.tollkit.dev/find?q=product%20price%20lookup">Find tools for &ldquo;product price lookup&rdquo; &rarr;</a></p>
+    <p><a href="https://extract.tollkit.dev/check?url=https://attest.tollkit.dev/attest">Check one service before paying &rarr;</a></p>
+  </section>
+
+  <section class="card" id="sellers">
+    <h2>For sellers: monitoring</h2>
+    <p class="price">$5 <small>per endpoint, per 30 days &middot; paid in USDC &middot; nothing renews by itself</small></p>
+    <p>We check your endpoint every 15 minutes and send a signed webhook when something changes:</p>
+    <div class="alerts">
+      <div class="alert"><b>Down</b>After two failed checks in a row. Once, not every 15 minutes.</div>
+      <div class="alert"><b>Back up</b>When it recovers.</div>
+      <div class="alert warn"><b>Wrong wallet</b>If your quote starts asking buyers to pay a wallet that isn&rsquo;t yours.</div>
+      <div class="alert"><b>Price changed</b>When the amount you quote changes.</div>
+      <div class="alert"><b>Expiring</b>Three days before your 30 days end.</div>
+      <div class="alert"><b>Public record</b>State and 30-day uptime anyone can look up. Never your webhook.</div>
+    </div>
+    <p style="margin-top:1rem"><strong>Sign up in three steps</strong></p>
+    <ol class="steps">
+      <li><b>Prepare (free).</b> We read the wallet your endpoint asks buyers to pay.
+        <pre>curl -s -X POST https://extract.tollkit.dev/weigh/prepare \
+  -H 'content-type: application/json' \
+  -d '{"url":"https://your-api.com/endpoint","webhookUrl":"https://your-app.com/hooks/weigh"}'</pre></li>
+      <li><b>Sign</b> the returned <code>message</code> with that same wallet. Free, moves no money, and proves the endpoint is yours.</li>
+      <li><b>Pay $5</b>: POST the same fields plus <code>signature</code> to <code>/weigh/subscribe</code> with any x402 client. A bad signature or wallet mismatch is refused and never charged.</li>
+    </ol>
+    <p class="note">Look up any endpoint&rsquo;s record: <code>GET https://extract.tollkit.dev/weigh/status?url=&hellip;</code></p>
+  </section>
+
+  <section class="card">
+    <h2>Questions</h2>
+    <dl class="faq">
+      <dt>Does checking cost anything or pay the service?</dt>
+      <dd>No. We send one unpaid request and read the price it quotes. Nothing is ever paid.</dd>
+      <dt>Can a seller pay to rank higher?</dt>
+      <dd>No. Monitoring buys alerts and a status record. It never changes what the checks report or where a service ranks.</dd>
+      <dt>Does it cover services that aren&rsquo;t Tollkit&rsquo;s?</dt>
+      <dd>Yes. Any x402 service. Tollkit&rsquo;s own tools are checked and ranked by the same rules.</dd>
+      <dt>What does the wrong-wallet warning mean?</dt>
+      <dd>The service&rsquo;s live price quote asks buyers to pay a different wallet from the one in its public listing. Confirm the recipient before paying.</dd>
+    </dl>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="brand" style="margin-bottom:.3rem">Toll<span class="dot">kit</span></div>
+    Questions: <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a> &middot; <a href="/">tollkit.dev</a>
+  </div>
+</footer>
+
+<script src="/connect-widget.js" defer></script>
+<script>
+document.querySelectorAll('[data-copy]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var t = b.dataset.copy, done = function () { var o = b.textContent; b.textContent = 'Copied'; setTimeout(function () { b.textContent = o; }, 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, done); else done();
+  });
+});
+</script>
+</body>
+</html>
