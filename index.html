@@ -116,6 +116,11 @@
   .product .product-body { color: #b0b0b0; font-size: 0.95rem; flex: 1; }
   .product .product-meta { color: #707070; font-size: 0.85rem; margin: 0.75rem 0 0; padding-top: 0.75rem; border-top: 1px solid #1f1f1f; }
   .product .product-meta a { color: #4a8eff; }
+  /* One row per card: the Connect button, plus Read more where the tool has
+     a page of its own. Pinned to the bottom so the rows line up across cards. */
+  .product .product-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin: 1rem 0 0; padding-top: 1rem; border-top: 1px solid #1f1f1f; }
+  .product .read-more { color: #4a8eff; white-space: nowrap; }
+  .product .product-actions .btn { width: 100%; justify-content: center; }
   /* Compact install action — single button, hidden snippet copied on click */
   .product .install-wrap { margin: 1rem 0 0; }
   .product .install-btn {
@@ -224,12 +229,9 @@
           <span class="badge live">Live</span>
         </div>
         <div class="product-body">
-          Send a text message to a US phone from a verified toll-free sender. Consent attestation required on every send, enforced opt-out list, and prohibited-content screening. $0.10 USDC per message — refusals are free.
+          Send a text message to a US phone from a verified toll-free sender. Consent attestation required on every send, enforced opt-out list, and prohibited-content screening. $0.10 USDC per message — refusals are free. <a class="read-more" href="https://sms.tollkit.dev">Read more&nbsp;&rarr;</a>
         </div>
-        <div class="product-meta">
-          <a href="https://sms.tollkit.dev">sms.tollkit.dev →</a>
-        </div>
-        <div class="install-wrap">
+        <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://mcp.tollkit.dev/mcp" data-connect-name="tollkit-sms">Connect to your AI</button>
         </div>
       </div>
@@ -242,11 +244,7 @@
         <div class="product-body">
           Give it a product page URL, get back structured schema.org/Product JSON — name, brand, sku, price, currency, availability, images, variants. Renders the page in a real headless browser, so it works on sites that build themselves in JavaScript, and reads the store's own schema.org data before inferring anything. <strong>$0.05</strong> per call, or <strong>$0.15</strong> for up to five URLs in one payment — for comparing one product across several stores without paying and signing per store. A page it cannot read is never charged for.
         </div>
-        <div class="product-meta">
-          <a href="https://extract.tollkit.dev">extract.tollkit.dev →</a>
-          <a href="https://extract.tollkit.dev/preview">See real output, free →</a>
-        </div>
-        <div class="install-wrap">
+        <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
         </div>
       </div>
@@ -259,11 +257,7 @@
         <div class="product-body">
           Proof of what a page said, at a moment in time. Give it a URL and get back a signed, timestamped record &mdash; the rendered text and its hash, a screenshot and its hash, the response headers, the IP that served it and the TLS certificate the site presented &mdash; all hashed into one claim and signed, so a single altered byte breaks the signature. For terms you agreed to, a price you acted on, a policy you relied on, a claim a competitor published. <strong>$0.25</strong> per call. <strong>Verification is free, needs no account, and does not depend on us continuing to exist</strong> &mdash; the maths is public and anyone can redo it. We keep no copy, so the response you receive <em>is</em> the evidence.
         </div>
-        <div class="product-meta">
-          <a href="https://attest.tollkit.dev">attest.tollkit.dev &rarr;</a>
-          <a href="https://attest.tollkit.dev/attest/signer">Who signs &rarr;</a>
-        </div>
-        <div class="install-wrap">
+        <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
         </div>
       </div>
