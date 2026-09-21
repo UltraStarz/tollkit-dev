@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connect — tollkit.dev</title>
+<meta name="description" content="Add Tollkit to Claude, ChatGPT, Cursor, VS Code or your command line. One URL, no account, no API key.">
+<meta property="og:title" content="Connect Tollkit to your AI">
+<meta property="og:description" content="One URL. Pick your app, follow three steps, done.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tollkit.dev/connect">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
+<style>
+  :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --panel-2:#151515; --line:#242424; --line-soft:#1c1c1c;
+    --text:#e5e5e5; --muted:#8a8a8a; --dim:#707070; --accent:#4a8eff; --accent-dim:#2f5fb0;
+    --warn:#e0a33a; --warn-bg:#1a1408; --warn-line:#3a2f14; --ok:#3ecf8e; --ok-bg:#0b1a13; --ok-line:#1c3b2c; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .container { max-width:780px; margin:0 auto; padding:0 16px; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  code, .mono { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  nav.top { border-bottom:1px solid var(--line-soft); padding:.9rem 0; }
+  nav.top .container { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  .brand { font-weight:700; letter-spacing:-.02em; color:var(--text); }
+  .brand .dot { color:var(--accent); }
+  nav.top .links { display:flex; gap:1.1rem; font-size:.9rem; }
+  nav.top .links a { color:var(--muted); }
+  header.head { padding:2.6rem 0 1rem; }
+  h1 { font-size:2rem; letter-spacing:-.03em; margin:0 0 .5rem; }
+  .lede { color:var(--muted); margin:0; font-size:1.02rem; }
+  .lede strong { color:var(--text); }
+
+  .urlbox { display:flex; gap:.5rem; align-items:center; background:#08090c; border:1px solid var(--accent-dim); border-radius:10px; padding:.55rem .55rem .55rem .9rem; margin:1.4rem 0 .4rem; }
+  .urlbox code { flex:1; font-size:.95rem; color:#cfe0ff; overflow-x:auto; white-space:nowrap; }
+  .urlnote { font-size:.82rem; color:var(--dim); margin:0 0 1.6rem; }
+
+  .apps { display:grid; grid-template-columns:repeat(auto-fit,minmax(118px,1fr)); gap:.5rem; margin-bottom:1rem; }
+  .app { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:.7rem .6rem; color:var(--text); font:600 .9rem/1.2 inherit; cursor:pointer; text-align:center; }
+  .app:hover { border-color:#3a3a3a; }
+  .app[aria-selected="true"] { border-color:var(--accent); background:#0e1626; }
+  .app small { display:block; font-weight:400; color:var(--dim); font-size:.72rem; margin-top:.15rem; }
+
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.3rem 1.4rem; }
+  .panel h2 { font-size:1.1rem; margin:0 0 .2rem; }
+  .panel .who { color:var(--dim); font-size:.84rem; margin:0 0 1rem; }
+  ol.steps { margin:0; padding-left:1.3rem; }
+  ol.steps li { margin:.45rem 0; padding-left:.2rem; }
+  ol.steps b { color:#fff; }
+  .kbd { font-family:ui-monospace,monospace; font-size:.85em; background:#1a1a1a; border:1px solid var(--line); border-radius:5px; padding:.05rem .35rem; }
+  .cmd { display:flex; gap:.5rem; align-items:flex-start; background:#08090c; border:1px solid var(--line); border-radius:10px; padding:.6rem .6rem .6rem .9rem; margin:.6rem 0; }
+  .cmd pre { flex:1; margin:0; font-family:ui-monospace,monospace; font-size:.82rem; color:#cdd6e4; white-space:pre-wrap; word-break:break-all; }
+  .btn { display:inline-flex; align-items:center; gap:.4rem; border-radius:8px; padding:.45rem .85rem; font-size:.85rem; font-weight:600; cursor:pointer; border:1px solid transparent; font-family:inherit; white-space:nowrap; }
+  .btn-primary { background:var(--accent); color:#05070d; }
+  .btn-primary:hover { background:#63a0ff; text-decoration:none; }
+  .btn-secondary { background:transparent; color:var(--text); border-color:var(--line); }
+  .btn-secondary:hover { border-color:#3a3a3a; }
+  .note { font-size:.84rem; color:var(--muted); border-left:2px solid var(--line); padding-left:.8rem; margin:1rem 0 0; }
+  .warnnote { font-size:.84rem; color:#e6d3a8; background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:8px; padding:.6rem .8rem; margin:.9rem 0 0; }
+  .or { font-size:.8rem; color:var(--dim); margin:.8rem 0 .2rem; text-transform:uppercase; letter-spacing:.06em; }
+
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.2rem 1.4rem; margin-top:1rem; }
+  .card h2 { font-size:1.02rem; margin:0 0 .4rem; }
+  .card p { margin:.3rem 0; color:var(--muted); font-size:.9rem; }
+  .card p strong { color:var(--text); }
+  .tools { display:grid; grid-template-columns:auto 1fr auto; gap:.35rem .9rem; font-size:.87rem; margin-top:.6rem; }
+  .tools code { color:#cfe0ff; }
+  .tools .free { color:var(--ok); font-weight:600; font-size:.78rem; }
+  .tools .paid { color:var(--muted); font-size:.78rem; }
+  .tools span { color:var(--muted); }
+  footer { border-top:1px solid var(--line-soft); margin-top:2.5rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; }
+  [hidden] { display:none !important; }
+  @media (max-width:560px) { h1 { font-size:1.6rem; } .panel, .card { padding:1.1rem 1rem; } .tools { grid-template-columns:1fr auto; } .tools span { grid-column:1 / -1; margin-top:-.25rem; margin-bottom:.35rem; } }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="container">
+    <a class="brand" href="/">tollkit<span class="dot">.dev</span></a>
+    <div class="links"><a href="/#products">Products</a><a href="/connect">Connect</a><a href="/fund">Fund agents</a></div>
+  </div>
+</nav>
+
+<header class="head">
+  <div class="container">
+    <h1>Connect Tollkit to your AI</h1>
+    <p class="lede">It's <strong>one web address</strong>. No account, no API key, nothing to install. Pick the app you use and follow the steps.</p>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="urlbox">
+    <code id="theUrl">https://extract.tollkit.dev/mcp</code>
+    <button class="btn btn-primary" data-copy="https://extract.tollkit.dev/mcp">Copy</button>
+  </div>
+  <p class="urlnote">Product details, signed proof of pages, and wallet balance checks. For text messages, the address is <code>https://mcp.tollkit.dev/mcp</code>.</p>
+
+  <div class="apps" role="tablist" aria-label="Choose your app">
+    <button class="app" role="tab" data-app="claude" aria-selected="true">Claude<small>web &amp; desktop</small></button>
+    <button class="app" role="tab" data-app="chatgpt" aria-selected="false">ChatGPT<small>Business &amp; up</small></button>
+    <button class="app" role="tab" data-app="cursor" aria-selected="false">Cursor<small>one click</small></button>
+    <button class="app" role="tab" data-app="vscode" aria-selected="false">VS Code<small>Copilot</small></button>
+    <button class="app" role="tab" data-app="cli" aria-selected="false">Command line<small>Claude Code, Codex, Gemini</small></button>
+  </div>
+
+  <!-- Claude -->
+  <section class="panel" data-panel="claude">
+    <h2>Claude</h2>
+    <p class="who">claude.ai and the Claude desktop app. Free plans can add one connector like this.</p>
+    <ol class="steps">
+      <li>Open <b>Customize</b>, then <b>Connectors</b>.</li>
+      <li>Click <b>+</b>, then <b>Add custom connector</b>.</li>
+      <li>Paste the address above, leave <b>Advanced settings</b> empty, and click <b>Add</b>.</li>
+    </ol>
+    <p class="note">In a chat, switch it on with the <b>+</b> button at the bottom left, then <b>Connectors</b>. On a Team or Enterprise plan, an owner adds it first under <b>Organization settings → Connectors</b>, then you click <b>Connect</b>.</p>
+  </section>
+
+  <!-- ChatGPT -->
+  <section class="panel" data-panel="chatgpt" hidden>
+    <h2>ChatGPT</h2>
+    <p class="who">Custom connectors need ChatGPT Business, Enterprise or Edu, on the web. Pro can connect with read-only access.</p>
+    <ol class="steps">
+      <li>Open <b>Settings</b>, then <b>Apps</b>, then <b>Advanced settings</b>, and turn on <b>Developer mode</b>. On Enterprise and Edu, an admin has to allow this first.</li>
+      <li>Create a new app and give it the address above as its MCP server.</li>
+      <li>Your workspace admin may need to approve it before it appears in chats.</li>
+    </ol>
+    <p class="warnnote">ChatGPT's menus for this are new and change often. If a step doesn't match what you see, <a href="https://help.openai.com/en/articles/12584461-developer-mode-and-mcp-apps-in-chatgpt" target="_blank" rel="noopener">OpenAI's own guide</a> is the current one.</p>
+  </section>
+
+  <!-- Cursor -->
+  <section class="panel" data-panel="cursor" hidden>
+    <h2>Cursor</h2>
+    <p class="who">One click, if Cursor is installed on this computer.</p>
+    <p><a class="btn btn-primary" href="cursor://anysphere.cursor-deeplink/mcp/install?name=tollkit&amp;config=eyJ1cmwiOiJodHRwczovL2V4dHJhY3QudG9sbGtpdC5kZXYvbWNwIn0=">Add to Cursor</a></p>
+    <p class="or">Or by hand</p>
+    <ol class="steps">
+      <li>Open the file <span class="kbd">~/.cursor/mcp.json</span> (create it if it doesn't exist).</li>
+      <li>Put this in it, or add the <code>tollkit</code> entry to what's already there:</li>
+    </ol>
+    <div class="cmd"><pre id="cursorJson">{
+  "mcpServers": {
+    "tollkit": { "url": "https://extract.tollkit.dev/mcp" }
+  }
+}</pre><button class="btn btn-secondary" data-copy-from="cursorJson">Copy</button></div>
+  </section>
+
+  <!-- VS Code -->
+  <section class="panel" data-panel="vscode" hidden>
+    <h2>VS Code</h2>
+    <p class="who">GitHub Copilot in agent mode.</p>
+    <ol class="steps">
+      <li>In your project, open or create the file <span class="kbd">.vscode/mcp.json</span>.</li>
+      <li>Put this in it, or add the <code>tollkit</code> entry to what's already there:</li>
+    </ol>
+    <div class="cmd"><pre id="vscodeJson">{
+  "servers": {
+    "tollkit": { "type": "http", "url": "https://extract.tollkit.dev/mcp" }
+  }
+}</pre><button class="btn btn-secondary" data-copy-from="vscodeJson">Copy</button></div>
+    <p class="note">VS Code uses <code>"servers"</code>, not <code>"mcpServers"</code>. Copying a snippet from another app is the most common reason it silently doesn't load. Prefer menus? Run <b>MCP: Add Server</b> from the Command Palette (<span class="kbd">⌘⇧P</span> / <span class="kbd">Ctrl+Shift+P</span>) and give it the address above.</p>
+  </section>
+
+  <!-- CLI -->
+  <section class="panel" data-panel="cli" hidden>
+    <h2>Command line</h2>
+    <p class="who">Paste one line into your terminal.</p>
+    <p class="or">Claude Code</p>
+    <div class="cmd"><pre id="ccCmd">claude mcp add --transport http --scope user tollkit https://extract.tollkit.dev/mcp</pre><button class="btn btn-secondary" data-copy-from="ccCmd">Copy</button></div>
+    <p class="or">OpenAI Codex</p>
+    <div class="cmd"><pre id="codexCmd">codex mcp add tollkit --url https://extract.tollkit.dev/mcp</pre><button class="btn btn-secondary" data-copy-from="codexCmd">Copy</button></div>
+    <p class="or">Gemini CLI</p>
+    <div class="cmd"><pre id="geminiCmd">gemini mcp add --transport http tollkit https://extract.tollkit.dev/mcp</pre><button class="btn btn-secondary" data-copy-from="geminiCmd">Copy</button></div>
+    <p class="note"><code>--scope user</code> makes it available in every project, not just the folder you're in.</p>
+  </section>
+
+  <!-- Check -->
+  <section class="card">
+    <h2>Check it worked</h2>
+    <p>Ask your AI: <strong>"Use Tollkit's try_it_free tool."</strong> It's free and shows a real result. If you get one back, you're connected.</p>
+  </section>
+
+  <!-- What it can do -->
+  <section class="card">
+    <h2>What you get</h2>
+    <div class="tools">
+      <code>try_it_free</code><span>A real product extraction, to see the output.</span><em class="free">free</em>
+      <code>check_my_balance</code><span>How much an agent's wallet has left.</span><em class="free">free</em>
+      <code>verify_attestation</code><span>Check a signed page record is genuine.</span><em class="free">free</em>
+      <code>get_product_details</code><span>Name, price, stock and more from a product page.</span><em class="paid">$0.05</em>
+      <code>compare_products</code><span>Up to five product pages in one go.</span><em class="paid">$0.15</em>
+      <code>attest_page</code><span>Signed, timestamped proof of what a page said.</span><em class="paid">$0.25</em>
+    </div>
+  </section>
+
+  <!-- Paying: the honest version -->
+  <section class="card">
+    <h2>About paying</h2>
+    <p><strong>The free tools work in every app above, straight away.</strong></p>
+    <p>Paid tools are paid for by the agent itself, in USDC, from its own wallet &mdash; no account, no card on file with us. Chat apps like Claude and ChatGPT don't have a wallet built in, so on their own they'll show you the price rather than pay it. An agent you build yourself, or one given a funded wallet, pays per call automatically.</p>
+    <p><a href="/fund">Give an agent its own wallet &rarr;</a></p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="brand" style="margin-bottom:.3rem">tollkit<span class="dot">.dev</span></div>
+    Stuck? <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a> &middot; <a href="/">tollkit.dev</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var apps = document.querySelectorAll('.app');
+  var panels = document.querySelectorAll('[data-panel]');
+  function show(name) {
+    apps.forEach(function (a) { a.setAttribute('aria-selected', a.dataset.app === name ? 'true' : 'false'); });
+    panels.forEach(function (p) { p.hidden = p.dataset.panel !== name; });
+    if (history.replaceState) history.replaceState(null, '', '#' + name);
+  }
+  apps.forEach(function (a) { a.addEventListener('click', function () { show(a.dataset.app); }); });
+  function fromHash() {
+    var h = (location.hash || '').slice(1);
+    if (h && document.querySelector('[data-panel="' + h + '"]')) show(h);
+  }
+  fromHash();
+  window.addEventListener('hashchange', fromHash);
+
+  function copy(text, btn) {
+    var done = function () { var t = btn.textContent; btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = t; }, 1600); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, done);
+    else { var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} document.body.removeChild(ta); done(); }
+  }
+  document.querySelectorAll('[data-copy]').forEach(function (b) { b.addEventListener('click', function () { copy(b.dataset.copy, b); }); });
+  document.querySelectorAll('[data-copy-from]').forEach(function (b) { b.addEventListener('click', function () { copy(document.getElementById(b.dataset.copyFrom).textContent, b); }); });
+})();
+</script>
+</body>
+</html>
