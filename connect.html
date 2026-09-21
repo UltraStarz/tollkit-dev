@@ -66,6 +66,8 @@
   .card p { margin:.3rem 0; color:var(--muted); font-size:.9rem; }
   .card p strong { color:var(--text); }
   .tools { display:grid; grid-template-columns:auto 1fr auto; gap:.35rem .9rem; font-size:.87rem; margin-top:.6rem; }
+  .grp { display:flex; align-items:center; gap:.5rem; }
+  .grp .p-icon { width:24px; height:24px; padding:4px; flex:none; border-radius:6px; background:#121a2a; border:1px solid #1e3358; color:#4a8eff; }
   .toollist { display:flex; flex-direction:column; }
   .tool { display:flex; justify-content:space-between; gap:1rem; align-items:flex-start; padding:.55rem 0; border-top:1px solid var(--line-soft); }
   .toollist .tool:first-child { border-top:0; }
@@ -114,23 +116,23 @@
   <section class="card">
     <h2>What you get</h2>
     <p>Just ask your AI in plain words; it picks the right tool.</p>
-    <p class="grp">Weigh Station</p>
+    <p class="grp"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M7 21h10"/><path d="M5 7h14"/><path d="M12 5l0 0"/><path d="M5 7l-3 7a3.5 3.5 0 0 0 6 0z"/><path d="M19 7l-3 7a3.5 3.5 0 0 0 6 0z"/></svg><span>Weigh Station</span></p>
     <div class="toollist">
       <div class="tool"><div><b>Find a paid tool</b><span>Describe a job; get matching services, each checked live.</span><code title="Tool name">find_service</code></div><em class="free">Free</em></div>
       <div class="tool"><div><b>Check before paying</b><span>See what a service really charges and who gets the money.</span><code title="Tool name">check_service</code></div><em class="free">Free</em></div>
     </div>
-    <p class="grp">Extract</p>
+    <p class="grp"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg><span>Extract</span></p>
     <div class="toollist">
       <div class="tool"><div><b>Product details</b><span>Price, stock, brand, SKU and images from one product page.</span><code title="Tool name">get_product_details</code></div><em class="paid">$0.05</em></div>
       <div class="tool"><div><b>Compare products</b><span>Up to five product pages at once.</span><code title="Tool name">compare_products</code></div><em class="paid">$0.15</em></div>
       <div class="tool"><div><b>Free sample</b><span>A real extraction of an example page, so you can see the output.</span><code title="Tool name">try_it_free</code></div><em class="free">Free</em></div>
     </div>
-    <p class="grp">Attest</p>
+    <p class="grp"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l2.4 1.8 3-.2.9 2.9 2.5 1.7-1 2.8 1 2.8-2.5 1.7-.9 2.9-3-.2L12 22l-2.4-1.8-3 .2-.9-2.9-2.5-1.7 1-2.8-1-2.8 2.5-1.7.9-2.9 3 .2z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><span>Attest</span></p>
     <div class="toollist">
       <div class="tool"><div><b>Prove what a page said</b><span>Signed, timestamped record with a screenshot.</span><code title="Tool name">attest_page</code></div><em class="paid">$0.25</em></div>
       <div class="tool"><div><b>Verify a record</b><span>Check a signed page record is genuine.</span><code title="Tool name">verify_attestation</code></div><em class="free">Free</em></div>
     </div>
-    <p class="grp">Your wallet</p>
+    <p class="grp"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h13v4"/><path d="M3 7v11a2 2 0 0 0 2 2h15V9H5a2 2 0 0 1-2-2z"/><circle cx="16" cy="14.5" r="1.2"/></svg><span>Your wallet</span></p>
     <div class="toollist">
       <div class="tool"><div><b>Check my balance</b><span>How much an agent’s wallet has left.</span><code title="Tool name">check_my_balance</code></div><em class="free">Free</em></div>
     </div>
