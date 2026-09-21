@@ -43,6 +43,8 @@
   nav.top .links { display: flex; gap: 1.5rem; font-size: 0.92rem; }
   nav.top .links a { color: #a0a0a0; }
   nav.top .links a:hover { color: #e5e5e5; text-decoration: none; }
+  /* Six links do not fit a phone. Keep the three that get someone started. */
+  @media (max-width: 720px) { nav.top .links { gap: 1rem; } nav.top .links .nav-more { display: none; } }
 
   /* ── Hero ──────────────────────────────────────────────────────── */
   .hero { padding: 5rem 0 4rem; text-align: left; }
@@ -191,9 +193,9 @@
       <a href="#products">Products</a>
       <a href="/connect">Connect</a>
       <a href="/fund">Fund agents</a>
-      <a href="#guarantees">Guarantees</a>
-      <a href="#how">How it works</a>
-      <a href="https://github.com/UltraStarz" target="_blank" rel="noopener">GitHub</a>
+      <a class="nav-more" href="#guarantees">Guarantees</a>
+      <a class="nav-more" href="#how">How it works</a>
+      <a class="nav-more" href="https://github.com/UltraStarz" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
 </nav>
@@ -204,8 +206,8 @@
     <p class="tag">Paid developer tools for AI agents.</p>
     <p class="sub">A family of pay-per-call APIs that AI agents can use without API keys, contracts, or monthly subscriptions. Plug in a wallet, call the endpoint, settle in USDC over <a href="https://x402.org" target="_blank" rel="noopener">x402</a>.</p>
     <div class="ctas">
-      <a class="btn btn-primary" href="#products">View products</a>
-      <a class="btn btn-secondary" href="https://github.com/UltraStarz" target="_blank" rel="noopener">GitHub</a>
+      <button type="button" class="btn btn-primary" data-connect>Connect to your AI</button>
+      <a class="btn btn-secondary" href="#products">View products</a>
     </div>
   </div>
 </header>
@@ -213,7 +215,7 @@
 <section id="products">
   <div class="container">
     <h2>Products</h2>
-    <p class="section-sub">Each tool is an independent paid endpoint. Add the connector URL to Claude Desktop, Cursor, or Windsurf — nothing to install and no API key. The agent calls the tool, and pays the toll in the request itself.</p>
+    <p class="section-sub">Each tool is an independent paid endpoint. Press <b>Connect to your AI</b> on any of them and pick your app &mdash; Claude, ChatGPT, Cursor, VS Code or the command line. Nothing to install and no API key. The agent calls the tool, and pays the toll in the request itself.</p>
     <div class="products">
 
       <div class="product">
@@ -228,10 +230,7 @@
           <a href="https://sms.tollkit.dev">sms.tollkit.dev →</a>
         </div>
         <div class="install-wrap">
-          <button type="button" class="install-btn" aria-label="Copy the connector URL to clipboard" onclick="copyInstall(this)" data-snippet="https://mcp.tollkit.dev/mcp">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            <span class="btn-text"></span>
-          </button>
+          <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://mcp.tollkit.dev/mcp" data-connect-name="tollkit-sms">Connect to your AI</button>
         </div>
       </div>
 
@@ -248,10 +247,7 @@
           <a href="https://extract.tollkit.dev/preview">See real output, free →</a>
         </div>
         <div class="install-wrap">
-          <button type="button" class="install-btn" aria-label="Copy the connector URL to clipboard" onclick="copyInstall(this)" data-snippet="https://extract.tollkit.dev/mcp">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            <span class="btn-text"></span>
-          </button>
+          <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
         </div>
       </div>
 
@@ -268,10 +264,7 @@
           <a href="https://attest.tollkit.dev/attest/signer">Who signs &rarr;</a>
         </div>
         <div class="install-wrap">
-          <button type="button" class="install-btn" aria-label="Copy the connector URL to clipboard" onclick="copyInstall(this)" data-snippet="https://extract.tollkit.dev/mcp">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            <span class="btn-text"></span>
-          </button>
+          <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
         </div>
       </div>
 
@@ -345,7 +338,7 @@
       <div class="step">
         <span class="num">1</span>
         <h4>Add the connector</h4>
-        <p>Paste the tool's URL into Claude Desktop, Cursor, or Windsurf as a remote MCP server. That is the whole setup.</p>
+        <p>Press <b>Connect to your AI</b>, pick the app you use, and follow the two or three steps it shows. That is the whole setup.</p>
       </div>
       <div class="step">
         <span class="num">2</span>
@@ -423,5 +416,6 @@
     document.body.removeChild(ta);
   }
 </script>
+<script src="/connect-widget.js" defer></script>
 </body>
 </html>

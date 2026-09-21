@@ -60,6 +60,7 @@
   .warnnote { font-size:.84rem; color:#e6d3a8; background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:8px; padding:.6rem .8rem; margin:.9rem 0 0; }
   .or { font-size:.8rem; color:var(--dim); margin:.8rem 0 .2rem; text-transform:uppercase; letter-spacing:.06em; }
 
+  .picker { padding:1.4rem; margin-top:0; }
   .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.2rem 1.4rem; margin-top:1rem; }
   .card h2 { font-size:1.02rem; margin:0 0 .4rem; }
   .card p { margin:.3rem 0; color:var(--muted); font-size:.9rem; }
@@ -86,7 +87,7 @@
 <header class="head">
   <div class="container">
     <h1>Connect Tollkit to your AI</h1>
-    <p class="lede">It's <strong>one web address</strong>. No account, no API key, nothing to install. Pick the app you use and follow the steps.</p>
+    <p class="lede">It's <strong>one web address</strong>. No account, no API key, nothing to install. Pick where you want to use it below.</p>
   </div>
 </header>
 
@@ -98,89 +99,7 @@
   </div>
   <p class="urlnote">Product details, signed proof of pages, and wallet balance checks. For text messages, the address is <code>https://mcp.tollkit.dev/mcp</code>.</p>
 
-  <div class="apps" role="tablist" aria-label="Choose your app">
-    <button class="app" role="tab" data-app="claude" aria-selected="true">Claude<small>web &amp; desktop</small></button>
-    <button class="app" role="tab" data-app="chatgpt" aria-selected="false">ChatGPT<small>Business &amp; up</small></button>
-    <button class="app" role="tab" data-app="cursor" aria-selected="false">Cursor<small>one click</small></button>
-    <button class="app" role="tab" data-app="vscode" aria-selected="false">VS Code<small>Copilot</small></button>
-    <button class="app" role="tab" data-app="cli" aria-selected="false">Command line<small>Claude Code, Codex, Gemini</small></button>
-  </div>
-
-  <!-- Claude -->
-  <section class="panel" data-panel="claude">
-    <h2>Claude</h2>
-    <p class="who">claude.ai and the Claude desktop app. Free plans can add one connector like this.</p>
-    <ol class="steps">
-      <li>Open <b>Customize</b>, then <b>Connectors</b>.</li>
-      <li>Click <b>+</b>, then <b>Add custom connector</b>.</li>
-      <li>Paste the address above, leave <b>Advanced settings</b> empty, and click <b>Add</b>.</li>
-    </ol>
-    <p class="note">In a chat, switch it on with the <b>+</b> button at the bottom left, then <b>Connectors</b>. On a Team or Enterprise plan, an owner adds it first under <b>Organization settings → Connectors</b>, then you click <b>Connect</b>.</p>
-  </section>
-
-  <!-- ChatGPT -->
-  <section class="panel" data-panel="chatgpt" hidden>
-    <h2>ChatGPT</h2>
-    <p class="who">Custom connectors need ChatGPT Business, Enterprise or Edu, on the web. Pro can connect with read-only access.</p>
-    <ol class="steps">
-      <li>Open <b>Settings</b>, then <b>Apps</b>, then <b>Advanced settings</b>, and turn on <b>Developer mode</b>. On Enterprise and Edu, an admin has to allow this first.</li>
-      <li>Create a new app and give it the address above as its MCP server.</li>
-      <li>Your workspace admin may need to approve it before it appears in chats.</li>
-    </ol>
-    <p class="warnnote">ChatGPT's menus for this are new and change often. If a step doesn't match what you see, <a href="https://help.openai.com/en/articles/12584461-developer-mode-and-mcp-apps-in-chatgpt" target="_blank" rel="noopener">OpenAI's own guide</a> is the current one.</p>
-  </section>
-
-  <!-- Cursor -->
-  <section class="panel" data-panel="cursor" hidden>
-    <h2>Cursor</h2>
-    <p class="who">One click, if Cursor is installed on this computer.</p>
-    <p><a class="btn btn-primary" href="cursor://anysphere.cursor-deeplink/mcp/install?name=tollkit&amp;config=eyJ1cmwiOiJodHRwczovL2V4dHJhY3QudG9sbGtpdC5kZXYvbWNwIn0=">Add to Cursor</a></p>
-    <p class="or">Or by hand</p>
-    <ol class="steps">
-      <li>Open the file <span class="kbd">~/.cursor/mcp.json</span> (create it if it doesn't exist).</li>
-      <li>Put this in it, or add the <code>tollkit</code> entry to what's already there:</li>
-    </ol>
-    <div class="cmd"><pre id="cursorJson">{
-  "mcpServers": {
-    "tollkit": { "url": "https://extract.tollkit.dev/mcp" }
-  }
-}</pre><button class="btn btn-secondary" data-copy-from="cursorJson">Copy</button></div>
-  </section>
-
-  <!-- VS Code -->
-  <section class="panel" data-panel="vscode" hidden>
-    <h2>VS Code</h2>
-    <p class="who">GitHub Copilot in agent mode.</p>
-    <ol class="steps">
-      <li>In your project, open or create the file <span class="kbd">.vscode/mcp.json</span>.</li>
-      <li>Put this in it, or add the <code>tollkit</code> entry to what's already there:</li>
-    </ol>
-    <div class="cmd"><pre id="vscodeJson">{
-  "servers": {
-    "tollkit": { "type": "http", "url": "https://extract.tollkit.dev/mcp" }
-  }
-}</pre><button class="btn btn-secondary" data-copy-from="vscodeJson">Copy</button></div>
-    <p class="note">VS Code uses <code>"servers"</code>, not <code>"mcpServers"</code>. Copying a snippet from another app is the most common reason it silently doesn't load. Prefer menus? Run <b>MCP: Add Server</b> from the Command Palette (<span class="kbd">⌘⇧P</span> / <span class="kbd">Ctrl+Shift+P</span>) and give it the address above.</p>
-  </section>
-
-  <!-- CLI -->
-  <section class="panel" data-panel="cli" hidden>
-    <h2>Command line</h2>
-    <p class="who">Paste one line into your terminal.</p>
-    <p class="or">Claude Code</p>
-    <div class="cmd"><pre id="ccCmd">claude mcp add --transport http --scope user tollkit https://extract.tollkit.dev/mcp</pre><button class="btn btn-secondary" data-copy-from="ccCmd">Copy</button></div>
-    <p class="or">OpenAI Codex</p>
-    <div class="cmd"><pre id="codexCmd">codex mcp add tollkit --url https://extract.tollkit.dev/mcp</pre><button class="btn btn-secondary" data-copy-from="codexCmd">Copy</button></div>
-    <p class="or">Gemini CLI</p>
-    <div class="cmd"><pre id="geminiCmd">gemini mcp add --transport http tollkit https://extract.tollkit.dev/mcp</pre><button class="btn btn-secondary" data-copy-from="geminiCmd">Copy</button></div>
-    <p class="note"><code>--scope user</code> makes it available in every project, not just the folder you're in.</p>
-  </section>
-
-  <!-- Check -->
-  <section class="card">
-    <h2>Check it worked</h2>
-    <p>Ask your AI: <strong>"Use Tollkit's try_it_free tool."</strong> It's free and shows a real result. If you get one back, you're connected.</p>
-  </section>
+  <section class="card picker" data-connect-inline></section>
 
   <!-- What it can do -->
   <section class="card">
@@ -212,31 +131,14 @@
   </div>
 </footer>
 
+<script src="/connect-widget.js" defer></script>
 <script>
-(function () {
-  var apps = document.querySelectorAll('.app');
-  var panels = document.querySelectorAll('[data-panel]');
-  function show(name) {
-    apps.forEach(function (a) { a.setAttribute('aria-selected', a.dataset.app === name ? 'true' : 'false'); });
-    panels.forEach(function (p) { p.hidden = p.dataset.panel !== name; });
-    if (history.replaceState) history.replaceState(null, '', '#' + name);
-  }
-  apps.forEach(function (a) { a.addEventListener('click', function () { show(a.dataset.app); }); });
-  function fromHash() {
-    var h = (location.hash || '').slice(1);
-    if (h && document.querySelector('[data-panel="' + h + '"]')) show(h);
-  }
-  fromHash();
-  window.addEventListener('hashchange', fromHash);
-
-  function copy(text, btn) {
-    var done = function () { var t = btn.textContent; btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = t; }, 1600); };
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, done);
-    else { var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} document.body.removeChild(ta); done(); }
-  }
-  document.querySelectorAll('[data-copy]').forEach(function (b) { b.addEventListener('click', function () { copy(b.dataset.copy, b); }); });
-  document.querySelectorAll('[data-copy-from]').forEach(function (b) { b.addEventListener('click', function () { copy(document.getElementById(b.dataset.copyFrom).textContent, b); }); });
-})();
+document.querySelectorAll('[data-copy]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var t = b.dataset.copy, done = function () { var o = b.textContent; b.textContent = 'Copied'; setTimeout(function () { b.textContent = o; }, 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, done); else done();
+  });
+});
 </script>
 </body>
 </html>
