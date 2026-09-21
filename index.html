@@ -242,6 +242,22 @@
   .ws-fine { margin: 1rem 0 0; font-size: .8rem; color: #707070; }
   .ws-fine code { word-break: break-all; }
   @media (max-width: 760px) { .ws-sellers { padding: 1.25rem; } }
+
+  .promises { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: .6rem; }
+  .promises li { background: #111; border: 1px solid #222; border-radius: 10px; padding: .85rem 1rem; color: #a0a0a0; font-size: .92rem; }
+  .promises b { color: #f5f5f5; }
+  .dev-line { margin: 1.5rem 0 0; font-size: .85rem; color: #707070; }
+  .ws-how { margin-top: .4rem; }
+  .ws-how summary { cursor: pointer; color: #4a8eff; font-size: .9rem; }
+  .ws-how[open] summary { margin-bottom: .4rem; }
+  #products .section-sub { margin-bottom: 1.5rem; }
+
+
+  .ws-featured { margin-bottom: 1rem; border-color: #2f5fb0; box-shadow: 0 0 0 1px #2f5fb033, 0 10px 40px #4a8eff14; }
+  .ws-title { margin: .6rem 0 .5rem; font-size: 1.35rem; font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 700; color: #f5f5f5; }
+  .ws-lead { margin: 0 0 .9rem; color: #b0b0b0; font-size: .97rem; }
+  .ws-featured .ws-small { margin-top: .2rem; }
+  #sellers { padding-top: 0; border-top: 0; }
 </style>
 </head>
 <body>
@@ -254,9 +270,7 @@
       <a href="/connect">Connect</a>
       <a href="#weigh-station">Weigh Station</a>
       <a href="/fund">Fund agents</a>
-      <a class="nav-more" href="#guarantees">Guarantees</a>
       <a class="nav-more" href="#how">How it works</a>
-      <a class="nav-more" href="https://github.com/UltraStarz" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
 </nav>
@@ -264,87 +278,40 @@
 <header class="hero">
   <div class="container">
     <h1>Toll<span class="dot">kit</span></h1>
-    <p class="tag">Paid developer tools for AI agents.</p>
-    <p class="sub">A family of pay-per-call APIs that AI agents can use without API keys, contracts, or monthly subscriptions. Plug in a wallet, call the endpoint, settle in USDC over <a href="https://x402.org" target="_blank" rel="noopener">x402</a>.</p>
+    <p class="tag">Pay-per-call tools for AI agents.</p>
+    <p class="sub">No signup, no API key, no subscription. Your agent pays a few cents in USDC per call, and nothing when a call fails.</p>
     <div class="ctas">
       <button type="button" class="btn btn-primary" data-connect>Connect to your AI</button>
-      <a class="btn btn-secondary" href="/fund">Fund a wallet</a>
-      <a class="btn btn-secondary" href="#products">View products</a>
+      <a class="btn btn-secondary" href="#products">See products</a>
     </div>
   </div>
 </header>
 
-<section id="weigh-station">
-  <div class="container">
-    <div class="ws">
-      <div class="ws-copy">
-        <span class="badge-free">Free &middot; for any x402 seller</span>
-        <h2>Weigh Station</h2>
-        <p class="section-sub">Before your agent pays an x402 service, it pulls in here. Like a highway weigh station, it checks the load matches the paperwork: what the service actually charges, and who gets the money, against what its public listing says. Nothing is paid, and nobody can buy a better result.</p>
-        <ul class="ws-points">
-          <li><b>Find a paid tool.</b> Describe the job (&ldquo;product price lookup&rdquo;, &ldquo;send SMS&rdquo;) and get matching services, each checked live.</li>
-          <li><b>Check before paying.</b> Real price, network and recipient, with a warning if the wallet getting paid differs from the listing.</li>
-          <li><b>No paid placement.</b> Ranked by live price quote, then by how many different wallets have paid it. Tollkit&rsquo;s own tools get no boost.</li>
-        </ul>
-      </div>
-      <div class="ws-use">
-        <p class="ws-label">Add it to a coding agent (Claude Code, Codex, Cursor and 75+ more)</p>
-        <button type="button" class="install-btn ws-cmd" data-snippet="npx skills add https://tollkit.dev" onclick="copyInstall(this)"><code>npx skills add https://tollkit.dev</code><span class="ws-copy-label">Copy</span></button>
-        <p class="ws-label">Or use it in a chat app</p>
-        <button type="button" class="btn btn-secondary ws-btn" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-        <p class="ws-small">Tools <code>find_service</code> and <code>check_service</code>. Also plain HTTP: <a href="https://extract.tollkit.dev/check?url=https://attest.tollkit.dev/attest">/check</a> &middot; <a href="https://extract.tollkit.dev/find?q=product%20price%20lookup">/find</a> &middot; <a href="/skills/weigh-station.zip">skill .zip</a></p>
-        <p class="ws-small" style="margin-top:.6rem">Selling on x402? <a href="#weigh-sellers">Monitor your endpoint for $5&nbsp;&rarr;</a></p>
-      </div>
-    </div>
-
-    <div class="ws-sellers" id="weigh-sellers">
-      <div class="ws-sellers-head">
-        <div>
-          <p class="ws-kicker">For x402 sellers</p>
-          <h3>Know the moment your endpoint breaks</h3>
-          <p class="ws-sub">Weigh Station checks your endpoint every 15 minutes for 30 days and sends a signed webhook when something changes. <b>$5 per endpoint</b>, paid in USDC over x402. Nothing renews by itself.</p>
-        </div>
-      </div>
-      <div class="ws-grid">
-        <div class="ws-card"><b>Down</b><span>After two failed checks in a row. Once, not every 15 minutes.</span></div>
-        <div class="ws-card"><b>Back up</b><span>When it recovers.</span></div>
-        <div class="ws-card ws-card-warn"><b>Wrong wallet</b><span>If your quote starts asking buyers to pay a wallet that isn&rsquo;t yours.</span></div>
-        <div class="ws-card"><b>Price changed</b><span>When the amount you quote changes.</span></div>
-        <div class="ws-card"><b>Expiring</b><span>Three days before your 30 days end.</span></div>
-        <div class="ws-card"><b>Public record</b><span>State and 30-day uptime anyone can look up. Never your webhook.</span></div>
-      </div>
-      <ol class="ws-steps">
-        <li><b>Prepare (free).</b> We check your endpoint and read the wallet it asks buyers to pay.
-          <pre>curl -s -X POST https://extract.tollkit.dev/weigh/prepare \
-  -H 'content-type: application/json' \
-  -d '{"url":"https://your-api.com/endpoint","webhookUrl":"https://your-app.com/hooks/weigh"}'</pre></li>
-        <li><b>Sign</b> the returned <code>message</code> with that same wallet. It&rsquo;s free and moves no money, and it&rsquo;s how we know the endpoint is yours.</li>
-        <li><b>Pay $5</b> by POSTing the same fields plus <code>signature</code> to <code>/weigh/subscribe</code> with any x402 client. A bad signature or a wallet mismatch is refused and never charged.</li>
-      </ol>
-      <p class="ws-fine">Paying for monitoring never changes what Weigh Station&rsquo;s checks report about your service, or where it ranks. Look up any endpoint: <code>GET https://extract.tollkit.dev/weigh/status?url=&hellip;</code></p>
-    </div>
-  </div>
-</section>
-
 <section id="products">
   <div class="container">
     <h2>Products</h2>
-    <p class="section-sub">Each tool is its own endpoint: Weigh Station is free, the rest charge per call. Press <b>Connect to your AI</b> on any of them and pick your app &mdash; Claude, ChatGPT, Cursor, VS Code or the command line. Nothing to install and no API key. The agent calls the tool, and pays the toll in the request itself.</p>
-    <div class="products">
-
-      <div class="product">
-        <div class="product-head">
-          <h3>weigh-station</h3>
-          <span class="badge live">Free</span>
-        </div>
-        <div class="product-body">
-          Find a paid x402 tool for a job and check any x402 service before paying it: the real price, the network, and the wallet that gets the money, compared with its public listing. Works for every seller, not just Tollkit, and nobody can pay for a better result. Free for agents. Sellers can add monitoring for <strong>$5</strong> per endpoint per 30 days. <a class="read-more" href="#weigh-station">Read more&nbsp;&rarr;</a>
-        </div>
-        <div class="product-actions">
-          <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-          <a class="fund-link" href="#weigh-station">Free &middot; Or install as a skill&nbsp;&rarr;</a>
-        </div>
+    <p class="section-sub">Press <b>Connect to your AI</b> and pick your app. Failed calls are never charged.</p>
+    <div class="ws ws-featured" id="weigh-station">
+      <div class="ws-copy">
+        <span class="badge-free">New &middot; Free</span>
+        <h3 class="ws-title">weigh-station</h3>
+        <p class="ws-lead">Before your agent pays a service, it pulls in here. Like a highway weigh station, we check the load matches the paperwork: the real price and the wallet that gets paid, against its public listing.</p>
+        <ul class="ws-points">
+          <li><b>Find a paid tool</b> for any job, each result checked live.</li>
+          <li><b>Check before paying:</b> a warning if the money would go to the wrong wallet.</li>
+          <li><b>Neutral:</b> covers every x402 seller, and nobody can pay for a better result.</li>
+        </ul>
       </div>
+      <div class="ws-use">
+        <p class="ws-label">Coding agents (Claude Code, Codex, Cursor and more)</p>
+        <button type="button" class="install-btn ws-cmd" data-snippet="npx skills add https://tollkit.dev" onclick="copyInstall(this)"><code>npx skills add https://tollkit.dev</code><span class="ws-copy-label">Copy</span></button>
+        <p class="ws-label">Chat apps</p>
+        <button type="button" class="btn btn-primary ws-btn" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
+        <p class="ws-small">Selling on x402? <a href="#weigh-sellers">Monitor your endpoint for $5&nbsp;&rarr;</a></p>
+      </div>
+    </div>
+
+    <div class="products">
 
       <div class="product">
         <div class="product-head">
@@ -352,7 +319,7 @@
           <span class="badge live">Live</span>
         </div>
         <div class="product-body">
-          Give it a product page URL, get back structured schema.org/Product JSON — name, brand, sku, price, currency, availability, images, variants. Renders the page in a real headless browser, so it works on sites that build themselves in JavaScript, and reads the store's own schema.org data before inferring anything. <strong>$0.05</strong> per call, or <strong>$0.15</strong> for up to five URLs in one payment — for comparing one product across several stores without paying and signing per store. A page it cannot read is never charged for.
+          Give it a product page; get back the price, stock, brand, SKU, images and variants as clean JSON. Works on JavaScript-heavy stores. <strong>$0.05</strong> a page, or <strong>$0.15</strong> for up to five.
         </div>
         <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
@@ -366,7 +333,7 @@
           <span class="badge live">Live</span>
         </div>
         <div class="product-body">
-          Proof of what a page said, at a moment in time. Give it a URL and get back a signed, timestamped record &mdash; the rendered text and its hash, a screenshot and its hash, the response headers, the IP that served it and the TLS certificate the site presented &mdash; all hashed into one claim and signed, so a single altered byte breaks the signature. For terms you agreed to, a price you acted on, a policy you relied on, a claim a competitor published. <strong>$0.25</strong> per call. <strong>Verification is free, needs no account, and does not depend on us continuing to exist</strong> &mdash; the maths is public and anyone can redo it. We keep no copy, so the response you receive <em>is</em> the evidence.
+          Signed, timestamped proof of what a web page said, with a screenshot &mdash; for terms, prices or claims you may need to prove later. Anyone can verify it free, without us. <strong>$0.25</strong> a page.
         </div>
         <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
@@ -380,86 +347,11 @@
           <span class="badge soon">Coming soon</span>
         </div>
         <div class="product-body">
-          Send a text message to a US phone from a verified toll-free sender. Consent attestation required on every send, enforced opt-out list, and prohibited-content screening. $0.10 USDC per message — refusals are free. <a class="read-more" href="https://sms.tollkit.dev">Read more&nbsp;&rarr;</a>
+          Text a US phone number from a verified sender, with consent and opt-outs enforced on every send. <strong>$0.10</strong> a message; refused sends are free. <a class="read-more" href="https://sms.tollkit.dev">More&nbsp;&rarr;</a>
         </div>
         <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://mcp.tollkit.dev/mcp" data-connect-name="tollkit-sms">Connect to your AI</button>
           <a class="fund-link" href="/fund">Pays from a wallet &middot; Fund one&nbsp;&rarr;</a>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-head">
-          <h3>Got a tool in mind?</h3>
-          <span class="badge soon">Open</span>
-        </div>
-        <div class="product-body">
-          tollkit.dev is an umbrella for paid agent-facing APIs. If there's a service you wish your agent could just call and pay for, we'd love to hear it.
-        </div>
-        <div class="product-meta">
-          <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section id="fund">
-  <div class="container">
-    <div class="fund-band">
-      <div>
-        <h2>Your agent pays from its own wallet</h2>
-        <p class="section-sub">Paid tools need a wallet with USDC on Base. Set one up for each agent in a couple of minutes.</p>
-        <ul class="fund-points">
-          <li><b>You fund it.</b> Send USDC straight from your wallet to your agent&rsquo;s. No ETH needed &mdash; the payment network covers the fees.</li>
-          <li><b>You keep the keys.</b> Tollkit never holds your money or your agent&rsquo;s keys.</li>
-          <li><b>You hear when it runs low.</b> Pick how you want to be told, then top it up in one tap.</li>
-        </ul>
-      </div>
-      <a class="btn btn-primary" href="/fund">Fund a wallet</a>
-    </div>
-  </div>
-</section>
-
-<section id="guarantees">
-  <div class="container">
-    <h2>What these tools promise</h2>
-    <p class="section-sub">Every line here is a branch in the code with a test behind it &mdash; not marketing. They are also the things a general-purpose &ldquo;read any page&rdquo; service structurally cannot promise, which is the reason to point an agent at these instead.</p>
-    <div class="products">
-
-      <div class="product">
-        <div class="product-head"><h3>It won&rsquo;t answer about the wrong product</h3></div>
-        <div class="product-body">
-          Dead product URLs redirect to category pages all the time. A generic reader extracts whatever it lands on and hands you a real price for a different item &mdash; and nothing about the answer looks wrong. We refuse instead, and don&rsquo;t charge. Pass <code>allow_redirect</code> if you want whatever the URL resolves to.
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-head"><h3>Failures are free</h3></div>
-        <div class="product-body">
-          Every failure path returns an error status, and x402 settles nothing on an error. Blocked sites, dead pages, pages that never load: you pay for none of them.
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-head"><h3>Cached answers say so</h3></div>
-        <div class="product-body">
-          Repeat calls inside five minutes are re-served fast. They come back marked <code>cached</code>, with the age in seconds and the timestamp of the original render &mdash; never the time of your call. A five-minute-old price sold as live would be a lie.
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-head"><h3>Nothing is invented</h3></div>
-        <div class="product-body">
-          Image URLs are copied from the page, never constructed. A field the page doesn&rsquo;t state comes back <code>null</code> rather than guessed. Where the merchant publishes schema.org data, that is what you get &mdash; real SKUs, real GTINs, real variant lists.
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-head"><h3>Proof you can check without us</h3></div>
-        <div class="product-body">
-          An attestation is worth what it is worth to someone who does not trust us &mdash; the other side of a dispute, an auditor. So verifying one is free, needs no account, and holds no database: re-hash the claim, check the signature against a published address, done. The maths is public and anyone can redo it by hand. An attestation naming a different signer was not issued here, whatever it claims.
         </div>
       </div>
 
@@ -470,39 +362,59 @@
 <section id="how">
   <div class="container">
     <h2>How it works</h2>
-    <p class="section-sub">There is no signup, no API key and nothing to install. The price is part of the response.</p>
     <div class="steps">
       <div class="step">
         <span class="num">1</span>
-        <h4>Add the connector</h4>
-        <p>Press <b>Connect to your AI</b>, pick the app you use, and follow the two or three steps it shows. That is the whole setup.</p>
+        <h4>Connect</h4>
+        <p>Press <b>Connect to your AI</b>, pick your app, follow two or three steps.</p>
       </div>
       <div class="step">
         <span class="num">2</span>
         <h4>Fund a wallet</h4>
-        <p>Put USDC on Base in a wallet your agent can sign with &mdash; no ETH needed, the payment network covers the fees. That is the tab it draws against.</p>
+        <p>Put a few dollars of USDC on Base in a wallet your agent can use. No ETH needed.</p>
         <a class="btn btn-secondary step-btn" href="/fund">Fund a wallet</a>
       </div>
       <div class="step">
         <span class="num">3</span>
-        <h4>Let the agent call</h4>
-        <p>The first call comes back with the price, the asset and the recipient. Your agent signs it, calls again, and gets the result. Work we refuse is free.</p>
+        <h4>Your agent pays per call</h4>
+        <p>Each call shows its price first. Your agent pays, gets the result. Failed calls cost nothing.</p>
       </div>
     </div>
-    <div class="how-ctas"><a class="btn btn-secondary" href="#products">View products</a></div>
-    <p class="section-sub" style="margin:1.75rem 0 0;">Step-by-step setup for Claude, ChatGPT, Cursor, VS Code and the command line: <a href="/connect">tollkit.dev/connect</a>. No wallet for your agent yet? <a href="/fund">Give it one</a>.</p>
   </div>
 </section>
 
-<section id="developers">
+<section id="sellers">
   <div class="container">
-    <h2>Built for developers</h2>
-    <p class="section-sub">Nothing proprietary between you and the endpoint. These are plain HTTP APIs on an open protocol &mdash; no SDK to adopt, no client library you are stuck with, no account to close. Every tool publishes a machine-readable spec you can implement against directly: <a href="https://extract.tollkit.dev/openapi.json">OpenAPI</a>, an <a href="https://extract.tollkit.dev/llms.txt">llms.txt</a> written for agents, and an <a href="https://extract.tollkit.dev/.well-known/x402">x402 manifest</a>. Try before you pay: <a href="https://extract.tollkit.dev/preview">a real extraction, free</a>. And an attestation can be <a href="https://attest.tollkit.dev/attest/signer">verified against a published signing address</a> by anyone, at no cost, without us.</p>
-    <div class="dev-meta">
-      <a class="chip" href="https://github.com/UltraStarz" target="_blank" rel="noopener"><span class="label">GitHub:</span> @UltraStarz</a>
-      <a class="chip" href="https://x402.org" target="_blank" rel="noopener"><span class="label">Protocol:</span> x402</a>
-      <a class="chip" href="https://base.org" target="_blank" rel="noopener"><span class="label">Settlement:</span> Base (USDC)</a>
+    <div class="ws-sellers" id="weigh-sellers">
+      <p class="ws-kicker">For x402 sellers &middot; $5 per endpoint / 30 days</p>
+      <h3>Know the moment your endpoint breaks</h3>
+      <p class="ws-sub">We check it every 15 minutes and send a signed webhook when it goes down or comes back, changes price, or starts asking buyers to pay <b>a wallet that isn&rsquo;t yours</b>. Paid in USDC; nothing renews by itself. Paying never changes what the checks say or how you rank.</p>
+      <details class="ws-how">
+        <summary>How to sign up (3 steps)</summary>
+        <ol class="ws-steps">
+          <li><b>Prepare (free).</b> We read the wallet your endpoint asks buyers to pay.
+            <pre>curl -s -X POST https://extract.tollkit.dev/weigh/prepare \
+  -H 'content-type: application/json' \
+  -d '{"url":"https://your-api.com/endpoint","webhookUrl":"https://your-app.com/hooks/weigh"}'</pre></li>
+          <li><b>Sign</b> the returned <code>message</code> with that wallet. Free, moves no money.</li>
+          <li><b>Pay $5</b>: POST the same fields plus <code>signature</code> to <code>/weigh/subscribe</code> with any x402 client. A bad signature is never charged.</li>
+        </ol>
+      </details>
     </div>
+  </div>
+</section>
+
+<section id="guarantees">
+  <div class="container">
+    <h2>Our promises</h2>
+    <ul class="promises">
+      <li><b>Failed calls are free.</b> Blocked, dead or unreadable pages cost nothing.</li>
+      <li><b>No wrong answers passed off as right.</b> If a product link redirects somewhere else, we refuse instead of guessing.</li>
+      <li><b>Nothing invented.</b> A detail the page doesn&rsquo;t state comes back empty, not made up.</li>
+      <li><b>Cached answers say so</b>, with when they were really fetched.</li>
+      <li><b>Proof anyone can check</b>, free and without trusting us.</li>
+    </ul>
+    <p class="dev-line">For developers: <a href="https://extract.tollkit.dev/openapi.json">OpenAPI</a> &middot; <a href="https://extract.tollkit.dev/llms.txt">llms.txt</a> &middot; <a href="https://extract.tollkit.dev/.well-known/x402">x402 manifest</a> &middot; <a href="https://attest.tollkit.dev/attest/signer">signing address</a> &middot; built on <a href="https://x402.org" target="_blank" rel="noopener">x402</a>, settles in USDC on Base.</p>
   </div>
 </section>
 
@@ -511,14 +423,14 @@
     <div class="row">
       <div>
         <div class="brand">Toll<span class="dot">kit</span></div>
-        <div style="margin-top:0.35rem; color:#707070;">Paid developer tools for AI agents.</div>
+        <div style="margin-top:0.35rem; color:#707070;">Pay-per-call tools for AI agents.</div>
       </div>
       <div>
-        Business contact: <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
+        Got a tool you wish your agent could pay for? <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
       </div>
     </div>
     <div class="legal">
-      <strong>Tollkit</strong> is a trade name of <strong>Joseph E. Henry Jr</strong>, a sole proprietorship in Annapolis, Maryland, USA. Business contact: <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>. <a href="https://sms.tollkit.dev/terms">Terms</a> &middot; <a href="https://sms.tollkit.dev/privacy">Privacy</a>. Built on the open <a href="https://x402.org" target="_blank" rel="noopener">x402</a> protocol. Settlement on Base in USDC. © 2026.
+      <strong>Tollkit</strong> is a trade name of <strong>Joseph E. Henry Jr</strong>, a sole proprietorship in Annapolis, Maryland, USA. <a href="https://sms.tollkit.dev/terms">Terms</a> &middot; <a href="https://sms.tollkit.dev/privacy">Privacy</a>. Built on the open <a href="https://x402.org" target="_blank" rel="noopener">x402</a> protocol. Settlement on Base in USDC. © 2026.
     </div>
   </div>
 </footer>
