@@ -223,6 +223,25 @@
   .ws-small { margin: 0; font-size: .8rem; color: #707070; }
   .ws-small code { color: #cfe0ff; font-size: .78rem; }
   @media (max-width: 760px) { .ws { grid-template-columns: 1fr; padding: 1.25rem; gap: 1.25rem; } .ws-cmd code { white-space: normal; text-align: left; font-size: .8rem; } }
+
+  .ws-sellers { margin-top: 1rem; background: #111; border: 1px solid #222; border-radius: 12px; padding: 1.75rem; }
+  .ws-kicker { margin: 0; font-size: .74rem; text-transform: uppercase; letter-spacing: .06em; color: #4a8eff; font-weight: 600; }
+  .ws-sellers h3 { margin: .35rem 0 .4rem; font-size: 1.2rem; color: #f5f5f5; }
+  .ws-sub { margin: 0 0 1.2rem; color: #a0a0a0; font-size: .93rem; max-width: 44rem; }
+  .ws-sub b { color: #f5f5f5; }
+  .ws-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: .6rem; margin-bottom: 1.3rem; }
+  .ws-card { background: #151515; border: 1px solid #242424; border-radius: 10px; padding: .75rem .9rem; font-size: .85rem; color: #a0a0a0; }
+  .ws-card b { display: block; color: #f5f5f5; font-size: .92rem; margin-bottom: .15rem; }
+  .ws-card-warn { border-color: #3a2f14; background: #1a1408; }
+  .ws-card-warn b { color: #e6d3a8; }
+  .ws-steps { margin: 0; padding-left: 1.2rem; color: #a0a0a0; font-size: .9rem; }
+  .ws-steps li { margin: .6rem 0; }
+  .ws-steps b { color: #f5f5f5; }
+  .ws-steps code, .ws-fine code { color: #cfe0ff; font-size: .82rem; }
+  .ws-steps pre { margin: .5rem 0 0; background: #08090c; border: 1px solid #242424; border-radius: 8px; padding: .7rem .85rem; font-size: .78rem; color: #cdd6e4; overflow-x: auto; white-space: pre; }
+  .ws-fine { margin: 1rem 0 0; font-size: .8rem; color: #707070; }
+  .ws-fine code { word-break: break-all; }
+  @media (max-width: 760px) { .ws-sellers { padding: 1.25rem; } }
 </style>
 </head>
 <body>
@@ -274,7 +293,35 @@
         <p class="ws-label">Or use it in a chat app</p>
         <button type="button" class="btn btn-secondary ws-btn" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
         <p class="ws-small">Tools <code>find_service</code> and <code>check_service</code>. Also plain HTTP: <a href="https://extract.tollkit.dev/check?url=https://attest.tollkit.dev/attest">/check</a> &middot; <a href="https://extract.tollkit.dev/find?q=product%20price%20lookup">/find</a> &middot; <a href="/skills/weigh-station.zip">skill .zip</a></p>
+        <p class="ws-small" style="margin-top:.6rem">Selling on x402? <a href="#weigh-sellers">Monitor your endpoint for $5&nbsp;&rarr;</a></p>
       </div>
+    </div>
+
+    <div class="ws-sellers" id="weigh-sellers">
+      <div class="ws-sellers-head">
+        <div>
+          <p class="ws-kicker">For x402 sellers</p>
+          <h3>Know the moment your endpoint breaks</h3>
+          <p class="ws-sub">Weigh Station checks your endpoint every 15 minutes for 30 days and sends a signed webhook when something changes. <b>$5 per endpoint</b>, paid in USDC over x402. Nothing renews by itself.</p>
+        </div>
+      </div>
+      <div class="ws-grid">
+        <div class="ws-card"><b>Down</b><span>After two failed checks in a row. Once, not every 15 minutes.</span></div>
+        <div class="ws-card"><b>Back up</b><span>When it recovers.</span></div>
+        <div class="ws-card ws-card-warn"><b>Wrong wallet</b><span>If your quote starts asking buyers to pay a wallet that isn&rsquo;t yours.</span></div>
+        <div class="ws-card"><b>Price changed</b><span>When the amount you quote changes.</span></div>
+        <div class="ws-card"><b>Expiring</b><span>Three days before your 30 days end.</span></div>
+        <div class="ws-card"><b>Public record</b><span>State and 30-day uptime anyone can look up. Never your webhook.</span></div>
+      </div>
+      <ol class="ws-steps">
+        <li><b>Prepare (free).</b> We check your endpoint and read the wallet it asks buyers to pay.
+          <pre>curl -s -X POST https://extract.tollkit.dev/weigh/prepare \
+  -H 'content-type: application/json' \
+  -d '{"url":"https://your-api.com/endpoint","webhookUrl":"https://your-app.com/hooks/weigh"}'</pre></li>
+        <li><b>Sign</b> the returned <code>message</code> with that same wallet. It&rsquo;s free and moves no money, and it&rsquo;s how we know the endpoint is yours.</li>
+        <li><b>Pay $5</b> by POSTing the same fields plus <code>signature</code> to <code>/weigh/subscribe</code> with any x402 client. A bad signature or a wallet mismatch is refused and never charged.</li>
+      </ol>
+      <p class="ws-fine">Paying for monitoring never changes what Weigh Station&rsquo;s checks report about your service, or where it ranks. Look up any endpoint: <code>GET https://extract.tollkit.dev/weigh/status?url=&hellip;</code></p>
     </div>
   </div>
 </section>
