@@ -139,6 +139,26 @@
   .wp-x { position:absolute; top:.7rem; right:.7rem; width:34px; height:34px; border-radius:8px; background:none; border:1px solid transparent; color:var(--muted); font-size:1.3rem; line-height:1; cursor:pointer; }
   .wp-x:hover { border-color:var(--line); color:var(--text); }
   @media (max-width:480px) { .wp-grid { grid-template-columns:repeat(2,1fr); } .wp-dialog { padding:1.2rem 1rem 1rem; } }
+
+  /* Step 2: Coinbase paths */
+  .paths { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:.8rem; margin-top:1rem; }
+  .path { background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:1rem 1.1rem; display:flex; flex-direction:column; }
+  .path-head { display:flex; align-items:center; gap:.7rem; margin-bottom:.55rem; }
+  .path-head img { border-radius:8px; flex:none; }
+  .path-head b { display:block; font-size:1rem; }
+  .path-head small { color:var(--dim); font-size:.8rem; }
+  .path-what { margin:0 0 .6rem; font-size:.87rem; color:var(--muted); }
+  .path-what b { color:var(--text); }
+  .path .steps { margin:0; padding-left:1.2rem; font-size:.86rem; flex:1; }
+  .path .steps li { margin:.4rem 0; }
+  .path .steps code { font-size:.8rem; color:#cfe0ff; word-break:break-all; }
+  .copyline { display:flex; align-items:center; gap:.4rem; background:#08090c; border:1px solid var(--line); border-radius:8px; padding:.3rem .3rem .3rem .65rem; margin:.35rem 0; }
+  .copyline code { flex:1; overflow-x:auto; white-space:nowrap; word-break:normal !important; }
+  .path-foot { margin:.7rem 0 0; font-size:.82rem; }
+  .own-keys { margin-top:1.2rem; border-top:1px solid var(--line); padding-top:.9rem; }
+  .own-keys summary { cursor:pointer; font-size:.9rem; color:var(--muted); }
+  .own-keys summary:hover { color:var(--text); }
+  .opt { font-size:.7rem; font-weight:500; color:var(--dim); border:1px solid var(--line); border-radius:999px; padding:.05rem .5rem; margin-left:.35rem; vertical-align:middle; }
 </style>
 </head>
 <body data-net="sepolia">
@@ -160,8 +180,8 @@
     <h1>Fund your agents</h1>
     <p class="lede">Give each AI agent <strong>its own wallet with a little money in it</strong>. What's in the wallet is all it can ever spend &mdash; so if an agent gets confused or tricked, the most you lose is its balance. Top them all up in one go when they run low.</p>
     <div class="facts">
-      <div class="fact"><b>Your money, your keys</b>Funds go straight from your wallet to your agents. Tollkit never holds either.</div>
-      <div class="fact"><b>The balance is the limit</b>No permissions or contracts to trust. $5 in the wallet means $5 at most.</div>
+      <div class="fact"><b>Your money, never ours</b>Money goes from you to your agents, through Coinbase or your own wallet. Tollkit never holds money or keys.</div>
+      <div class="fact"><b>You set the limit</b>An agent can only spend what&rsquo;s in its wallet. Coinbase adds spending caps, or asks you to approve each payment.</div>
       <div class="fact"><b>Agents need no ETH</b>A wallet with only USDC can pay for x402 services on Base. Gas is covered.</div>
       <div class="fact"><b>Free</b>No fee to create, fund or watch. We charge per call, only at our own services.</div>
     </div>
@@ -176,6 +196,40 @@
     <p><b>New agent keys exist only in this tab.</b> Download them now &mdash; close or reload and they are gone for good. Nobody can recover them, including us.</p>
     <button class="btn btn-primary" id="dlKeys2">Download keys</button>
   </div>
+
+  <!-- Agent wallets: Coinbase first -->
+  <section class="card">
+    <h2>1 &middot; Give your agent a wallet</h2>
+    <p class="hint">The easiest way is to let Coinbase do it. Your agent gets a wallet, you add money with a card, Apple Pay or your Coinbase account, and Coinbase keeps the keys safe. Tollkit never touches any of it. Pick where your agent runs:</p>
+
+    <div class="paths">
+      <div class="path">
+        <div class="path-head"><img src="data:image/svg+xml,%3Csvg width='96' height='96' viewBox='0 0 1024 1024' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Crect width='1024' height='1024' fill='%230052FF'/%3E %3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M152 512C152 710.823 313.177 872 512 872C710.823 872 872 710.823 872 512C872 313.177 710.823 152 512 152C313.177 152 152 313.177 152 512ZM420 396C406.745 396 396 406.745 396 420V604C396 617.255 406.745 628 420 628H604C617.255 628 628 617.255 628 604V420C628 406.745 617.255 396 604 396H420Z' fill='white'/%3E %3C/svg%3E" alt="" width="30" height="30"><div><b>Chat apps</b><small>Claude, ChatGPT, Cursor</small></div></div>
+        <p class="path-what">Coinbase Wallet MCP connects <b>your own Coinbase Wallet</b>. Your AI asks, you tap Approve on each payment.</p>
+        <ol class="steps">
+          <li>Add a connector named <b>Coinbase Wallet MCP</b> with this address:
+            <div class="copyline"><code>https://mcp.base.org</code><button class="btn btn-ghost" type="button" data-copy="https://mcp.base.org">Copy</button></div>
+            In Claude you can <a href="https://claude.ai/customize/connectors?modal=add-custom-connector&amp;connectorName=Coinbase%20Wallet%20MCP&amp;connectorUrl=https%3A%2F%2Fmcp.base.org" target="_blank" rel="noopener">add it in one click</a>.</li>
+          <li>Press <b>Connect</b>, then <b>Allow</b> in Coinbase Wallet.</li>
+          <li>Add Tollkit too (<a href="/connect">how</a>). When a Tollkit tool asks for payment, you get an <b>Approve</b> link.</li>
+        </ol>
+        <p class="path-foot"><a href="https://docs.cdp.coinbase.com/get-started/build-with-ai/base-mcp" target="_blank" rel="noopener">Coinbase&rsquo;s setup guide for every app &rarr;</a></p>
+      </div>
+
+      <div class="path">
+        <div class="path-head"><img src="data:image/svg+xml,%3Csvg width='96' height='96' viewBox='0 0 1024 1024' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Crect width='1024' height='1024' fill='%230052FF'/%3E %3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M152 512C152 710.823 313.177 872 512 872C710.823 872 872 710.823 872 512C872 313.177 710.823 152 512 152C313.177 152 152 313.177 152 512ZM420 396C406.745 396 396 406.745 396 420V604C396 617.255 406.745 628 420 628H604C617.255 628 628 617.255 628 604V420C628 406.745 617.255 396 604 396H420Z' fill='white'/%3E %3C/svg%3E" alt="" width="30" height="30"><div><b>Coding agents</b><small>Claude Code, Codex, Gemini CLI</small></div></div>
+        <p class="path-what">Coinbase Agentic Wallet gives <b>the agent its own wallet</b> with spending limits. It pays by itself, up to the limits you set.</p>
+        <ol class="steps">
+          <li>Install it (needs Node.js 24 or newer):
+            <div class="copyline"><code>npx skills add coinbase/agentic-wallet-skills</code><button class="btn btn-ghost" type="button" data-copy="npx skills add coinbase/agentic-wallet-skills">Copy</button></div></li>
+          <li>Sign in with your email: <code>npx awal auth login you@example.com</code>, then enter the 6-digit code it sends.</li>
+          <li>Add money: <code>npx awal show</code> opens the wallet. Press <b>Fund</b>.</li>
+          <li>Paste its address (<code>npx awal address</code>) below to watch its balance and get low-balance alerts.</li>
+        </ol>
+        <p class="path-foot"><a href="https://docs.cdp.coinbase.com/agentic-wallet/cli/quickstart" target="_blank" rel="noopener">Coinbase&rsquo;s quickstart &rarr;</a></p>
+      </div>
+    </div>
+  </section>
 
   <!-- Network -->
   <section class="card">
@@ -193,7 +247,7 @@
 
   <!-- Owner -->
   <section class="card">
-    <h2>1 &middot; The wallet the money comes from</h2>
+    <h2>2 &middot; Your wallet, for topping up <span class="opt">optional</span></h2>
     <p class="hint">Your own wallet. It pays a fraction of a cent in ETH to send funds; your agents never need ETH.</p>
     <div id="ownerIdle"><button class="btn btn-primary" id="connect">Connect wallet</button></div>
     <div id="ownerDone" hidden>
@@ -209,7 +263,7 @@
   <!-- Agents -->
   <section class="card">
     <div class="row" style="margin-bottom:.3rem">
-      <h2 class="grow" style="margin:0">2 &middot; Your agents</h2>
+      <h2 class="grow" style="margin:0">3 &middot; Watch and top up</h2>
       <span class="meta" id="updated"></span>
       <button class="btn btn-ghost" id="refresh">Refresh</button>
     </div>
@@ -221,6 +275,18 @@
       </table>
     </div>
 
+
+    <div style="margin-top:1.1rem">
+      <label class="fld" for="existing">Add agent wallets to watch (paste addresses)</label>
+      <textarea id="existing" placeholder="0x…, one or many"></textarea>
+      <div class="row" style="margin-top:.5rem">
+        <button class="btn btn-secondary" id="add">Add addresses</button>
+      </div>
+    </div>
+
+    <details class="own-keys">
+      <summary>Advanced: make agent keys yourself</summary>
+      <p class="hint" style="margin:.6rem 0 .8rem">For developers who want to hold the keys. The keys are made in this browser tab and you must download them &mdash; nobody can recover a lost key.</p>
     <div class="row" style="margin-top:1.1rem; align-items:flex-end">
       <div>
         <label class="fld" for="howMany">Create new agent wallets</label>
@@ -233,18 +299,12 @@
     </div>
     <p class="hint" style="margin:.5rem 0 0">Keys are made in this browser tab and never sent anywhere. This page loads no third-party code and has no analytics.</p>
 
-    <div style="margin-top:1.1rem">
-      <label class="fld" for="existing">Or add agents you already have (paste addresses)</label>
-      <textarea id="existing" placeholder="0x…, one or many"></textarea>
-      <div class="row" style="margin-top:.5rem">
-        <button class="btn btn-secondary" id="add">Add addresses</button>
-      </div>
-    </div>
+    </details>
   </section>
 
   <!-- Fund -->
   <section class="card">
-    <h2>3 &middot; Fund and refill</h2>
+    <h2>4 &middot; Fund and refill</h2>
     <p class="hint">Top each agent up to the target. Anything below the floor counts as low. On Base this is two wallet confirmations however many agents you have.</p>
     <div class="row" style="align-items:flex-end; margin-bottom:1rem">
       <div><label class="fld" for="target">Target per agent (USDC)</label><input id="target" class="money" inputmode="decimal"></div>
@@ -259,7 +319,7 @@
 
   <!-- Alerts -->
   <section class="card" id="alertsCard">
-    <h2>4 &middot; Know when they run low</h2>
+    <h2>5 &middot; Know when they run low</h2>
     <p class="hint">Pick how you want to hear about it. Tollkit only watches public balances &mdash; it never needs a key to tell you an agent is low. You'll sign a message to save: <b style="color:var(--text)">signing is free and moves no money.</b></p>
     <p class="meta" id="alertStatus" style="margin:0 0 .8rem"></p>
 
@@ -287,7 +347,7 @@
       <button class="btn btn-secondary" id="testAlerts">Send a test</button>
       <button class="btn btn-ghost" id="offAlerts">Turn alerts off</button>
     </div>
-    <p class="hint" style="margin:.7rem 0 0">Alerts use the <b style="color:var(--text)">Low below</b> amount from step 3, and cover every agent in the list above. You'll hear once when an agent drops below it &mdash; not again until it's been refilled.</p>
+    <p class="hint" style="margin:.7rem 0 0">Alerts use the <b style="color:var(--text)">Low below</b> amount from step 4, and cover every agent in the list above. You'll hear once when an agent drops below it &mdash; not again until it's been refilled.</p>
 
     <div class="secretbox" id="secretBox" hidden>
       <p><b>Your webhook secret &mdash; shown once.</b> Use it to check the <code>x-tollkit-signature</code> header on every alert. If you lose it, change the webhook URL to get a new one.</p>
@@ -312,9 +372,9 @@
       <dt>Does Tollkit hold my money?</dt>
       <dd>No. Money moves from your wallet to your agents' wallets in transactions you sign. It never passes through an address we control.</dd>
       <dt>Does Tollkit have my agents' keys?</dt>
-      <dd>No. They're generated in your browser and downloaded to your computer. We never see them and couldn't recover them if you asked.</dd>
+      <dd>No. With the Coinbase options, Coinbase keeps the keys. If you make keys yourself on this page, they're generated in your browser and downloaded to your computer. Either way we never see them and couldn't recover them if you asked.</dd>
       <dt>What stops an agent overspending?</dt>
-      <dd>Arithmetic. A wallet can't send more than it holds. There's no permission to revoke because there's nothing to revoke &mdash; to cut an agent off, stop refilling it or move its balance out with its key.</dd>
+      <dd>Arithmetic first: a wallet can't send more than it holds, so to cut an agent off, stop refilling it. Coinbase adds its own guardrails on top &mdash; spending caps for Agentic Wallet, and your Approve tap on every payment for Wallet MCP.</dd>
       <dt>Why do I approve an exact amount?</dt>
       <dd>On Base, funding many agents uses Disperse, a widely used public contract, in one transaction. You approve it for exactly this send &mdash; never an unlimited amount &mdash; so nothing is left standing afterwards.</dd>
       <dt>What does it cost?</dt>
@@ -384,7 +444,7 @@ This takes ${n}. Continue?`)){E.busy=!0,ht();try{await _u();let s=yx();if(r.disp
       <td class="act">
         <button class="btn btn-ghost" data-refill="${a.address}" ${u===0n||E.busy?"disabled":""}>Refill</button>
         <button class="btn btn-ghost" data-remove="${a.address}" title="Stop watching">&times;</button>
-      </td></tr>`}).join("");L("agentRows").innerHTML=n||'<tr><td colspan="4" class="empty">No agents yet. Create some below, or add addresses you already have.</td></tr>';let s=E.agents.filter(a=>r!=null&&(E.balances[a.address]??0n)<r).length,i=E.agents.reduce((a,c)=>a+(E.balances[c.address]??0n),0n);L("summary").textContent=E.agents.length?`${E.agents.length} agent${E.agents.length>1?"s":""} \xB7 ${Et(i)} held \xB7 ${s} below ${Et(r??0n)}`:"",L("fundAll").disabled=E.busy||!E.agents.length,L("refillLow").disabled=E.busy||!s,L("fundAll").textContent=E.busy?"Working\u2026":`Top everyone up to ${Et(o??0n)}`,L("refillLow").textContent=`Refill ${s||""} low agent${s===1?"":"s"}`.replace("  "," "),L("export").disabled=!E.agents.length,Ta()}function Kg(){L("connect").onclick=dx,L("switchWallet").onclick=dx,L("create").onclick=Mg,L("add").onclick=Lg,L("dlKeys").onclick=mx,L("dlKeys2").onclick=mx,L("fundAll").onclick=_g,L("refillLow").onclick=jg,L("refresh").onclick=yr,L("export").onclick=Ug,L("import").onchange=e=>e.target.files[0]&&Dg(e.target.files[0]),L("net").onchange=e=>wx(e.target.value),L("saveAlerts").onclick=Gg,L("testAlerts").onclick=Vg,L("offAlerts").onclick=Wg,L("chWebhook").onchange=Ta,L("chEmail").onchange=Ta,L("copySecret").onclick=()=>{let e=L("secretVal").textContent;(navigator.clipboard?navigator.clipboard.writeText(e):Promise.reject()).then(()=>{L("copySecret").textContent="Copied",setTimeout(()=>{L("copySecret").textContent="Copy secret"},1800)},()=>{})},L("floor").oninput=e=>{E.floor=e.target.value,zo(),ht()},L("target").oninput=e=>{E.target=e.target.value,zo(),ht()},L("agentRows").addEventListener("click",e=>{let t=e.target.closest("button");t&&(t.dataset.refill&&qg(t.dataset.refill),t.dataset.remove&&Og(t.dataset.remove))}),L("agentRows").addEventListener("change",e=>{if(!e.target.classList.contains("lbl"))return;let t=E.agents.find(r=>r.address===e.target.dataset.addr);t&&(t.label=e.target.value.slice(0,40),zo())}),window.addEventListener("beforeunload",e=>{E.agents.some(t=>t.key)&&!E.keysSaved&&(e.preventDefault(),e.returnValue="")})}Fg();Kg();Id();ht();yr();di();setInterval(()=>{!E.busy&&document.visibilityState==="visible"&&yr()},3e4);})();
+      </td></tr>`}).join("");L("agentRows").innerHTML=n||'<tr><td colspan="4" class="empty">No agents yet. Paste an agent&rsquo;s wallet address below.</td></tr>';let s=E.agents.filter(a=>r!=null&&(E.balances[a.address]??0n)<r).length,i=E.agents.reduce((a,c)=>a+(E.balances[c.address]??0n),0n);L("summary").textContent=E.agents.length?`${E.agents.length} agent${E.agents.length>1?"s":""} \xB7 ${Et(i)} held \xB7 ${s} below ${Et(r??0n)}`:"",L("fundAll").disabled=E.busy||!E.agents.length,L("refillLow").disabled=E.busy||!s,L("fundAll").textContent=E.busy?"Working\u2026":`Top everyone up to ${Et(o??0n)}`,L("refillLow").textContent=`Refill ${s||""} low agent${s===1?"":"s"}`.replace("  "," "),L("export").disabled=!E.agents.length,Ta()}function Kg(){L("connect").onclick=dx,document.querySelectorAll("[data-copy]").forEach(e=>{e.onclick=()=>{let t=()=>{let r=e.textContent;e.textContent="Copied",setTimeout(()=>{e.textContent=r},1600)};(navigator.clipboard?navigator.clipboard.writeText(e.dataset.copy):Promise.reject()).then(t,t)}}),L("switchWallet").onclick=dx,L("create").onclick=Mg,L("add").onclick=Lg,L("dlKeys").onclick=mx,L("dlKeys2").onclick=mx,L("fundAll").onclick=_g,L("refillLow").onclick=jg,L("refresh").onclick=yr,L("export").onclick=Ug,L("import").onchange=e=>e.target.files[0]&&Dg(e.target.files[0]),L("net").onchange=e=>wx(e.target.value),L("saveAlerts").onclick=Gg,L("testAlerts").onclick=Vg,L("offAlerts").onclick=Wg,L("chWebhook").onchange=Ta,L("chEmail").onchange=Ta,L("copySecret").onclick=()=>{let e=L("secretVal").textContent;(navigator.clipboard?navigator.clipboard.writeText(e):Promise.reject()).then(()=>{L("copySecret").textContent="Copied",setTimeout(()=>{L("copySecret").textContent="Copy secret"},1800)},()=>{})},L("floor").oninput=e=>{E.floor=e.target.value,zo(),ht()},L("target").oninput=e=>{E.target=e.target.value,zo(),ht()},L("agentRows").addEventListener("click",e=>{let t=e.target.closest("button");t&&(t.dataset.refill&&qg(t.dataset.refill),t.dataset.remove&&Og(t.dataset.remove))}),L("agentRows").addEventListener("change",e=>{if(!e.target.classList.contains("lbl"))return;let t=E.agents.find(r=>r.address===e.target.dataset.addr);t&&(t.label=e.target.value.slice(0,40),zo())}),window.addEventListener("beforeunload",e=>{E.agents.some(t=>t.key)&&!E.keysSaved&&(e.preventDefault(),e.returnValue="")})}Fg();Kg();Id();ht();yr();di();setInterval(()=>{!E.busy&&document.visibilityState==="visible"&&yr()},3e4);})();
 </script>
 </body>
 </html>
