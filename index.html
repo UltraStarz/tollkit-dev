@@ -261,6 +261,10 @@
   .product-featured:hover { border-color: #4a8eff; background: #0f1a2e; }
   #products .products { grid-template-columns: repeat(2, 1fr); }
   @media (max-width: 700px) { #products .products { grid-template-columns: 1fr; } }
+
+  .p-title { display: flex; align-items: center; gap: .6rem; }
+  .p-icon { width: 36px; height: 36px; padding: 7px; flex: none; border-radius: 8px; background: #121a2a; border: 1px solid #1e3358; color: #4a8eff; }
+  .product-featured .p-icon { background: #15294d; border-color: #2f5fb0; color: #8db8ff; }
 </style>
 </head>
 <body>
@@ -298,7 +302,7 @@
 
       <div class="product product-featured">
         <div class="product-head">
-          <h3>weigh-station</h3>
+          <h3 class="p-title"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M7 21h10"/><path d="M5 7h14"/><path d="M12 5l0 0"/><path d="M5 7l-3 7a3.5 3.5 0 0 0 6 0z"/><path d="M19 7l-3 7a3.5 3.5 0 0 0 6 0z"/></svg><span>weigh-station</span></h3>
           <span class="badge live">New &middot; Free</span>
         </div>
         <div class="product-body">
@@ -312,7 +316,7 @@
 
       <div class="product">
         <div class="product-head">
-          <h3>tollkit-extract</h3>
+          <h3 class="p-title"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg><span>tollkit-extract</span></h3>
           <span class="badge live">Live</span>
         </div>
         <div class="product-body">
@@ -326,7 +330,7 @@
 
       <div class="product">
         <div class="product-head">
-          <h3>tollkit-attest</h3>
+          <h3 class="p-title"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l2.4 1.8 3-.2.9 2.9 2.5 1.7-1 2.8 1 2.8-2.5 1.7-.9 2.9-3-.2L12 22l-2.4-1.8-3 .2-.9-2.9-2.5-1.7 1-2.8-1-2.8 2.5-1.7.9-2.9 3 .2z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><span>tollkit-attest</span></h3>
           <span class="badge live">Live</span>
         </div>
         <div class="product-body">
@@ -340,7 +344,7 @@
 
       <div class="product">
         <div class="product-head">
-          <h3>tollkit-sms</h3>
+          <h3 class="p-title"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7"/><path d="M8.5 14h4"/></svg><span>tollkit-sms</span></h3>
           <span class="badge soon">Coming soon</span>
         </div>
         <div class="product-body">

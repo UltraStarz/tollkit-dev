@@ -96,6 +96,8 @@
   .use .cmd pre { white-space:nowrap; overflow-x:auto; word-break:normal; }
   .note code, .use code { word-break:break-word; }
   .card, .use { min-width:0; overflow:hidden; }
+  .p-title { display:flex; align-items:center; gap:.7rem; }
+  .p-icon.big { width:40px; height:40px; padding:8px; flex:none; border-radius:10px; background:#15294d; border:1px solid #2f5fb0; color:#8db8ff; }
   @media (max-width:640px) { .grid2 { grid-template-columns:1fr; } }
 </style>
 </head>
@@ -111,7 +113,7 @@
 <header class="head">
   <div class="container">
     <span class="hero-badge">Free &middot; for any x402 seller</span>
-    <h1>Weigh Station</h1>
+    <h1 class="p-title"><svg class="p-icon big" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M7 21h10"/><path d="M5 7h14"/><path d="M12 5l0 0"/><path d="M5 7l-3 7a3.5 3.5 0 0 0 6 0z"/><path d="M19 7l-3 7a3.5 3.5 0 0 0 6 0z"/></svg><span>Weigh Station</span></h1>
     <p class="lede">Before your agent pays a service, it pulls in here. Like a highway weigh station, we check the load matches the paperwork: <strong>the real price and the wallet that gets paid</strong>, against the service&rsquo;s public listing. Nothing is paid, and nobody can buy a better result.</p>
   </div>
 </header>
