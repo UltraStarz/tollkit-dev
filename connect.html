@@ -66,7 +66,16 @@
   .card p { margin:.3rem 0; color:var(--muted); font-size:.9rem; }
   .card p strong { color:var(--text); }
   .tools { display:grid; grid-template-columns:auto 1fr auto; gap:.35rem .9rem; font-size:.87rem; margin-top:.6rem; }
-  .tools code { color:#cfe0ff; }
+  .toollist { display:flex; flex-direction:column; }
+  .tool { display:flex; justify-content:space-between; gap:1rem; align-items:flex-start; padding:.55rem 0; border-top:1px solid var(--line-soft); }
+  .toollist .tool:first-child { border-top:0; }
+  .tool b { display:block; color:var(--text); font-weight:600; font-size:.92rem; }
+  .tool span { display:block; color:var(--muted); font-size:.85rem; }
+  .tool code { display:inline-block; color:var(--dim); font-size:.72rem; margin-top:.1rem; }
+  .tool em { font-style:normal; font-size:.82rem; white-space:nowrap; padding-top:.1rem; }
+  .tool em.free { color:var(--ok); font-weight:600; }
+  .tool em.paid { color:var(--text); font-weight:600; }
+  .grp { margin:1rem 0 .2rem !important; font-size:.74rem !important; text-transform:uppercase; letter-spacing:.06em; color:var(--accent) !important; font-weight:600; }
   .tools .free { color:var(--ok); font-weight:600; font-size:.78rem; }
   .tools .paid { color:var(--muted); font-size:.78rem; }
   .tools span { color:var(--muted); }
@@ -104,15 +113,26 @@
   <!-- What it can do -->
   <section class="card">
     <h2>What you get</h2>
-    <div class="tools">
-      <code>try_it_free</code><span>A real product extraction, to see the output.</span><em class="free">free</em>
-      <code>find_service</code><span>Weigh Station: find a paid x402 tool for a job, each checked live.</span><em class="free">free</em>
-      <code>check_service</code><span>Weigh Station: see what any x402 service really charges before paying.</span><em class="free">free</em>
-      <code>check_my_balance</code><span>How much an agent's wallet has left.</span><em class="free">free</em>
-      <code>verify_attestation</code><span>Check a signed page record is genuine.</span><em class="free">free</em>
-      <code>get_product_details</code><span>Name, price, stock and more from a product page.</span><em class="paid">$0.05</em>
-      <code>compare_products</code><span>Up to five product pages in one go.</span><em class="paid">$0.15</em>
-      <code>attest_page</code><span>Signed, timestamped proof of what a page said.</span><em class="paid">$0.25</em>
+    <p>Just ask your AI in plain words; it picks the right tool.</p>
+    <p class="grp">Weigh Station</p>
+    <div class="toollist">
+      <div class="tool"><div><b>Find a paid tool</b><span>Describe a job; get matching services, each checked live.</span><code title="Tool name">find_service</code></div><em class="free">Free</em></div>
+      <div class="tool"><div><b>Check before paying</b><span>See what a service really charges and who gets the money.</span><code title="Tool name">check_service</code></div><em class="free">Free</em></div>
+    </div>
+    <p class="grp">Extract</p>
+    <div class="toollist">
+      <div class="tool"><div><b>Product details</b><span>Price, stock, brand, SKU and images from one product page.</span><code title="Tool name">get_product_details</code></div><em class="paid">$0.05</em></div>
+      <div class="tool"><div><b>Compare products</b><span>Up to five product pages at once.</span><code title="Tool name">compare_products</code></div><em class="paid">$0.15</em></div>
+      <div class="tool"><div><b>Free sample</b><span>A real extraction of an example page, so you can see the output.</span><code title="Tool name">try_it_free</code></div><em class="free">Free</em></div>
+    </div>
+    <p class="grp">Attest</p>
+    <div class="toollist">
+      <div class="tool"><div><b>Prove what a page said</b><span>Signed, timestamped record with a screenshot.</span><code title="Tool name">attest_page</code></div><em class="paid">$0.25</em></div>
+      <div class="tool"><div><b>Verify a record</b><span>Check a signed page record is genuine.</span><code title="Tool name">verify_attestation</code></div><em class="free">Free</em></div>
+    </div>
+    <p class="grp">Your wallet</p>
+    <div class="toollist">
+      <div class="tool"><div><b>Check my balance</b><span>How much an agent’s wallet has left.</span><code title="Tool name">check_my_balance</code></div><em class="free">Free</em></div>
     </div>
   </section>
 
