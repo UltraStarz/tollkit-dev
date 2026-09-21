@@ -37,14 +37,15 @@
     -webkit-backdrop-filter: saturate(120%) blur(8px);
     z-index: 10;
   }
-  nav.top .container { display: flex; align-items: center; justify-content: space-between; }
+  nav.top .container { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
   nav.top .brand { font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 700; font-size: 1rem; color: #f5f5f5; letter-spacing: -0.01em; }
   nav.top .brand .dot { color: #4a8eff; }
   nav.top .links { display: flex; gap: 1.5rem; font-size: 0.92rem; }
   nav.top .links a { color: #a0a0a0; }
   nav.top .links a:hover { color: #e5e5e5; text-decoration: none; }
   /* Six links do not fit a phone. Keep the three that get someone started. */
-  @media (max-width: 720px) { nav.top .links { gap: 1rem; } nav.top .links .nav-more { display: none; } }
+  @media (max-width: 720px) { nav.top .links { gap: 0.9rem; } nav.top .links a { white-space: nowrap; } nav.top .links .nav-more { display: none; } }
+  @media (max-width: 420px) { nav.top .links { gap: 0.75rem; font-size: 0.85rem; } }
 
   /* ── Hero ──────────────────────────────────────────────────────── */
   .hero { padding: 5rem 0 4rem; text-align: left; }
@@ -121,6 +122,18 @@
   .product .product-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin: 1rem 0 0; padding-top: 1rem; border-top: 1px solid #1f1f1f; }
   .product .read-more { color: #4a8eff; white-space: nowrap; }
   .product .product-actions .btn { width: 100%; justify-content: center; }
+  .product .fund-link { width: 100%; text-align: center; font-size: 0.85rem; color: #8a8a8a; margin-top: -0.35rem; }
+  .product .fund-link:hover { color: #4a8eff; }
+  /* Fund a wallet band, right after Products */
+  .fund-band { display: flex; align-items: center; justify-content: space-between; gap: 2rem; background: #0e1626; border: 1px solid #1e3358; border-radius: 12px; padding: 1.75rem; }
+  .fund-band .section-sub { margin-bottom: 1rem; }
+  .fund-points { margin: 0; padding-left: 1.1rem; color: #a0a0a0; font-size: 0.92rem; max-width: 40rem; }
+  .fund-points li { margin: 0.35rem 0; }
+  .fund-points b { color: #f5f5f5; }
+  .fund-band .btn { flex-shrink: 0; }
+  @media (max-width: 640px) { .fund-band { flex-direction: column; align-items: stretch; padding: 1.25rem; } .fund-band .btn { text-align: center; } }
+  .step .step-btn { margin-top: 0.9rem; font-size: 0.85rem; padding: 0.6rem 1rem; }
+
   /* Compact install action — single button, hidden snippet copied on click */
   .product .install-wrap { margin: 1rem 0 0; }
   .product .install-btn {
@@ -212,6 +225,7 @@
     <p class="sub">A family of pay-per-call APIs that AI agents can use without API keys, contracts, or monthly subscriptions. Plug in a wallet, call the endpoint, settle in USDC over <a href="https://x402.org" target="_blank" rel="noopener">x402</a>.</p>
     <div class="ctas">
       <button type="button" class="btn btn-primary" data-connect>Connect to your AI</button>
+      <a class="btn btn-secondary" href="/fund">Fund a wallet</a>
       <a class="btn btn-secondary" href="#products">View products</a>
     </div>
   </div>
@@ -233,6 +247,7 @@
         </div>
         <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://mcp.tollkit.dev/mcp" data-connect-name="tollkit-sms">Connect to your AI</button>
+          <a class="fund-link" href="/fund">Pays from a wallet &middot; Fund one&nbsp;&rarr;</a>
         </div>
       </div>
 
@@ -246,6 +261,7 @@
         </div>
         <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
+          <a class="fund-link" href="/fund">Pays from a wallet &middot; Fund one&nbsp;&rarr;</a>
         </div>
       </div>
 
@@ -259,6 +275,7 @@
         </div>
         <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
+          <a class="fund-link" href="/fund">Pays from a wallet &middot; Fund one&nbsp;&rarr;</a>
         </div>
       </div>
 
@@ -275,6 +292,23 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<section id="fund">
+  <div class="container">
+    <div class="fund-band">
+      <div>
+        <h2>Your agent pays from its own wallet</h2>
+        <p class="section-sub">Paid tools need a wallet with USDC on Base. Set one up for each agent in a couple of minutes.</p>
+        <ul class="fund-points">
+          <li><b>You fund it.</b> Send USDC straight from your wallet to your agent&rsquo;s. No ETH needed &mdash; the payment network covers the fees.</li>
+          <li><b>You keep the keys.</b> Tollkit never holds your money or your agent&rsquo;s keys.</li>
+          <li><b>You hear when it runs low.</b> Pick how you want to be told, then top it up in one tap.</li>
+        </ul>
+      </div>
+      <a class="btn btn-primary" href="/fund">Fund a wallet</a>
     </div>
   </div>
 </section>
@@ -337,7 +371,8 @@
       <div class="step">
         <span class="num">2</span>
         <h4>Fund a wallet</h4>
-        <p>Put USDC on Base in a wallet your agent can sign with &mdash; no ETH needed, the payment network covers the fees. That is the tab it draws against. <a href="/fund">Set one up</a>.</p>
+        <p>Put USDC on Base in a wallet your agent can sign with &mdash; no ETH needed, the payment network covers the fees. That is the tab it draws against.</p>
+        <a class="btn btn-secondary step-btn" href="/fund">Fund a wallet</a>
       </div>
       <div class="step">
         <span class="num">3</span>
