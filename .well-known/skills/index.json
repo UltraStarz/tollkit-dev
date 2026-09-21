@@ -1,8 +1,8 @@
 {
   "skills": [
     {
-      "name": "find-paid-tool",
-      "description": "Find a pay-per-call x402 API for a task and check any x402 endpoint before paying it. Free; covers every x402 seller, not only Tollkit's.",
+      "name": "weigh-station",
+      "description": "Weigh Station by Tollkit: find a pay-per-call x402 API for a task and check any x402 endpoint before paying it. Free; covers every x402 seller, not only Tollkit's.",
       "files": [
         "SKILL.md"
       ]
