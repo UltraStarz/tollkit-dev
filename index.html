@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tollkit — paid developer tools for AI agents</title>
-<meta name="description" content="Pay-per-call tools AI agents can use without API keys or subscriptions: send a text, read a product page, or get signed proof of what a page said. Built on x402.">
+<meta name="description" content="Pay-per-call tools AI agents can use without API keys or subscriptions: read or screenshot any web page, get product prices, send a text, or get signed proof of what a page said. Built on x402.">
 <meta property="og:title" content="Tollkit">
-<meta property="og:description" content="Send a text, read a product page, or prove what a page said. Pay per call in USDC, no account. Built on x402.">
+<meta property="og:description" content="Read or screenshot any web page, get product prices, send a text, or prove what a page said. Pay per call in USDC, no account. Built on x402.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tollkit.dev">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
@@ -260,6 +260,8 @@
   .product-featured { border-color: #2f5fb0; background: #0e1626; box-shadow: 0 0 0 1px #2f5fb033, 0 10px 40px #4a8eff14; }
   .product-featured:hover { border-color: #4a8eff; background: #0f1a2e; }
   #products .products { grid-template-columns: repeat(2, 1fr); }
+  /* Weigh Station spans the row so the paid tools sit in an even 2x2 below it. */
+  #products .product-featured { grid-column: 1 / -1; }
   @media (max-width: 700px) { #products .products { grid-template-columns: 1fr; } }
 
   .p-title { display: flex; align-items: center; gap: .6rem; }
@@ -311,6 +313,20 @@
         <div class="product-actions">
           <button type="button" class="btn btn-primary" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
           <a class="fund-link" href="/weigh-station">Free &middot; Or install as a skill&nbsp;&rarr;</a>
+        </div>
+      </div>
+
+      <div class="product">
+        <div class="product-head">
+          <h3 class="p-title"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M7 13h10"/><path d="M7 16h6"/></svg><span>tollkit-web</span></h3>
+          <span class="badge live">New</span>
+        </div>
+        <div class="product-body">
+          Give it any web page; get back the page as clean text your agent can read, or a screenshot of how it looks. Works on JavaScript-heavy sites. <strong>$0.005</strong> to read, <strong>$0.01</strong> for a screenshot.
+        </div>
+        <div class="product-actions">
+          <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://extract.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
+          <a class="fund-link" href="/fund">Pays from a wallet &middot; Fund one&nbsp;&rarr;</a>
         </div>
       </div>
 

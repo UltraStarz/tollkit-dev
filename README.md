@@ -3,7 +3,7 @@
 Static landing page for the **tollkit.dev** brand — a family of paid developer tools that AI agents call over the [x402](https://x402.org) protocol.
 
 - **Live:** <https://tollkit.dev> (apex, hosted on Cloudflare Pages)
-- **Products:** [tollkit-sms](https://sms.tollkit.dev) — transactional SMS, $0.10 USDC per message · [tollkit-extract](https://extract.tollkit.dev) — product page to schema.org/Product JSON, $0.01 per URL or $0.04 for up to five
+- **Products:** weigh-station (free) · tollkit-web — read a page as text $0.005, screenshot $0.01 · [tollkit-extract](https://extract.tollkit.dev) — product data, $0.05 a page or $0.15 for up to five · tollkit-attest — signed page proof, $0.25 · [tollkit-sms](https://sms.tollkit.dev) — from $0.03 a message (coming soon)
 
 ## Structure
 
