@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calls — Tollkit</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Paid calls to Tollkit tools, read live from USDC payments on Base.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
+<style>
+  :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --panel-2:#151515; --line:#242424; --line-soft:#1c1c1c;
+    --text:#e5e5e5; --muted:#8a8a8a; --dim:#707070; --accent:#4a8eff; --accent-dim:#2f5fb0;
+    --warn:#e0a33a; --warn-bg:#1a1408; --warn-line:#3a2f14; --ok:#3ecf8e; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .container { max-width:880px; margin:0 auto; padding:0 16px; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  code, .mono { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  nav.top { border-bottom:1px solid var(--line-soft); padding:.9rem 0; }
+  nav.top .container { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  .brand { font-weight:700; letter-spacing:-.02em; color:var(--text); }
+  .brand .dot { color:var(--accent); }
+  nav.top .links { display:flex; gap:1.1rem; font-size:.9rem; }
+  nav.top .links a { color:var(--muted); }
+  header.head { padding:2.6rem 0 1rem; }
+  h1 { font-size:2rem; letter-spacing:-.03em; margin:0 0 .5rem; }
+  .lede { color:var(--muted); margin:0; font-size:1.02rem; max-width:40rem; }
+  .live { display:inline-flex; align-items:center; gap:.45rem; font-size:.8rem; color:var(--dim); margin-top:.8rem; }
+  .live i { width:7px; height:7px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 0 rgba(62,207,142,.5); animation:ping 2.4s ease-out infinite; }
+  .live.stale i { background:var(--warn); animation:none; }
+  @keyframes ping { 70% { box-shadow:0 0 0 6px rgba(62,207,142,0); } 100% { box-shadow:0 0 0 0 rgba(62,207,142,0); } }
+  @media (prefers-reduced-motion: reduce) { .live i { animation:none; } }
+
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.2rem 1.4rem; margin-top:1rem; }
+  .card h2 { font-size:1.02rem; margin:0 0 .2rem; }
+  .card .sub { color:var(--dim); font-size:.84rem; margin:0 0 1rem; }
+
+  /* Headline numbers */
+  .kpis { display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:.6rem; margin-top:1.2rem; }
+  .kpi { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1rem 1.1rem; min-width:0; }
+  .kpi .label { font-size:.8rem; color:var(--muted); }
+  .kpi .value { font-size:1.6rem; font-weight:650; letter-spacing:-.02em; line-height:1.2; margin-top:.25rem; color:var(--text); }
+  .kpi .note { font-size:.76rem; color:var(--dim); margin-top:.2rem; }
+  .kpi.hero { background:#0e1626; border-color:#1e3358; }
+  .kpi.hero .value { font-size:3rem; line-height:1.05; }
+  @media (max-width:720px) { .kpis { grid-template-columns:1fr 1fr; } .kpi.hero { grid-column:1 / -1; } }
+
+  /* Daily chart */
+  .chart { position:relative; height:200px; margin-top:.4rem; }
+  .chart svg { display:block; width:100%; height:100%; overflow:visible; }
+  .chart .grid line { stroke:var(--line-soft); stroke-width:1; }
+  .chart .axis text { fill:var(--dim); font-size:11px; font-family:inherit; }
+  .chart .bar { fill:var(--accent); }
+  .chart .col:hover .bar, .chart .col.on .bar { fill:#7aaeff; }
+  .chart .col .hit { fill:transparent; }
+  .chart .col.on .hit { fill:rgba(74,142,255,.06); }
+  .chart .base { stroke:#2a2a2a; stroke-width:1; }
+  .tip { position:absolute; pointer-events:none; background:#0b0d12; border:1px solid #2a3550; border-radius:8px; padding:.45rem .6rem; font-size:.8rem; color:var(--text); white-space:nowrap; transform:translate(-50%, calc(-100% - 10px)); opacity:0; transition:opacity .12s ease; box-shadow:0 8px 24px -8px rgba(0,0,0,.8); z-index:2; }
+  .tip.on { opacity:1; }
+  .tip b { font-weight:650; }
+  .tip span { color:var(--muted); }
+
+  /* Tables */
+  .tablewrap { overflow-x:auto; margin:0 -.2rem; }
+  table { width:100%; border-collapse:collapse; font-size:.88rem; }
+  th { text-align:left; font-weight:500; color:var(--dim); font-size:.76rem; padding:.45rem .5rem; border-bottom:1px solid var(--line); white-space:nowrap; }
+  td { padding:.55rem .5rem; border-bottom:1px solid var(--line-soft); white-space:nowrap; }
+  tr:last-child td { border-bottom:0; }
+  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+  td.muted { color:var(--muted); }
+  tbody tr { transition:background .15s ease; }
+  tbody tr:hover { background:rgba(74,142,255,.04); }
+  .share { display:inline-block; vertical-align:middle; width:64px; height:6px; border-radius:3px; background:#1a2233; margin-left:.5rem; overflow:hidden; }
+  .share i { display:block; height:100%; background:var(--accent); border-radius:3px; }
+  .guess { color:var(--warn); font-size:.78rem; margin-left:.25rem; cursor:help; }
+  .zero td { color:var(--dim); }
+  .empty { color:var(--dim); font-size:.9rem; padding:1rem 0; }
+  .fine { font-size:.8rem; color:var(--dim); margin:.9rem 0 0; }
+  .fine code { font-size:.78rem; color:#9fb6dd; }
+  .err { font-size:.86rem; color:#e6d3a8; background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:8px; padding:.6rem .8rem; margin-top:1rem; display:none; }
+  .err.on { display:block; }
+  .skeleton { color:transparent !important; background:linear-gradient(90deg,#161616 0%,#1f1f1f 50%,#161616 100%); background-size:200% 100%; border-radius:6px; animation:shimmer 1.4s linear infinite; }
+  @keyframes shimmer { to { background-position:-200% 0; } }
+
+  footer { border-top:1px solid var(--line-soft); margin-top:2.5rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; }
+  footer a { color:var(--muted); }
+</style>
+<link rel="stylesheet" href="/motion.css">
+<script src="/motion.js"></script>
+</head>
+<body>
+
+<nav class="top">
+  <div class="container">
+    <a class="brand" href="/">Toll<span class="dot">kit</span></a>
+    <div class="links"><a href="/#products">Products</a><a href="/connect">Connect</a><a href="/fund">Fund agents</a></div>
+  </div>
+</nav>
+
+<header class="head">
+  <div class="container">
+    <h1>Calls</h1>
+    <p class="lede">Every paid call to a Tollkit tool, read live from the USDC payments to our wallet on Base. Owner test payments aren&rsquo;t counted.</p>
+    <div class="live" id="live"><i></i><span id="updated">Loading&hellip;</span></div>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="err" id="err"></div>
+
+  <div class="kpis">
+    <div class="kpi hero"><div class="label">Paid calls</div><div class="value skeleton" id="k-calls">000</div><div class="note" id="k-calls-note">&nbsp;</div></div>
+    <div class="kpi"><div class="label">Earned</div><div class="value skeleton" id="k-rev">$0.00</div><div class="note">USDC</div></div>
+    <div class="kpi"><div class="label">Paying wallets</div><div class="value skeleton" id="k-payers">0</div><div class="note">distinct</div></div>
+    <div class="kpi"><div class="label">Last paid call</div><div class="value skeleton" id="k-last">&mdash;</div><div class="note" id="k-last-note">&nbsp;</div></div>
+  </div>
+
+  <section class="card">
+    <h2>Paid calls per day</h2>
+    <p class="sub">Last 30 days, UTC. Hover a day for its total.</p>
+    <div class="chart" id="chart" role="img" aria-label="Paid calls per day"></div>
+  </section>
+
+  <section class="card">
+    <h2>By tool</h2>
+    <p class="sub"><b style="color:var(--text);font-weight:600">Price checks</b> are agents asking a tool its price without paying. <b style="color:var(--text);font-weight:600">Refused</b> are paid attempts we turned down, which cost the caller nothing. Both are counted from <span id="since">&hellip;</span>.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Tool</th><th class="num">Price</th><th class="num">Paid calls</th><th class="num">Earned</th><th class="num">Price checks</th><th class="num">Refused</th></tr></thead>
+        <tbody id="tools"><tr><td colspan="6" class="empty">Loading&hellip;</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Recent paid calls</h2>
+    <p class="sub">Newest first. Each one links to its payment on Base.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>When</th><th>Tool</th><th class="num">Paid</th><th>Wallet</th><th>Payment</th></tr></thead>
+        <tbody id="recent"><tr><td colspan="5" class="empty">Loading&hellip;</td></tr></tbody>
+      </table>
+    </div>
+    <p class="fine" id="legend"><span class="guess">&asymp;</span> Paid $0.005 before exact tool tracking began on <span id="since2">&hellip;</span>, so it could be Read or Summarize.</p>
+  </section>
+
+  <p class="fine">Source: USDC transfers to <a id="wallet" class="mono" href="#" target="_blank" rel="noopener">&hellip;</a> via Blockscout, joined with Tollkit&rsquo;s own record of which tool each payment was for. Raw data: <a href="https://extract.tollkit.dev/stats.json"><code>stats.json</code></a>. Refreshes every minute.</p>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="brand" style="margin-bottom:.3rem">Toll<span class="dot">kit</span></div>
+    <a href="/">tollkit.dev</a> &middot; <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var SRC = 'https://extract.tollkit.dev/stats.json';
+  var $ = function (id) { return document.getElementById(id); };
+  var data = null, fetchedAt = 0;
+  // Amounts that more than one tool has cost. Every other amount names its tool outright.
+  var AMBIGUOUS = { read_or_summarize: true, other: true };
+
+  var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); };
+  function money(n) {
+    if (n === 0) return '$0';
+    if (n < 0.1) return '$' + n.toFixed(3).replace(/0$/, '');
+    return '$' + n.toFixed(2);
+  }
+  function ago(iso) {
+    var s = Math.max(0, (Date.now() - Date.parse(iso)) / 1000);
+    if (s < 60) return 'just now';
+    var m = s / 60; if (m < 60) return Math.floor(m) + ' min ago';
+    var h = m / 60; if (h < 24) return Math.floor(h) + ' hr ago';
+    var d = h / 24; return Math.floor(d) + (Math.floor(d) === 1 ? ' day ago' : ' days ago');
+  }
+  function when(iso) {
+    return new Date(iso).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+  }
+  function shortDate(ymd) {
+    return new Date(ymd + 'T00:00:00Z').toLocaleDateString(undefined, { month: 'short', day: 'numeric', timeZone: 'UTC' });
+  }
+
+  function render() {
+    var d = data, t = d.totals;
+    ['k-calls', 'k-rev', 'k-payers', 'k-last'].forEach(function (id) { $(id).classList.remove('skeleton'); });
+    $('k-calls').textContent = t.paid_calls.toLocaleString();
+    $('k-calls-note').textContent = t.first_paid_at ? 'since ' + new Date(t.first_paid_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'none yet';
+    $('k-rev').textContent = money(t.revenue_usd);
+    $('k-payers').textContent = t.unique_payers.toLocaleString();
+    $('k-last').textContent = t.last_paid_at ? ago(t.last_paid_at) : '—';
+    $('k-last-note').textContent = t.last_paid_at ? when(t.last_paid_at) : '';
+
+    var since = new Date(d.counter.since).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+    $('since').textContent = since; $('since2').textContent = since;
+    var w = $('wallet'); w.textContent = d.pay_to.slice(0, 6) + '…' + d.pay_to.slice(-4);
+    w.href = 'https://basescan.org/address/' + d.pay_to + '#tokentxns';
+
+    // By tool
+    var max = Math.max.apply(null, d.by_tool.map(function (x) { return x.calls; }).concat([1]));
+    $('tools').innerHTML = d.by_tool.map(function (x) {
+      var guess = x.tool === 'read_or_summarize';
+      return '<tr' + (x.calls ? '' : ' class="zero"') + '><td>' + esc(x.name) + (guess ? '<span class="guess" title="Paid $0.005 before exact tracking began">&asymp;</span>' : '') + '</td>' +
+        '<td class="num muted">' + (x.price_usd == null ? '' : money(x.price_usd)) + '</td>' +
+        '<td class="num">' + x.calls + '<span class="share" aria-hidden="true"><i style="width:' + (100 * x.calls / max).toFixed(1) + '%"></i></span></td>' +
+        '<td class="num">' + money(x.revenue_usd) + '</td>' +
+        '<td class="num muted">' + (x.quotes == null ? '' : x.quotes.toLocaleString()) + '</td>' +
+        '<td class="num muted">' + (x.refused == null ? '' : x.refused.toLocaleString()) + '</td></tr>';
+    }).join('');
+
+    // Recent
+    $('recent').innerHTML = d.recent.length ? d.recent.map(function (r) {
+      return '<tr><td title="' + esc(new Date(r.at).toString()) + '">' + esc(ago(r.at)) + '</td>' +
+        '<td>' + esc(r.name) + (r.exact || !AMBIGUOUS[r.tool] ? '' : '<span class="guess" title="Worked out from the amount paid">&asymp;</span>') + '</td>' +
+        '<td class="num">' + money(r.usd) + '</td>' +
+        '<td class="mono muted">' + esc(r.payer) + '</td>' +
+        '<td><a class="mono" href="https://basescan.org/tx/' + esc(r.tx) + '" target="_blank" rel="noopener">' + esc(r.tx.slice(0, 10)) + '…</a></td></tr>';
+    }).join('') : '<tr><td colspan="5" class="empty">No paid calls yet.</td></tr>';
+    $('legend').style.display = d.recent.some(function (r) { return !r.exact && AMBIGUOUS[r.tool]; }) ? '' : 'none';
+
+    // Freshness / errors
+    var stale = !!d.chain_error;
+    $('live').classList.toggle('stale', stale);
+    var e = $('err');
+    e.classList.toggle('on', stale || !d.chain_complete);
+    e.textContent = stale ? 'The payment feed couldn’t be reached just now, so these numbers may be a few minutes old.' :
+      (!d.chain_complete ? 'Showing the most recent payments only; older history was too long to load in one go.' : '');
+
+    drawChart();
+    tick();
+  }
+
+  function tick() {
+    if (!fetchedAt) return;
+    var s = Math.round((Date.now() - fetchedAt) / 1000);
+    $('updated').textContent = (data && data.chain_error ? 'Payment feed delayed · ' : 'Live · ') + 'updated ' + (s < 5 ? 'just now' : s + 's ago');
+  }
+
+  // ── Daily bar chart: one series, one axis, hover tooltip ──
+  var tip = document.createElement('div'); tip.className = 'tip'; $('chart').appendChild(tip);
+  function drawChart() {
+    var el = $('chart'), days = data.by_day;
+    var W = el.clientWidth, H = el.clientHeight, L = 28, B = 22, T = 8;
+    var iw = W - L, ih = H - B - T;
+    var peak = Math.max.apply(null, days.map(function (x) { return x.calls; }));
+    var step = peak <= 4 ? 1 : peak <= 10 ? 2 : peak <= 25 ? 5 : Math.ceil(peak / 5 / 5) * 5;
+    var top = Math.max(step, Math.ceil(peak / step) * step);
+    var y = function (v) { return T + ih - (v / top) * ih; };
+    var slot = iw / days.length, gap = 2, bw = Math.max(2, slot - gap);
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true"><g class="grid axis">';
+    for (var v = 0; v <= top; v += step) {
+      svg += '<line x1="' + L + '" x2="' + W + '" y1="' + y(v) + '" y2="' + y(v) + '"/>' +
+        '<text x="' + (L - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + v + '</text>';
+    }
+    svg += '</g><line class="base" x1="' + L + '" x2="' + W + '" y1="' + y(0) + '" y2="' + y(0) + '"/>';
+    days.forEach(function (x, i) {
+      var x0 = L + i * slot + gap / 2, h = (x.calls / top) * ih, r = Math.min(4, bw / 2, h);
+      svg += '<g class="col" data-i="' + i + '"><rect class="hit" x="' + (L + i * slot) + '" y="' + T + '" width="' + slot + '" height="' + ih + '"/>';
+      if (h > 0) {
+        var yt = y(x.calls), yb = y(0);
+        svg += '<path class="bar" d="M' + x0 + ',' + yb + 'V' + (yt + r) + 'Q' + x0 + ',' + yt + ' ' + (x0 + r) + ',' + yt +
+          'H' + (x0 + bw - r) + 'Q' + (x0 + bw) + ',' + yt + ' ' + (x0 + bw) + ',' + (yt + r) + 'V' + yb + 'Z"/>';
+      }
+      svg += '</g>';
+    });
+    var every = W < 500 ? 10 : 5;
+    svg += '<g class="axis">';
+    days.forEach(function (x, i) {
+      if ((days.length - 1 - i) % every === 0) svg += '<text x="' + (L + i * slot + slot / 2) + '" y="' + (H - 4) + '" text-anchor="middle">' + shortDate(x.date) + '</text>';
+    });
+    svg += '</g></svg>';
+    var old = el.querySelector('svg'); if (old) old.remove();
+    el.insertAdjacentHTML('afterbegin', svg);
+
+    var cols = el.querySelectorAll('.col');
+    function show(i) {
+      cols.forEach(function (c) { c.classList.toggle('on', +c.dataset.i === i); });
+      var x = days[i];
+      tip.innerHTML = '<b>' + shortDate(x.date) + '</b><br>' + x.calls + (x.calls === 1 ? ' paid call' : ' paid calls') + ' <span>· ' + money(x.revenue_usd) + '</span>';
+      tip.style.left = Math.min(W - 70, Math.max(70, L + i * slot + slot / 2)) + 'px';
+      tip.style.top = (x.calls ? y(x.calls) : y(0)) + 'px';
+      tip.classList.add('on');
+    }
+    function hide() { tip.classList.remove('on'); cols.forEach(function (c) { c.classList.remove('on'); }); }
+    var svgEl = el.querySelector('svg');
+    svgEl.addEventListener('pointermove', function (ev) {
+      var r = svgEl.getBoundingClientRect();
+      var i = Math.floor((ev.clientX - r.left - L) / slot);
+      if (i >= 0 && i < days.length) show(i); else hide();
+    });
+    svgEl.addEventListener('pointerleave', hide);
+    el.setAttribute('aria-label', 'Paid calls per day, last 30 days: ' + days.filter(function (x) { return x.calls; }).map(function (x) { return shortDate(x.date) + ' ' + x.calls; }).join(', '));
+  }
+
+  function load() {
+    fetch(SRC, { cache: 'no-store' }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (d) {
+      data = d; fetchedAt = Date.now(); $('err').classList.remove('on'); render();
+    }).catch(function () {
+      var e = $('err'); e.textContent = 'Couldn’t load the numbers right now. Retrying in a minute.'; e.classList.add('on');
+      $('live').classList.add('stale'); $('updated').textContent = 'Offline · retrying';
+    });
+  }
+
+  load();
+  setInterval(load, 60000);
+  setInterval(tick, 5000);
+  var rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { if (data) drawChart(); }, 120); });
+})();
+</script>
+</body>
+</html>
