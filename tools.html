@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All tools and prices — Tollkit</title>
+<meta name="description" content="Every Tollkit tool for AI agents with its price: web pages, on-chain data, SEC filings, IP lookup, weather, exchange rates, product data and signed page proofs. Pay per call in USDC; failed calls are free.">
+<meta property="og:title" content="Tollkit — all tools and prices">
+<meta property="og:description" content="Every tool, what it does and what it costs. Pay per call in USDC, no account.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tollkit.dev/tools">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
+<style>
+  :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --panel-2:#151515; --line:#242424; --line-soft:#1c1c1c;
+    --text:#e5e5e5; --muted:#8a8a8a; --dim:#707070; --accent:#4a8eff; --accent-dim:#2f5fb0; --ok:#3ecf8e; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .container { max-width:960px; margin:0 auto; padding:0 16px; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  code, .mono { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  nav.top { border-bottom:1px solid var(--line-soft); padding:.9rem 0; }
+  nav.top .container { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  .brand { font-weight:700; letter-spacing:-.02em; color:var(--text); }
+  .brand .dot { color:var(--accent); }
+  nav.top .links { display:flex; gap:1.1rem; font-size:.9rem; }
+  nav.top .links a { color:var(--muted); }
+  nav.top .links a[aria-current] { color:var(--text); }
+  header.head { padding:2.6rem 0 1rem; }
+  h1 { font-size:2rem; letter-spacing:-.03em; margin:0 0 .5rem; }
+  .lede { color:var(--muted); margin:0; font-size:1.02rem; max-width:44rem; }
+  .lede strong { color:var(--text); }
+
+  .facts { display:flex; flex-wrap:wrap; gap:.5rem; margin:1.2rem 0 0; padding:0; list-style:none; }
+  .facts li { background:var(--panel); border:1px solid var(--line); border-radius:99px; padding:.3rem .8rem; font-size:.82rem; color:#c8c8c8; }
+  .facts b { color:var(--text); font-weight:600; }
+  .jump { display:flex; flex-wrap:wrap; gap:.4rem .9rem; margin:1.4rem 0 0; font-size:.88rem; }
+  .jump a { color:var(--muted); }
+  .jump a:hover { color:var(--text); }
+
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.2rem 1.4rem; margin-top:1rem; scroll-margin-top:1rem; }
+  .card h2 { display:flex; align-items:center; gap:.55rem; font-size:1.05rem; margin:0 0 .15rem; }
+  .card .sub { color:var(--dim); font-size:.85rem; margin:0 0 .6rem; }
+  .p-icon { width:28px; height:28px; padding:5px; flex:none; border-radius:7px; background:#121a2a; border:1px solid #1e3358; color:var(--accent); }
+
+  table { width:100%; border-collapse:collapse; font-size:.9rem; }
+  th { text-align:left; font-weight:500; color:var(--dim); font-size:.75rem; padding:.5rem .5rem; border-bottom:1px solid var(--line); white-space:nowrap; }
+  td { padding:.65rem .5rem; border-bottom:1px solid var(--line-soft); vertical-align:top; }
+  tr:last-child td { border-bottom:0; }
+  td.name b { display:block; color:var(--text); font-weight:600; }
+  td.name span { color:var(--muted); font-size:.85rem; }
+  td.price, th.price { text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
+  td.price { font-weight:650; color:var(--text); }
+  td.price.free { color:var(--ok); }
+  td.ids code { display:block; font-size:.78rem; color:#9fb6dd; white-space:nowrap; }
+  td.ids code + code { color:var(--dim); margin-top:.15rem; }
+  .credit { font-size:.78rem; color:var(--dim); margin:.7rem 0 0; }
+  .credit a { color:var(--muted); text-decoration:underline; }
+
+  @media (max-width:680px) {
+    thead { display:none; }
+    tr { display:grid; grid-template-columns:1fr auto; gap:.15rem .8rem; padding:.7rem 0; border-bottom:1px solid var(--line-soft); }
+    tr:last-child { border-bottom:0; }
+    td { border:0; padding:0; }
+    td.name { grid-column:1; grid-row:1; }
+    td.price { grid-column:2; grid-row:1; }
+    td.ids { grid-column:1 / -1; }
+    td.ids code { white-space:normal; word-break:break-all; }
+  }
+
+  .how { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.6rem; margin:0; padding:0; list-style:none; }
+  .how li { background:var(--panel-2); border:1px solid var(--line); border-radius:10px; padding:.8rem .95rem; font-size:.88rem; color:var(--muted); }
+  .how b { color:var(--text); display:block; margin-bottom:.15rem; }
+  .cta { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1rem; }
+  .btn { display:inline-flex; align-items:center; gap:.4rem; border-radius:8px; padding:.55rem 1rem; font-size:.9rem; font-weight:600; cursor:pointer; border:1px solid transparent; font-family:inherit; }
+  .btn-primary { background:var(--accent); color:#05070d; }
+  .btn-primary:hover { background:#63a0ff; text-decoration:none; }
+  .btn-secondary { background:transparent; color:var(--text); border-color:var(--line); }
+  .btn-secondary:hover { border-color:#3a3a3a; text-decoration:none; }
+  .live { font-size:.78rem; color:var(--dim); margin:1rem 0 0; }
+  footer { border-top:1px solid var(--line-soft); margin-top:2.5rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; }
+  footer a { color:var(--muted); }
+</style>
+<link rel="stylesheet" href="/motion.css">
+<script src="/motion.js"></script>
+</head>
+<body>
+
+<nav class="top">
+  <div class="container">
+    <a class="brand" href="/">Toll<span class="dot">kit</span></a>
+    <div class="links"><a href="/#products">Products</a><a href="/tools" aria-current="page">Tools</a><a href="/connect">Connect</a><a href="/fund">Fund agents</a></div>
+  </div>
+</nav>
+
+<header class="head">
+  <div class="container">
+    <h1>All tools and prices</h1>
+    <p class="lede">Every Tollkit tool in one place. Your agent pays per call in USDC on Base, with <strong>no account and no API key</strong>. Each call shows its price before anything is paid, and <strong>a call that fails costs nothing</strong>.</p>
+    <ul class="facts">
+      <li><b>16</b> paid tools</li>
+      <li><b>8</b> free tools</li>
+      <li>From <b>$0.001</b> a call</li>
+      <li>One connector: <code>extract.tollkit.dev/mcp</code></li>
+    </ul>
+    <nav class="jump" aria-label="Jump to">
+      <a href="#web">Web pages</a><a href="#chain">On-chain</a><a href="#data">Public data</a><a href="#extract">Products</a><a href="#attest">Proof</a><a href="#free">Free tools</a><a href="#sellers">For sellers</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="card" id="web">
+    <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M7 13h10"/><path d="M7 16h6"/></svg>Web pages</h2>
+    <p class="sub">Rendered in a real browser, so JavaScript-heavy pages work.</p>
+    <table>
+      <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
+      <tbody>
+        <tr><td class="name"><b>Read a page</b><span>Any page&rsquo;s visible text, title and final URL, up to 50,000 characters.</span></td><td class="ids"><code>read_page</code><code>POST /read</code></td><td class="price" data-route="POST /read">$0.005</td></tr>
+        <tr><td class="name"><b>Screenshot a page</b><span>A 1280&times;800 JPEG of how the page looks, with its SHA-256.</span></td><td class="ids"><code>screenshot_page</code><code>POST /screenshot</code></td><td class="price" data-route="POST /screenshot">$0.01</td></tr>
+        <tr><td class="name"><b>Summarize text</b><span>A short summary of text you send (up to 8,000 characters).</span></td><td class="ids"><code>HTTP only</code><code>POST /summarize</code></td><td class="price" data-route="POST /summarize">$0.005</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card" id="chain">
+    <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>On-chain</h2>
+    <p class="sub">Read live from Base or Ethereum. No price feeds, no middlemen.</p>
+    <table>
+      <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
+      <tbody>
+        <tr><td class="name"><b>Wallet balance</b><span>ETH, USDC (and USDT on Ethereum) plus up to 20 tokens you name.</span></td><td class="ids"><code>wallet_balance</code><code>POST /chain/balance</code></td><td class="price" data-route="POST /chain/balance">$0.002</td></tr>
+        <tr><td class="name"><b>Token info</b><span>What a token contract really is: name, symbol, decimals, total supply.</span></td><td class="ids"><code>token_info</code><code>POST /chain/token</code></td><td class="price" data-route="POST /chain/token">$0.002</td></tr>
+        <tr><td class="name"><b>Transaction lookup</b><span>Did it go through, who paid whom, the fee, and every token transfer.</span></td><td class="ids"><code>transaction_lookup</code><code>POST /chain/tx</code></td><td class="price" data-route="POST /chain/tx">$0.003</td></tr>
+        <tr><td class="name"><b>Token price</b><span>USD price from the deepest Uniswap pool, with a thin-liquidity warning.</span></td><td class="ids"><code>token_price</code><code>POST /chain/price</code></td><td class="price" data-route="POST /chain/price">$0.003</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card" id="data">
+    <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>Public data</h2>
+    <p class="sub">Straight from the official public sources.</p>
+    <table>
+      <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
+      <tbody>
+        <tr><td class="name"><b>Company filings</b><span>A US public company&rsquo;s profile and latest SEC filings, with links. By ticker or CIK.</span></td><td class="ids"><code>sec_company</code><code>POST /sec/company</code></td><td class="price" data-route="POST /sec/company">$0.005</td></tr>
+        <tr><td class="name"><b>Company financials</b><span>Revenue, profit, EPS, assets, cash and more: 4 years plus the latest quarter, as filed.</span></td><td class="ids"><code>sec_financials</code><code>POST /sec/financials</code></td><td class="price" data-route="POST /sec/financials">$0.01</td></tr>
+        <tr><td class="name"><b>IP lookup</b><span>Country, region, city and approximate coordinates for an IPv4 or IPv6 address.</span></td><td class="ids"><code>ip_lookup</code><code>POST /ip</code></td><td class="price" data-route="POST /ip">$0.002</td></tr>
+        <tr><td class="name"><b>US weather</b><span>7-day National Weather Service forecast and active alerts for a latitude/longitude.</span></td><td class="ids"><code>weather_forecast</code><code>POST /weather</code></td><td class="price" data-route="POST /weather">$0.003</td></tr>
+        <tr><td class="name"><b>Exchange rate</b><span>ECB reference rates for 30 currencies, today or any day in the last 90.</span></td><td class="ids"><code>exchange_rate</code><code>POST /fx</code></td><td class="price" data-route="POST /fx">$0.001</td></tr>
+      </tbody>
+    </table>
+    <p class="credit">Sources: U.S. SEC EDGAR; <a href="https://db-ip.com">IP Geolocation by DB-IP</a> (CC BY 4.0); U.S. National Weather Service, which does not endorse Tollkit; European Central Bank. The ECB publishes its reference rates free of charge at <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html">ecb.europa.eu</a>. They are for information only, not for transactions.</p>
+  </section>
+
+  <section class="card" id="extract">
+    <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg>Product data</h2>
+    <p class="sub">Any store&rsquo;s product page as clean JSON.</p>
+    <table>
+      <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
+      <tbody>
+        <tr><td class="name"><b>Product details</b><span>Price, stock, brand, SKU, images and variants from one product page.</span></td><td class="ids"><code>get_product_details</code><code>POST /extract</code></td><td class="price" data-route="POST /extract">$0.05</td></tr>
+        <tr><td class="name"><b>Compare products</b><span>Up to five product pages in one call and one payment.</span></td><td class="ids"><code>compare_products</code><code>POST /extract/batch</code></td><td class="price" data-route="POST /extract/batch">$0.15</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card" id="attest">
+    <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l2.4 1.8 3-.2.9 2.9 2.5 1.7-1 2.8 1 2.8-2.5 1.7-.9 2.9-3-.2L12 22l-2.4-1.8-3 .2-.9-2.9-2.5-1.7 1-2.8-1-2.8 2.5-1.7.9-2.9 3 .2z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>Proof of a page</h2>
+    <p class="sub">For terms, prices or claims you may need to prove later.</p>
+    <table>
+      <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
+      <tbody>
+        <tr><td class="name"><b>Prove what a page said</b><span>Signed, timestamped record of a page&rsquo;s text and screenshot. Anyone can verify it, free.</span></td><td class="ids"><code>attest_page</code><code>POST attest.tollkit.dev/attest</code></td><td class="price" data-route="POST /attest">$0.25</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card" id="free">
+    <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M7 21h10"/><path d="M5 7h14"/><path d="M5 7l-3 7a3.5 3.5 0 0 0 6 0z"/><path d="M19 7l-3 7a3.5 3.5 0 0 0 6 0z"/></svg>Free tools</h2>
+    <p class="sub">No payment, ever.</p>
+    <table>
+      <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
+      <tbody>
+        <tr><td class="name"><b>Find a paid tool</b><span>Describe a job; get matching x402 services, each checked live. <a href="/weigh-station">Weigh Station</a>.</span></td><td class="ids"><code>find_service</code><code>GET /find?q=&hellip;</code></td><td class="price free">Free</td></tr>
+        <tr><td class="name"><b>Check before paying</b><span>What any x402 service really charges and which wallet gets paid.</span></td><td class="ids"><code>check_service</code><code>GET /check?url=&hellip;</code></td><td class="price free">Free</td></tr>
+        <tr><td class="name"><b>Verify a page proof</b><span>Check a signed page record is genuine, without trusting us.</span></td><td class="ids"><code>verify_attestation</code><code>POST /attest/verify</code></td><td class="price free">Free</td></tr>
+        <tr><td class="name"><b>Free sample</b><span>A real product extraction of an example page, to see the output.</span></td><td class="ids"><code>try_it_free</code><code>GET /preview</code></td><td class="price free">Free</td></tr>
+        <tr><td class="name"><b>Check my balance</b><span>How much USDC an agent&rsquo;s wallet has left.</span></td><td class="ids"><code>check_my_balance</code><code>GET /agents/balance</code></td><td class="price free">Free</td></tr>
+        <tr><td class="name"><b>Low-balance alerts</b><span>A webhook or email when an agent&rsquo;s wallet runs low. <a href="/fund">Set up</a>.</span></td><td class="ids"><code>tollkit.dev/fund</code><code>POST /alerts</code></td><td class="price free">Free</td></tr>
+        <tr><td class="name"><b>Service info</b><span>Prices, network and what each tool returns, machine-readable.</span></td><td class="ids"><code>get_service_info</code><code>GET /health</code></td><td class="price free">Free</td></tr>
+        <tr><td class="name"><b>Monitoring status</b><span>Public uptime and price record for a monitored endpoint.</span></td><td class="ids"><code>HTTP only</code><code>GET /weigh/status?url=&hellip;</code></td><td class="price free">Free</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card" id="sellers">
+    <h2>For x402 sellers</h2>
+    <p class="sub">Paid by the seller, never by agents, so checks stay free and neutral.</p>
+    <table>
+      <thead><tr><th>Tool</th><th>HTTP</th><th class="price">Price</th></tr></thead>
+      <tbody>
+        <tr><td class="name"><b>Endpoint monitoring</b><span>Your endpoint checked every 15 minutes for 30 days, with a signed webhook when it goes down, changes price or changes wallet.</span></td><td class="ids"><code>POST /weigh/subscribe</code><code>30 days</code></td><td class="price" data-route="POST /weigh/subscribe">$5.00</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>How paying works</h2>
+    <ul class="how">
+      <li><b>1. Ask</b>Your agent calls a tool. Without a payment it gets the price back, not an error.</li>
+      <li><b>2. Pay</b>It signs a USDC payment on Base from its own wallet. No ETH needed for gas.</li>
+      <li><b>3. Get the result</b>The call runs and settles. If it fails, nothing is charged.</li>
+    </ul>
+    <div class="cta">
+      <button type="button" class="btn btn-primary" data-connect>Connect to your AI</button>
+      <a class="btn btn-secondary" href="/fund">Fund an agent wallet</a>
+    </div>
+    <p class="live" id="live">Prices shown are the ones the service charges.</p>
+  </section>
+
+  <p class="credit" style="margin-top:1.4rem">For developers: <a href="https://extract.tollkit.dev/openapi.json">OpenAPI</a> &middot; <a href="https://extract.tollkit.dev/llms.txt">llms.txt</a> &middot; <a href="https://extract.tollkit.dev/.well-known/x402">x402 manifest</a> &middot; HTTP routes are on <code>https://extract.tollkit.dev</code> unless shown otherwise.</p>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="brand" style="margin-bottom:.3rem">Toll<span class="dot">kit</span></div>
+    Operated by Tollkit LLC, Annapolis, Maryland &middot; <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a> &middot; <a href="/">tollkit.dev</a>
+  </div>
+</footer>
+
+<script src="/connect-widget.js" defer></script>
+<script>
+// Keep the prices above honest: read the ones the service actually charges.
+(function () {
+  fetch('https://extract.tollkit.dev/health', { cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d || !d.prices) return;
+      var n = 0;
+      document.querySelectorAll('[data-route]').forEach(function (td) {
+        var p = d.prices[td.getAttribute('data-route')];
+        if (p) { td.textContent = p.replace(/^\$5\.00$/, '$5.00'); n++; }
+      });
+      if (n) document.getElementById('live').textContent = 'Prices checked live against the service just now.';
+    })
+    .catch(function () {});
+})();
+</script>
+</body>
+</html>
