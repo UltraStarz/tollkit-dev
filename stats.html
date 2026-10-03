@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Calls — Tollkit</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Paid calls to Tollkit tools, read live from USDC payments on Base.">
+<meta name="description" content="Paid calls to Tollkit tools, read live from USDC payments on Base and Solana.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
 <style>
   :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --panel-2:#151515; --line:#242424; --line-soft:#1c1c1c;
@@ -102,7 +102,7 @@
 <header class="head">
   <div class="container">
     <h1>Calls</h1>
-    <p class="lede">Every paid call to a Tollkit tool, read live from the USDC payments to our wallet on Base. Owner test payments aren&rsquo;t counted.</p>
+    <p class="lede">Every paid call to a Tollkit tool, from the USDC payments to our wallets on Base and Solana. Owner test payments aren&rsquo;t counted.</p>
     <div class="live" id="live"><i></i><span id="updated">Loading&hellip;</span></div>
   </div>
 </header>
@@ -137,7 +137,7 @@
 
   <section class="card">
     <h2>Recent paid calls</h2>
-    <p class="sub">Newest first. Each one links to its payment on Base.</p>
+    <p class="sub">Newest first. Each one links to its payment on Base or Solana.</p>
     <div class="tablewrap">
       <table>
         <thead><tr><th>When</th><th>Tool</th><th class="num">Paid</th><th>Wallet</th><th>Payment</th></tr></thead>
@@ -219,7 +219,7 @@
         '<td>' + esc(r.name) + (r.exact || !AMBIGUOUS[r.tool] ? '' : '<span class="guess" title="Worked out from the amount paid">&asymp;</span>') + '</td>' +
         '<td class="num">' + money(r.usd) + '</td>' +
         '<td class="mono muted">' + esc(r.payer) + '</td>' +
-        '<td><a class="mono" href="https://basescan.org/tx/' + esc(r.tx) + '" target="_blank" rel="noopener">' + esc(r.tx.slice(0, 10)) + '…</a></td></tr>';
+        '<td><a class="mono" href="' + (r.chain === 'solana' ? 'https://solscan.io/tx/' : 'https://basescan.org/tx/') + esc(r.tx) + '" target="_blank" rel="noopener">' + esc(r.tx.slice(0, 10)) + '…</a></td></tr>';
     }).join('') : '<tr><td colspan="5" class="empty">No paid calls yet.</td></tr>';
     $('legend').style.display = d.recent.some(function (r) { return !r.exact && AMBIGUOUS[r.tool]; }) ? '' : 'none';
 

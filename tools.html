@@ -97,7 +97,7 @@
 <header class="head">
   <div class="container">
     <h1>All tools and prices</h1>
-    <p class="lede">Every Tollkit tool in one place. Your agent pays per call in USDC on Base, with <strong>no account and no API key</strong>. Each call shows its price before anything is paid, and <strong>a call that fails costs nothing</strong>.</p>
+    <p class="lede">Every Tollkit tool in one place. Your agent pays per call in USDC on Base or Solana, with <strong>no account and no API key</strong>. Each call shows its price before anything is paid, and <strong>a call that fails costs nothing</strong>.</p>
     <ul class="facts">
       <li><b>16</b> paid tools</li>
       <li><b>8</b> free tools</li>
@@ -127,14 +127,14 @@
 
   <section class="card" id="chain">
     <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>On-chain</h2>
-    <p class="sub">Read live from Base or Ethereum. No price feeds, no middlemen.</p>
+    <p class="sub">Read live from Base, Ethereum or Solana. No price feeds, no middlemen.</p>
     <table>
       <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
       <tbody>
-        <tr><td class="name"><b>Wallet balance</b><span>ETH, USDC (and USDT on Ethereum) plus up to 20 tokens you name.</span></td><td class="ids"><code>wallet_balance</code><code>POST /chain/balance</code></td><td class="price" data-route="POST /chain/balance">$0.002</td></tr>
-        <tr><td class="name"><b>Token info</b><span>What a token contract really is: name, symbol, decimals, total supply.</span></td><td class="ids"><code>token_info</code><code>POST /chain/token</code></td><td class="price" data-route="POST /chain/token">$0.002</td></tr>
+        <tr><td class="name"><b>Wallet balance</b><span>ETH or SOL, USDC (and USDT on Ethereum and Solana) plus up to 20 tokens you name.</span></td><td class="ids"><code>wallet_balance</code><code>POST /chain/balance</code></td><td class="price" data-route="POST /chain/balance">$0.002</td></tr>
+        <tr><td class="name"><b>Token info</b><span>What a token really is: name, symbol, decimals, total supply (and mint authority on Solana).</span></td><td class="ids"><code>token_info</code><code>POST /chain/token</code></td><td class="price" data-route="POST /chain/token">$0.002</td></tr>
         <tr><td class="name"><b>Transaction lookup</b><span>Did it go through, who paid whom, the fee, and every token transfer.</span></td><td class="ids"><code>transaction_lookup</code><code>POST /chain/tx</code></td><td class="price" data-route="POST /chain/tx">$0.003</td></tr>
-        <tr><td class="name"><b>Token price</b><span>USD price from the deepest Uniswap pool, with a thin-liquidity warning.</span></td><td class="ids"><code>token_price</code><code>POST /chain/price</code></td><td class="price" data-route="POST /chain/price">$0.003</td></tr>
+        <tr><td class="name"><b>Token price</b><span>USD price from the deepest Uniswap pool (Orca on Solana), with a thin-liquidity warning.</span></td><td class="ids"><code>token_price</code><code>POST /chain/price</code></td><td class="price" data-route="POST /chain/price">$0.003</td></tr>
       </tbody>
     </table>
   </section>
@@ -211,7 +211,7 @@
     <h2>How paying works</h2>
     <ul class="how">
       <li><b>1. Ask</b>Your agent calls a tool. Without a payment it gets the price back, not an error.</li>
-      <li><b>2. Pay</b>It signs a USDC payment on Base from its own wallet. No ETH needed for gas.</li>
+      <li><b>2. Pay</b>It signs a USDC payment on Base or Solana from its own wallet. No ETH or SOL needed for fees.</li>
       <li><b>3. Get the result</b>The call runs and settles. If it fails, nothing is charged.</li>
     </ul>
     <div class="cta">
