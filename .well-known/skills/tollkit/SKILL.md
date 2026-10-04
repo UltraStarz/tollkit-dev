@@ -57,5 +57,4 @@ Prices are what each call costs today; the live price is always in the 402 quote
 - **Page brief** says `input_truncated: true` when the page was longer than the part it summarized.
 - **Attest** results can be verified by anyone, free: `POST https://attest.tollkit.dev/attest/verify` with the attestation.
 - Full schemas: `https://extract.tollkit.dev/openapi.json`. Plain-language guide: `https://extract.tollkit.dev/llms.txt`. Live prices: `https://extract.tollkit.dev/health`.
-- Using the Vercel AI SDK or LangChain? `npm i tollkit-tools` gives you every tool ready-made.
 - Prefer MCP? Add `https://extract.tollkit.dev/mcp` as a remote MCP server; paid tools return the payment quote as their result.
