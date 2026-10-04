@@ -99,7 +99,7 @@
     <h1>All tools and prices</h1>
     <p class="lede">Every Tollkit tool in one place. Your agent pays per call in USDC on Base or Solana, with <strong>no account and no API key</strong>. Each call shows its price before anything is paid, and <strong>a call that fails costs nothing</strong>.</p>
     <ul class="facts">
-      <li><b>16</b> paid tools</li>
+      <li><b>19</b> paid tools</li>
       <li><b>8</b> free tools</li>
       <li>From <b>$0.001</b> a call</li>
       <li>One connector: <code>extract.tollkit.dev/mcp</code></li>
@@ -118,9 +118,10 @@
     <table>
       <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
       <tbody>
-        <tr><td class="name"><b>Read a page</b><span>Any page&rsquo;s visible text, title and final URL, up to 50,000 characters.</span></td><td class="ids"><code>read_page</code><code>POST /read</code></td><td class="price" data-route="POST /read">$0.005</td></tr>
-        <tr><td class="name"><b>Screenshot a page</b><span>A 1280&times;800 JPEG of how the page looks, with its SHA-256.</span></td><td class="ids"><code>screenshot_page</code><code>POST /screenshot</code></td><td class="price" data-route="POST /screenshot">$0.01</td></tr>
-        <tr><td class="name"><b>Summarize text</b><span>A short summary of text you send (up to 8,000 characters).</span></td><td class="ids"><code>HTTP only</code><code>POST /summarize</code></td><td class="price" data-route="POST /summarize">$0.005</td></tr>
+        <tr><td class="name"><b>Read a page</b><span>Any page&rsquo;s visible text, title and final URL, up to 50,000 characters.</span></td><td class="ids"><code>read_page</code><code>POST web.tollkit.dev/read</code></td><td class="price" data-route="POST /read">\$0.002</td></tr>
+        <tr><td class="name"><b>Screenshot a page</b><span>A 1280&times;800 JPEG of how the page looks, with its SHA-256.</span></td><td class="ids"><code>screenshot_page</code><code>POST web.tollkit.dev/screenshot</code></td><td class="price" data-route="POST /screenshot">\$0.003</td></tr>
+        <tr><td class="name"><b>Summarize text</b><span>A short summary of text you send (up to 8,000 characters).</span></td><td class="ids"><code>HTTP only</code><code>POST web.tollkit.dev/summarize</code></td><td class="price" data-route="POST /summarize">\$0.005</td></tr>
+        <tr><td class="name"><b>Page brief</b><span>Read a page in a real browser and summarize it, in one call and one payment.</span></td><td class="ids"><code>page_brief</code><code>POST web.tollkit.dev/web/brief</code></td><td class="price" data-route="POST /web/brief">$0.007</td></tr>
       </tbody>
     </table>
   </section>
@@ -131,10 +132,11 @@
     <table>
       <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
       <tbody>
-        <tr><td class="name"><b>Wallet balance</b><span>ETH or SOL, USDC (and USDT on Ethereum and Solana) plus up to 20 tokens you name.</span></td><td class="ids"><code>wallet_balance</code><code>POST /chain/balance</code></td><td class="price" data-route="POST /chain/balance">$0.002</td></tr>
-        <tr><td class="name"><b>Token info</b><span>What a token really is: name, symbol, decimals, total supply (and mint authority on Solana).</span></td><td class="ids"><code>token_info</code><code>POST /chain/token</code></td><td class="price" data-route="POST /chain/token">$0.002</td></tr>
-        <tr><td class="name"><b>Transaction lookup</b><span>Did it go through, who paid whom, the fee, and every token transfer.</span></td><td class="ids"><code>transaction_lookup</code><code>POST /chain/tx</code></td><td class="price" data-route="POST /chain/tx">$0.003</td></tr>
-        <tr><td class="name"><b>Token price</b><span>USD price from the deepest Uniswap pool (Orca on Solana), with a thin-liquidity warning.</span></td><td class="ids"><code>token_price</code><code>POST /chain/price</code></td><td class="price" data-route="POST /chain/price">$0.003</td></tr>
+        <tr><td class="name"><b>Wallet balance</b><span>ETH or SOL, USDC (and USDT on Ethereum and Solana) plus up to 20 tokens you name.</span></td><td class="ids"><code>wallet_balance</code><code>POST chain.tollkit.dev/chain/balance</code></td><td class="price" data-route="POST /chain/balance">\$0.002</td></tr>
+        <tr><td class="name"><b>Token info</b><span>What a token really is: name, symbol, decimals, total supply (and mint authority on Solana).</span></td><td class="ids"><code>token_info</code><code>POST chain.tollkit.dev/chain/token</code></td><td class="price" data-route="POST /chain/token">\$0.002</td></tr>
+        <tr><td class="name"><b>Transaction lookup</b><span>Did it go through, who paid whom, the fee, and every token transfer.</span></td><td class="ids"><code>transaction_lookup</code><code>POST chain.tollkit.dev/chain/tx</code></td><td class="price" data-route="POST /chain/tx">\$0.002</td></tr>
+        <tr><td class="name"><b>Token price</b><span>USD price from the deepest Uniswap pool (Orca on Solana), with a thin-liquidity warning.</span></td><td class="ids"><code>token_price</code><code>POST chain.tollkit.dev/chain/price</code></td><td class="price" data-route="POST /chain/price">\$0.002</td></tr>
+        <tr><td class="name"><b>Token check</b><span>Before you buy or accept a token: what it is, its price and liquidity, and warnings read from the chain.</span></td><td class="ids"><code>token_check</code><code>POST chain.tollkit.dev/chain/check</code></td><td class="price" data-route="POST /chain/check">$0.004</td></tr>
       </tbody>
     </table>
   </section>
@@ -145,11 +147,12 @@
     <table>
       <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
       <tbody>
-        <tr><td class="name"><b>Company filings</b><span>A US public company&rsquo;s profile and latest SEC filings, with links. By ticker or CIK.</span></td><td class="ids"><code>sec_company</code><code>POST /sec/company</code></td><td class="price" data-route="POST /sec/company">$0.005</td></tr>
-        <tr><td class="name"><b>Company financials</b><span>Revenue, profit, EPS, assets, cash and more: 4 years plus the latest quarter, as filed.</span></td><td class="ids"><code>sec_financials</code><code>POST /sec/financials</code></td><td class="price" data-route="POST /sec/financials">$0.01</td></tr>
-        <tr><td class="name"><b>IP lookup</b><span>Country, region, city and approximate coordinates for an IPv4 or IPv6 address.</span></td><td class="ids"><code>ip_lookup</code><code>POST /ip</code></td><td class="price" data-route="POST /ip">$0.002</td></tr>
-        <tr><td class="name"><b>US weather</b><span>7-day National Weather Service forecast and active alerts for a latitude/longitude.</span></td><td class="ids"><code>weather_forecast</code><code>POST /weather</code></td><td class="price" data-route="POST /weather">$0.003</td></tr>
-        <tr><td class="name"><b>Exchange rate</b><span>ECB reference rates for 30 currencies, today or any day in the last 90.</span></td><td class="ids"><code>exchange_rate</code><code>POST /fx</code></td><td class="price" data-route="POST /fx">$0.001</td></tr>
+        <tr><td class="name"><b>Company filings</b><span>A US public company&rsquo;s profile and latest SEC filings, with links. By ticker or CIK.</span></td><td class="ids"><code>sec_company</code><code>POST data.tollkit.dev/sec/company</code></td><td class="price" data-route="POST /sec/company">\$0.002</td></tr>
+        <tr><td class="name"><b>Company financials</b><span>Revenue, profit, EPS, assets, cash and more: 4 years plus the latest quarter, as filed.</span></td><td class="ids"><code>sec_financials</code><code>POST data.tollkit.dev/sec/financials</code></td><td class="price" data-route="POST /sec/financials">\$0.005</td></tr>
+        <tr><td class="name"><b>Company snapshot</b><span>Profile, key filings and financials for a US public company in one call.</span></td><td class="ids"><code>company_snapshot</code><code>POST data.tollkit.dev/data/company</code></td><td class="price" data-route="POST /data/company">$0.006</td></tr>
+        <tr><td class="name"><b>IP lookup</b><span>Country, region, city and approximate coordinates for an IPv4 or IPv6 address.</span></td><td class="ids"><code>ip_lookup</code><code>POST data.tollkit.dev/ip</code></td><td class="price" data-route="POST /ip">\$0.002</td></tr>
+        <tr><td class="name"><b>US weather</b><span>7-day National Weather Service forecast and active alerts for a latitude/longitude.</span></td><td class="ids"><code>weather_forecast</code><code>POST data.tollkit.dev/weather</code></td><td class="price" data-route="POST /weather">\$0.002</td></tr>
+        <tr><td class="name"><b>Exchange rate</b><span>ECB reference rates for 30 currencies, today or any day in the last 90.</span></td><td class="ids"><code>exchange_rate</code><code>POST data.tollkit.dev/fx</code></td><td class="price" data-route="POST /fx">\$0.002</td></tr>
       </tbody>
     </table>
     <p class="credit">Sources: U.S. SEC EDGAR; <a href="https://db-ip.com">IP Geolocation by DB-IP</a> (CC BY 4.0); U.S. National Weather Service, which does not endorse Tollkit; European Central Bank. The ECB publishes its reference rates free of charge at <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html">ecb.europa.eu</a>. They are for information only, not for transactions.</p>
@@ -161,8 +164,8 @@
     <table>
       <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
       <tbody>
-        <tr><td class="name"><b>Product details</b><span>Price, stock, brand, SKU, images and variants from one product page.</span></td><td class="ids"><code>get_product_details</code><code>POST /extract</code></td><td class="price" data-route="POST /extract">$0.05</td></tr>
-        <tr><td class="name"><b>Compare products</b><span>Up to five product pages in one call and one payment.</span></td><td class="ids"><code>compare_products</code><code>POST /extract/batch</code></td><td class="price" data-route="POST /extract/batch">$0.15</td></tr>
+        <tr><td class="name"><b>Product details</b><span>Price, stock, brand, SKU, images and variants from one product page.</span></td><td class="ids"><code>get_product_details</code><code>POST /extract</code></td><td class="price" data-route="POST /extract">\$0.01</td></tr>
+        <tr><td class="name"><b>Compare products</b><span>Up to five product pages in one call and one payment.</span></td><td class="ids"><code>compare_products</code><code>POST /extract/batch</code></td><td class="price" data-route="POST /extract/batch">\$0.04</td></tr>
       </tbody>
     </table>
   </section>
@@ -173,7 +176,7 @@
     <table>
       <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
       <tbody>
-        <tr><td class="name"><b>Prove what a page said</b><span>Signed, timestamped record of a page&rsquo;s text and screenshot. Anyone can verify it, free.</span></td><td class="ids"><code>attest_page</code><code>POST attest.tollkit.dev/attest</code></td><td class="price" data-route="POST /attest">$0.25</td></tr>
+        <tr><td class="name"><b>Prove what a page said</b><span>Signed, timestamped record of a page&rsquo;s text and screenshot. Anyone can verify it, free.</span></td><td class="ids"><code>attest_page</code><code>POST attest.tollkit.dev/attest</code></td><td class="price" data-route="POST /attest">\$0.25</td></tr>
       </tbody>
     </table>
   </section>

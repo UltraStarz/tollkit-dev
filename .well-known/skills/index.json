@@ -1,6 +1,13 @@
 {
   "skills": [
     {
+      "name": "tollkit",
+      "description": "Tollkit's pay-per-call tools for agents (x402, USDC on Base or Solana): read, summarize or screenshot web pages, product prices, wallet/token/transaction data and token checks on Base, Ethereum and Solana, SEC filings and company snapshots, IP lookup, US weather, exchange rates, and signed page proofs.",
+      "files": [
+        "SKILL.md"
+      ]
+    },
+    {
       "name": "weigh-station",
       "description": "Weigh Station by Tollkit: find a pay-per-call x402 API for a task and check any x402 endpoint before paying it. Free; covers every x402 seller, not only Tollkit's.",
       "files": [
