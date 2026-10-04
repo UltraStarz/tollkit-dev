@@ -38,9 +38,11 @@ Prices are what each call costs today; the live price is always in the 402 quote
 | Transaction lookup | `https://chain.tollkit.dev/chain/tx` | `{"hash", "chain"?}` | $0.002 |
 | Token USD price from on-chain pools | `https://chain.tollkit.dev/chain/price` | `{"token", "chain"?}` | $0.002 |
 | **Token check** before buying or accepting a token | `https://chain.tollkit.dev/chain/check` | `{"token", "chain"?}` | $0.004 |
+| **Wallet portfolio** in USD with liquidity warnings | `https://chain.tollkit.dev/chain/portfolio` | `{"address", "chain"?, "tokens"?}` | $0.008 |
 | SEC company profile and filings | `https://data.tollkit.dev/sec/company` | `{"ticker"}` or `{"cik"}` | $0.002 |
 | SEC key financials | `https://data.tollkit.dev/sec/financials` | `{"ticker"}` | $0.005 |
 | **Company snapshot** (profile + key filings + financials) | `https://data.tollkit.dev/data/company` | `{"ticker"}` | $0.006 |
+| **Company due diligence** (ratios, filings, 8-K event summaries) | `https://data.tollkit.dev/data/diligence` | `{"ticker"}` | $0.03 |
 | IP geolocation | `https://data.tollkit.dev/ip` | `{"ip"}` | $0.002 |
 | US weather forecast and alerts | `https://data.tollkit.dev/weather` | `{"lat", "lon"}` | $0.002 |
 | Currency conversion (ECB rates) | `https://data.tollkit.dev/fx` | `{"from", "to", "amount"?}` | $0.002 |
@@ -55,4 +57,5 @@ Prices are what each call costs today; the live price is always in the 402 quote
 - **Page brief** says `input_truncated: true` when the page was longer than the part it summarized.
 - **Attest** results can be verified by anyone, free: `POST https://attest.tollkit.dev/attest/verify` with the attestation.
 - Full schemas: `https://extract.tollkit.dev/openapi.json`. Plain-language guide: `https://extract.tollkit.dev/llms.txt`. Live prices: `https://extract.tollkit.dev/health`.
+- Using the Vercel AI SDK or LangChain? `npm i tollkit-tools` gives you every tool ready-made.
 - Prefer MCP? Add `https://extract.tollkit.dev/mcp` as a remote MCP server; paid tools return the payment quote as their result.

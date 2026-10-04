@@ -99,7 +99,7 @@
     <h1>All tools and prices</h1>
     <p class="lede">Every Tollkit tool in one place. Your agent pays per call in USDC on Base or Solana, with <strong>no account and no API key</strong>. Each call shows its price before anything is paid, and <strong>a call that fails costs nothing</strong>.</p>
     <ul class="facts">
-      <li><b>19</b> paid tools</li>
+      <li><b>21</b> paid tools</li>
       <li><b>8</b> free tools</li>
       <li>From <b>$0.001</b> a call</li>
       <li>One connector: <code>extract.tollkit.dev/mcp</code></li>
@@ -137,6 +137,7 @@
         <tr><td class="name"><b>Transaction lookup</b><span>Did it go through, who paid whom, the fee, and every token transfer.</span></td><td class="ids"><code>transaction_lookup</code><code>POST chain.tollkit.dev/chain/tx</code></td><td class="price" data-route="POST /chain/tx">\$0.002</td></tr>
         <tr><td class="name"><b>Token price</b><span>USD price from the deepest Uniswap pool (Orca on Solana), with a thin-liquidity warning.</span></td><td class="ids"><code>token_price</code><code>POST chain.tollkit.dev/chain/price</code></td><td class="price" data-route="POST /chain/price">\$0.002</td></tr>
         <tr><td class="name"><b>Token check</b><span>Before you buy or accept a token: what it is, its price and liquidity, and warnings read from the chain.</span></td><td class="ids"><code>token_check</code><code>POST chain.tollkit.dev/chain/check</code></td><td class="price" data-route="POST /chain/check">$0.004</td></tr>
+        <tr><td class="name"><b>Wallet portfolio</b><span>Every holding priced from on-chain pools, the wallet&rsquo;s total in USD, and liquidity warnings.</span></td><td class="ids"><code>wallet_portfolio</code><code>POST chain.tollkit.dev/chain/portfolio</code></td><td class="price" data-route="POST /chain/portfolio">$0.008</td></tr>
       </tbody>
     </table>
   </section>
@@ -150,6 +151,7 @@
         <tr><td class="name"><b>Company filings</b><span>A US public company&rsquo;s profile and latest SEC filings, with links. By ticker or CIK.</span></td><td class="ids"><code>sec_company</code><code>POST data.tollkit.dev/sec/company</code></td><td class="price" data-route="POST /sec/company">\$0.002</td></tr>
         <tr><td class="name"><b>Company financials</b><span>Revenue, profit, EPS, assets, cash and more: 4 years plus the latest quarter, as filed.</span></td><td class="ids"><code>sec_financials</code><code>POST data.tollkit.dev/sec/financials</code></td><td class="price" data-route="POST /sec/financials">\$0.005</td></tr>
         <tr><td class="name"><b>Company snapshot</b><span>Profile, key filings and financials for a US public company in one call.</span></td><td class="ids"><code>company_snapshot</code><code>POST data.tollkit.dev/data/company</code></td><td class="price" data-route="POST /data/company">$0.006</td></tr>
+        <tr><td class="name"><b>Company due diligence</b><span>Growth, margins and leverage from SEC filings, key filings, and plain-English summaries of the latest material events.</span></td><td class="ids"><code>company_due_diligence</code><code>POST data.tollkit.dev/data/diligence</code></td><td class="price" data-route="POST /data/diligence">$0.03</td></tr>
         <tr><td class="name"><b>IP lookup</b><span>Country, region, city and approximate coordinates for an IPv4 or IPv6 address.</span></td><td class="ids"><code>ip_lookup</code><code>POST data.tollkit.dev/ip</code></td><td class="price" data-route="POST /ip">\$0.002</td></tr>
         <tr><td class="name"><b>US weather</b><span>7-day National Weather Service forecast and active alerts for a latitude/longitude.</span></td><td class="ids"><code>weather_forecast</code><code>POST data.tollkit.dev/weather</code></td><td class="price" data-route="POST /weather">\$0.002</td></tr>
         <tr><td class="name"><b>Exchange rate</b><span>ECB reference rates for 30 currencies, today or any day in the last 90.</span></td><td class="ids"><code>exchange_rate</code><code>POST data.tollkit.dev/fx</code></td><td class="price" data-route="POST /fx">\$0.002</td></tr>
