@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Status — Tollkit</title>
+<meta name="description" content="Live uptime and response times for every Tollkit service, measured independently every 5 minutes.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
+<style>
+  :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --panel-2:#151515; --line:#242424; --line-soft:#1c1c1c;
+    --text:#e5e5e5; --muted:#8a8a8a; --dim:#707070; --accent:#4a8eff; --accent-dim:#2f5fb0;
+    --warn:#e0a33a; --warn-bg:#1a1408; --warn-line:#3a2f14; --ok:#3ecf8e; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .container { max-width:880px; margin:0 auto; padding:0 16px; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  code, .mono { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  nav.top { border-bottom:1px solid var(--line-soft); padding:.9rem 0; }
+  nav.top .container { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  .brand { font-weight:700; letter-spacing:-.02em; color:var(--text); }
+  .brand .dot { color:var(--accent); }
+  nav.top .links { display:flex; gap:1.1rem; font-size:.9rem; }
+  nav.top .links a { color:var(--muted); }
+  header.head { padding:2.6rem 0 1rem; }
+  h1 { font-size:2rem; letter-spacing:-.03em; margin:0 0 .5rem; }
+  .lede { color:var(--muted); margin:0; font-size:1.02rem; max-width:40rem; }
+  .live { display:inline-flex; align-items:center; gap:.45rem; font-size:.8rem; color:var(--dim); margin-top:.8rem; }
+  .live i { width:7px; height:7px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 0 rgba(62,207,142,.5); animation:ping 2.4s ease-out infinite; }
+  .live.stale i { background:var(--warn); animation:none; }
+  @keyframes ping { 70% { box-shadow:0 0 0 6px rgba(62,207,142,0); } 100% { box-shadow:0 0 0 0 rgba(62,207,142,0); } }
+  @media (prefers-reduced-motion: reduce) { .live i { animation:none; } }
+
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.2rem 1.4rem; margin-top:1rem; }
+  .card h2 { font-size:1.02rem; margin:0 0 .2rem; }
+  .card .sub { color:var(--dim); font-size:.84rem; margin:0 0 1rem; }
+
+  /* Headline numbers */
+  .kpis { display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:.6rem; margin-top:1.2rem; }
+  .kpi { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1rem 1.1rem; min-width:0; }
+  .kpi .label { font-size:.8rem; color:var(--muted); }
+  .kpi .value { font-size:1.6rem; font-weight:650; letter-spacing:-.02em; line-height:1.2; margin-top:.25rem; color:var(--text); }
+  .kpi .note { font-size:.76rem; color:var(--dim); margin-top:.2rem; }
+  .kpi.hero { background:#0e1626; border-color:#1e3358; }
+  .kpi.hero .value { font-size:3rem; line-height:1.05; }
+  @media (max-width:720px) { .kpis { grid-template-columns:1fr 1fr; } .kpi.hero { grid-column:1 / -1; } }
+
+  /* Daily chart */
+  .chart { position:relative; height:200px; margin-top:.4rem; }
+  .chart svg { display:block; width:100%; height:100%; overflow:visible; }
+  .chart .grid line { stroke:var(--line-soft); stroke-width:1; }
+  .chart .axis text { fill:var(--dim); font-size:11px; font-family:inherit; }
+  .chart .bar { fill:var(--accent); }
+  .chart .col:hover .bar, .chart .col.on .bar { fill:#7aaeff; }
+  .chart .col .hit { fill:transparent; }
+  .chart .col.on .hit { fill:rgba(74,142,255,.06); }
+  .chart .base { stroke:#2a2a2a; stroke-width:1; }
+  .tip { position:absolute; pointer-events:none; background:#0b0d12; border:1px solid #2a3550; border-radius:8px; padding:.45rem .6rem; font-size:.8rem; color:var(--text); white-space:nowrap; transform:translate(-50%, calc(-100% - 10px)); opacity:0; transition:opacity .12s ease; box-shadow:0 8px 24px -8px rgba(0,0,0,.8); z-index:2; }
+  .tip.on { opacity:1; }
+  .tip b { font-weight:650; }
+  .tip span { color:var(--muted); }
+
+  /* Tables */
+  .tablewrap { overflow-x:auto; margin:0 -.2rem; }
+  table { width:100%; border-collapse:collapse; font-size:.88rem; }
+  th { text-align:left; font-weight:500; color:var(--dim); font-size:.76rem; padding:.45rem .5rem; border-bottom:1px solid var(--line); white-space:nowrap; }
+  td { padding:.55rem .5rem; border-bottom:1px solid var(--line-soft); white-space:nowrap; }
+  tr:last-child td { border-bottom:0; }
+  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+  td.muted { color:var(--muted); }
+  tbody tr { transition:background .15s ease; }
+  tbody tr:hover { background:rgba(74,142,255,.04); }
+  .share { display:inline-block; vertical-align:middle; width:64px; height:6px; border-radius:3px; background:#1a2233; margin-left:.5rem; overflow:hidden; }
+  .share i { display:block; height:100%; background:var(--accent); border-radius:3px; }
+  .guess { color:var(--warn); font-size:.78rem; margin-left:.25rem; cursor:help; }
+  .zero td { color:var(--dim); }
+  .empty { color:var(--dim); font-size:.9rem; padding:1rem 0; }
+  .fine { font-size:.8rem; color:var(--dim); margin:.9rem 0 0; }
+  .fine code { font-size:.78rem; color:#9fb6dd; }
+  .err { font-size:.86rem; color:#e6d3a8; background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:8px; padding:.6rem .8rem; margin-top:1rem; display:none; }
+  .err.on { display:block; }
+  .skeleton { color:transparent !important; background:linear-gradient(90deg,#161616 0%,#1f1f1f 50%,#161616 100%); background-size:200% 100%; border-radius:6px; animation:shimmer 1.4s linear infinite; }
+  @keyframes shimmer { to { background-position:-200% 0; } }
+
+  footer { border-top:1px solid var(--line-soft); margin-top:2.5rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; }
+  footer a { color:var(--muted); }
+
+  .hosts td.state { font-weight:600; }
+  .up { color:var(--ok); } .down { color:#ef6b6b; }
+  .strip { display:flex; gap:2px; height:22px; align-items:stretch; min-width:180px; }
+  .strip i { flex:1; border-radius:2px; background:#1f2a22; }
+  .strip i.g { background:var(--ok); } .strip i.y { background:var(--warn); } .strip i.r { background:#ef6b6b; }
+  .big { font-size:1.1rem; font-weight:650; }
+</style>
+<link rel="stylesheet" href="/motion.css">
+<script src="/motion.js"></script>
+</head>
+<body>
+
+<nav class="top">
+  <div class="container">
+    <a class="brand" href="/">Toll<span class="dot">kit</span></a>
+    <div class="links"><a href="/#products">Products</a><a href="/tools">Tools</a><a href="/connect">Connect</a><a href="/status">Status</a></div>
+  </div>
+</nav>
+
+<main class="container">
+<header class="head">
+  <h1>Status</h1>
+  <p class="lede">Every Tollkit service is checked every 5 minutes from Cloudflare, separately from the servers it checks, so an outage gets recorded even if our own servers are down.</p>
+  <div class="live" id="live"><i></i><span id="overall">Checking&hellip;</span></div>
+</header>
+
+<section class="card">
+  <h2>Services</h2>
+  <p class="sub">Up now, uptime over the last day, week and month, and the last check&rsquo;s response time.</p>
+  <div class="tablewrap"><table class="hosts">
+    <thead><tr><th>Service</th><th>Now</th><th class="num">24h</th><th class="num">7 days</th><th class="num">30 days</th><th class="num">Response</th><th>Last 30 days</th></tr></thead>
+    <tbody id="hosts"><tr><td colspan="7" class="empty">Loading&hellip;</td></tr></tbody>
+  </table></div>
+</section>
+
+<section class="card">
+  <h2>Paid call speed</h2>
+  <p class="sub">Real paid calls since the last deploy, end to end: payment check, the work, and settlement on-chain.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tool</th><th class="num">Calls</th><th class="num">Median</th><th class="num">95th percentile</th></tr></thead>
+    <tbody id="lat"><tr><td colspan="4" class="empty">Loading&hellip;</td></tr></tbody>
+  </table></div>
+</section>
+
+<section class="card">
+  <h2>Incidents</h2>
+  <p class="sub">Every change between up and down, newest first.</p>
+  <div id="inc" class="empty">Loading&hellip;</div>
+</section>
+
+<p class="fine">Raw data: <a href="https://status.tollkit.dev/status.json"><code>status.json</code></a> &middot; <a href="https://extract.tollkit.dev/stats.json"><code>stats.json</code></a>. A check is <code>GET /health</code> with a 10-second timeout; up means HTTP 200 with <code>status: ok</code>.</p>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="brand" style="margin-bottom:.3rem">Toll<span class="dot">kit</span></div>
+    <a href="/">tollkit.dev</a> &middot; <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var pct = function (v) { return v == null ? '&mdash;' : (v >= 99.995 ? '100' : v.toFixed(2)) + '%'; };
+  var NAMES = { 'extract.tollkit.dev': 'Tollkit (product data)', 'web.tollkit.dev': 'Tollkit Web', 'chain.tollkit.dev': 'Tollkit Chain', 'data.tollkit.dev': 'Tollkit Data', 'attest.tollkit.dev': 'Tollkit Attest' };
+  function strip(daily) {
+    var byDate = {}; (daily || []).forEach(function (d) { byDate[d.date] = d; });
+    var out = '';
+    for (var k = 29; k >= 0; k--) {
+      var day = new Date(Date.now() - k * 864e5).toISOString().slice(0, 10), d = byDate[day];
+      var cls = !d ? '' : d.uptime >= 99.9 ? 'g' : d.uptime >= 99 ? 'y' : 'r';
+      out += '<i class="' + cls + '" title="' + day + (d ? ': ' + d.uptime + '% up, ' + d.checks + ' checks' : ': no data') + '"></i>';
+    }
+    return '<div class="strip">' + out + '</div>';
+  }
+  fetch('https://status.tollkit.dev/status.json').then(function (r) { return r.json(); }).then(function (j) {
+    var hosts = Object.keys(j.hosts), allUp = true;
+    $('hosts').innerHTML = hosts.map(function (h) {
+      var v = j.hosts[h]; if (v.up_now === false) allUp = false;
+      return '<tr><td>' + esc(NAMES[h] || h) + '<br><span class="mono" style="color:var(--dim);font-size:.78rem">' + esc(h) + '</span></td>' +
+        '<td class="state ' + (v.up_now ? 'up' : 'down') + '">' + (v.up_now == null ? '&mdash;' : v.up_now ? 'Up' : 'Down') + '</td>' +
+        '<td class="num">' + pct(v.uptime_24h) + '</td><td class="num">' + pct(v.uptime_7d) + '</td><td class="num">' + pct(v.uptime_30d) + '</td>' +
+        '<td class="num">' + (v.last_ms == null ? '&mdash;' : v.last_ms + ' ms') + '</td><td>' + strip(v.daily) + '</td></tr>';
+    }).join('');
+    $('overall').textContent = allUp ? 'All services up' : 'Some services are down';
+    $('live').classList.toggle('stale', !allUp);
+    $('inc').innerHTML = (j.incidents || []).length ? '<table><tbody>' + j.incidents.map(function (x) {
+      return '<tr><td>' + esc(new Date(x.at).toLocaleString()) + '</td><td>' + esc(NAMES[x.host] || x.host) + '</td><td class="' + (x.to === 'up' ? 'up' : 'down') + '">' + (x.to === 'up' ? 'Recovered' : 'Down') + '</td><td class="muted">' + esc(x.why || '') + '</td></tr>';
+    }).join('') + '</tbody></table>' : 'None recorded.';
+  }).catch(function () { $('hosts').innerHTML = '<tr><td colspan="7" class="empty">The status record could not be loaded just now.</td></tr>'; $('overall').textContent = 'Status record unavailable'; $('live').classList.add('stale'); });
+  fetch('https://extract.tollkit.dev/stats.json').then(function (r) { return r.json(); }).then(function (j) {
+    var names = {}; (j.by_tool || []).forEach(function (t) { names[t.tool] = t.name; });
+    var rows = Object.keys(j.latency || {}).map(function (k) { var v = j.latency[k]; return '<tr><td>' + esc(names[k] || k) + '</td><td class="num">' + v.calls + '</td><td class="num">' + (v.p50_ms / 1000).toFixed(2) + ' s</td><td class="num">' + (v.p95_ms / 1000).toFixed(2) + ' s</td></tr>'; });
+    $('lat').innerHTML = rows.length ? rows.join('') : '<tr><td colspan="4" class="empty">No paid calls since the last deploy yet.</td></tr>';
+  }).catch(function () { $('lat').innerHTML = '<tr><td colspan="4" class="empty">Could not load call timings.</td></tr>'; });
+})();
+</script>
+</body>
+</html>

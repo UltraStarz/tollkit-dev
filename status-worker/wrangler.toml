@@ -1,0 +1,14 @@
+# Independent uptime record for Tollkit's endpoints. Runs on Cloudflare, not on
+# the Fly machine it watches, so an outage there still gets written down.
+name = "tollkit-status"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = false
+routes = [{ pattern = "status.tollkit.dev", custom_domain = true }]
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[[kv_namespaces]]
+binding = "STATUS"
+id = "REPLACE_WITH_KV_ID"
