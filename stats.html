@@ -83,6 +83,17 @@
   .rank.top { background:rgba(74,142,255,.18); color:#cfe0ff; }
   .pill { display:inline-block; font-size:.72rem; border-radius:999px; padding:.05rem .5rem; margin-left:.4rem; background:rgba(74,142,255,.15); color:#cfe0ff; }
   td.wrap { white-space:normal; min-width:12rem; }
+  .split { display:flex; height:12px; border-radius:6px; overflow:hidden; background:#1a2233; margin:.4rem 0 .8rem; }
+  .split i { display:block; height:100%; }
+  .k-crawler { background:#3a4a66; } .k-empty { background:#5b6f94; } .k-example { background:#8aa3cf; } .k-real { background:var(--accent); }
+  .legend2 { display:flex; flex-wrap:wrap; gap:.4rem 1.1rem; font-size:.84rem; color:var(--muted); }
+  .legend2 b { color:var(--text); font-weight:600; }
+  .legend2 .sw { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:.35rem; vertical-align:-1px; }
+  .asked { display:grid; grid-template-columns:repeat(auto-fill, minmax(230px, 1fr)); gap:.8rem; }
+  .asked .box { border:1px solid var(--line); border-radius:10px; padding:.7rem .8rem; }
+  .asked h3 { font-size:.82rem; margin:0 0 .4rem; color:var(--text); font-weight:600; }
+  .asked ol { margin:0; padding-left:1.1rem; font-size:.84rem; color:var(--muted); }
+  .asked li span { color:var(--dim); }
   .empty { color:var(--dim); font-size:.9rem; padding:1rem 0; }
   .fine { font-size:.8rem; color:var(--dim); margin:.9rem 0 0; }
   .fine code { font-size:.78rem; color:#9fb6dd; }
@@ -134,14 +145,28 @@
   </section>
 
   <section class="card">
+    <h2>Who&rsquo;s checking prices</h2>
+    <p class="sub">Every price check sorted by what it was, from <span id="kinds-since">&hellip;</span>. <b style="color:var(--text);font-weight:600">Real questions</b> are agents asking about something real (a real web page, ticker or token): the best sign of demand.</p>
+    <div class="split" id="split" aria-hidden="true"></div>
+    <div class="legend2" id="split-legend"></div>
+    <p class="fine" id="callers"></p>
+  </section>
+
+  <section class="card">
     <h2>By tool</h2>
     <p class="sub"><b style="color:var(--text);font-weight:600">Price checks</b> are agents asking a tool its price without paying; <b style="color:var(--text);font-weight:600">Paid&nbsp;÷&nbsp;checks</b> is how often a check became a sale. <b style="color:var(--text);font-weight:600">Refused</b> are paid attempts we turned down, which cost the caller nothing. Counted from <span id="since">&hellip;</span>. <b style="color:var(--text);font-weight:600">Search rank</b> is the tool&rsquo;s position in Coinbase&rsquo;s Bazaar search (what Agentic Market shows) for the phrase in its tooltip; &ldquo;&ndash;&rdquo; means not in the top 20. <span id="ranks-when"></span></p>
     <div class="tablewrap">
       <table>
-        <thead><tr><th>Tool</th><th class="num">Price</th><th class="num">Paid calls</th><th class="num">Earned</th><th class="num">Price checks</th><th class="num">Paid ÷ checks</th><th class="num">Refused</th><th class="num">Search rank</th></tr></thead>
-        <tbody id="tools"><tr><td colspan="8" class="empty">Loading&hellip;</td></tr></tbody>
+        <thead><tr><th>Tool</th><th class="num">Price</th><th class="num">Paid calls</th><th class="num">Earned</th><th class="num">Price checks</th><th class="num">Real questions</th><th class="num">Paid ÷ checks</th><th class="num">Refused</th><th class="num">Search rank</th></tr></thead>
+        <tbody id="tools"><tr><td colspan="9" class="empty">Loading&hellip;</td></tr></tbody>
       </table>
     </div>
+  </section>
+
+  <section class="card">
+    <h2>What agents asked for</h2>
+    <p class="sub">The real questions behind price checks, per tool: web domains (never full links), tickers, tokens, currency pairs and airports. Inputs that could be personal &mdash; wallet and IP addresses, street addresses, search words &mdash; are counted but never kept.</p>
+    <div class="asked" id="asked"><p class="empty">Nothing yet.</p></div>
   </section>
 
   <section class="card">
@@ -243,7 +268,7 @@
     order.forEach(function (g) {
       var items = d.by_tool.filter(function (x) { return groupOf(x.path) === g; });
       if (!items.length) return;
-      rows += '<tr class="grp"><td colspan="8">' + esc(g) + '</td></tr>';
+      rows += '<tr class="grp"><td colspan="9">' + esc(g) + '</td></tr>';
       rows += items.map(function (x) {
         var guess = x.tool === 'read_or_summarize';
         var rk = x.path ? ranks[x.path] : null;
@@ -254,12 +279,31 @@
           '<td class="num">' + x.calls + '<span class="share" aria-hidden="true"><i style="width:' + (100 * x.calls / max).toFixed(1) + '%"></i></span></td>' +
           '<td class="num">' + money(x.revenue_usd) + '</td>' +
           '<td class="num muted">' + (x.quotes == null ? '' : x.quotes.toLocaleString()) + '</td>' +
+          '<td class="num">' + (x.quote_kinds ? (x.quote_kinds.real ? '<b>' + x.quote_kinds.real.toLocaleString() + '</b>' : '<span class="muted">0</span>') : '') + '</td>' +
           '<td class="num muted">' + (conv == null ? '' : conv === 0 ? '0%' : conv.toFixed(conv < 1 ? 2 : 1) + '%') + '</td>' +
           '<td class="num muted">' + (x.refused == null ? '' : x.refused.toLocaleString()) + '</td>' +
           '<td class="num">' + rankCell + '</td></tr>';
       }).join('');
     });
     $('tools').innerHTML = rows;
+
+    // Who's checking
+    var qk = d.quote_kinds || { crawler: 0, empty: 0, example: 0, real: 0 };
+    var qt = qk.crawler + qk.empty + qk.example + qk.real;
+    $('kinds-since').textContent = qk.since ? new Date(qk.since).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) + ' (older checks weren’t sorted)' : 'the next deploy';
+    var kinds = [['crawler', 'Crawlers and monitors'], ['empty', 'No input (just the price)'], ['example', 'Our own example input'], ['real', 'Real questions']];
+    $('split').innerHTML = qt ? kinds.map(function (k) { return qk[k[0]] ? '<i class="k-' + k[0] + '" style="width:' + (100 * qk[k[0]] / qt).toFixed(2) + '%"></i>' : ''; }).join('') : '';
+    $('split-legend').innerHTML = kinds.map(function (k) {
+      return '<span><span class="sw k-' + k[0] + '"></span>' + k[1] + ' <b>' + (qk[k[0]] || 0).toLocaleString() + '</b>' + (qt ? ' (' + (100 * (qk[k[0]] || 0) / qt).toFixed(qt < 100 ? 0 : 1) + '%)' : '') + '</span>';
+    }).join('');
+    var cs = d.callers || [];
+    $('callers').textContent = cs.length ? 'Callers: ' + cs.slice(0, 10).map(function (c) { return c.family + ' ' + c.checks.toLocaleString(); }).join(' · ') : '';
+
+    // What agents asked for
+    var withAsk = d.by_tool.filter(function (x) { return x.top_asked && x.top_asked.length; });
+    $('asked').innerHTML = withAsk.length ? withAsk.map(function (x) {
+      return '<div class="box"><h3>' + esc(x.name) + '</h3><ol>' + x.top_asked.map(function (a) { return '<li>' + esc(a.label) + ' <span>× ' + a.checks + '</span></li>'; }).join('') + '</ol></div>';
+    }).join('') : '<p class="empty">No real questions yet. They show here as agents ask.</p>';
 
     // Buyers
     var bs = d.buyers || [];
