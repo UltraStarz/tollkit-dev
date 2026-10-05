@@ -38,13 +38,14 @@
   .card .sub { color:var(--dim); font-size:.84rem; margin:0 0 1rem; }
 
   /* Headline numbers */
-  .kpis { display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:.6rem; margin-top:1.2rem; }
+  .kpis { display:grid; grid-template-columns:1.3fr repeat(5, 1fr); gap:.6rem; margin-top:1.2rem; }
   .kpi { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1rem 1.1rem; min-width:0; }
   .kpi .label { font-size:.8rem; color:var(--muted); }
   .kpi .value { font-size:1.6rem; font-weight:650; letter-spacing:-.02em; line-height:1.2; margin-top:.25rem; color:var(--text); }
   .kpi .note { font-size:.76rem; color:var(--dim); margin-top:.2rem; }
   .kpi.hero { background:#0e1626; border-color:#1e3358; }
   .kpi.hero .value { font-size:3rem; line-height:1.05; }
+  @media (max-width:980px) { .kpis { grid-template-columns:1.3fr 1fr 1fr; } }
   @media (max-width:720px) { .kpis { grid-template-columns:1fr 1fr; } .kpi.hero { grid-column:1 / -1; } }
 
   /* Daily chart */
@@ -76,6 +77,12 @@
   .share i { display:block; height:100%; background:var(--accent); border-radius:3px; }
   .guess { color:var(--warn); font-size:.78rem; margin-left:.25rem; cursor:help; }
   .zero td { color:var(--dim); }
+  tr.grp td { color:var(--muted); font-size:.74rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; padding-top:1rem; border-bottom:1px solid var(--line); background:transparent; }
+  tbody tr.grp:hover { background:transparent; }
+  .rank { display:inline-block; min-width:2.2rem; text-align:center; border-radius:6px; padding:.05rem .35rem; font-size:.8rem; background:#1a2233; color:var(--text); }
+  .rank.top { background:rgba(74,142,255,.18); color:#cfe0ff; }
+  .pill { display:inline-block; font-size:.72rem; border-radius:999px; padding:.05rem .5rem; margin-left:.4rem; background:rgba(74,142,255,.15); color:#cfe0ff; }
+  td.wrap { white-space:normal; min-width:12rem; }
   .empty { color:var(--dim); font-size:.9rem; padding:1rem 0; }
   .fine { font-size:.8rem; color:var(--dim); margin:.9rem 0 0; }
   .fine code { font-size:.78rem; color:#9fb6dd; }
@@ -115,6 +122,8 @@
     <div class="kpi hero"><div class="label">Paid calls</div><div class="value skeleton" id="k-calls">000</div><div class="note" id="k-calls-note">&nbsp;</div></div>
     <div class="kpi"><div class="label">Earned</div><div class="value skeleton" id="k-rev">$0.00</div><div class="note">USDC</div></div>
     <div class="kpi"><div class="label">Paying wallets</div><div class="value skeleton" id="k-payers">0</div><div class="note">distinct</div></div>
+    <div class="kpi"><div class="label">Price checks</div><div class="value skeleton" id="k-quotes">0</div><div class="note" id="k-quotes-note">&nbsp;</div></div>
+    <div class="kpi"><div class="label">Returning buyers</div><div class="value skeleton" id="k-return">0</div><div class="note">paid on 2+ days</div></div>
     <div class="kpi"><div class="label">Last paid call</div><div class="value skeleton" id="k-last">&mdash;</div><div class="note" id="k-last-note">&nbsp;</div></div>
   </div>
 
@@ -126,11 +135,22 @@
 
   <section class="card">
     <h2>By tool</h2>
-    <p class="sub"><b style="color:var(--text);font-weight:600">Price checks</b> are agents asking a tool its price without paying. <b style="color:var(--text);font-weight:600">Refused</b> are paid attempts we turned down, which cost the caller nothing. Both are counted from <span id="since">&hellip;</span>.</p>
+    <p class="sub"><b style="color:var(--text);font-weight:600">Price checks</b> are agents asking a tool its price without paying; <b style="color:var(--text);font-weight:600">Paid&nbsp;÷&nbsp;checks</b> is how often a check became a sale. <b style="color:var(--text);font-weight:600">Refused</b> are paid attempts we turned down, which cost the caller nothing. Counted from <span id="since">&hellip;</span>. <b style="color:var(--text);font-weight:600">Search rank</b> is the tool&rsquo;s position in Coinbase&rsquo;s Bazaar search (what Agentic Market shows) for the phrase in its tooltip; &ldquo;&ndash;&rdquo; means not in the top 20. <span id="ranks-when"></span></p>
     <div class="tablewrap">
       <table>
-        <thead><tr><th>Tool</th><th class="num">Price</th><th class="num">Paid calls</th><th class="num">Earned</th><th class="num">Price checks</th><th class="num">Refused</th></tr></thead>
-        <tbody id="tools"><tr><td colspan="6" class="empty">Loading&hellip;</td></tr></tbody>
+        <thead><tr><th>Tool</th><th class="num">Price</th><th class="num">Paid calls</th><th class="num">Earned</th><th class="num">Price checks</th><th class="num">Paid ÷ checks</th><th class="num">Refused</th><th class="num">Search rank</th></tr></thead>
+        <tbody id="tools"><tr><td colspan="8" class="empty">Loading&hellip;</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Buyers</h2>
+    <p class="sub">Every outside wallet that has paid, most recent first. Owner test wallets are left out. Each links to the wallet on Base or Solana.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Wallet</th><th>First paid</th><th>Last paid</th><th class="num">Calls</th><th class="num">Spent</th><th class="num">Days</th><th>Tools</th></tr></thead>
+        <tbody id="buyers"><tr><td colspan="7" class="empty">Loading&hellip;</td></tr></tbody>
       </table>
     </div>
   </section>
@@ -194,6 +214,10 @@
     $('k-rev').textContent = money(t.revenue_usd);
     $('k-payers').textContent = t.unique_payers.toLocaleString();
     $('k-last').textContent = t.last_paid_at ? ago(t.last_paid_at) : '—';
+    ['k-quotes', 'k-return'].forEach(function (id) { $(id).classList.remove('skeleton'); });
+    $('k-quotes').textContent = (t.quotes || 0).toLocaleString();
+    $('k-quotes-note').textContent = t.quotes ? (100 * t.paid_calls / t.quotes).toFixed(2) + '% became sales' : 'none yet';
+    $('k-return').textContent = (d.returning_buyers || 0).toLocaleString();
     $('k-last-note').textContent = t.last_paid_at ? when(t.last_paid_at) : '';
 
     var since = new Date(d.counter.since).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
@@ -203,15 +227,51 @@
 
     // By tool
     var max = Math.max.apply(null, d.by_tool.map(function (x) { return x.calls; }).concat([1]));
-    $('tools').innerHTML = d.by_tool.map(function (x) {
-      var guess = x.tool === 'read_or_summarize';
-      return '<tr' + (x.calls ? '' : ' class="zero"') + '><td>' + esc(x.name) + (guess ? '<span class="guess" title="Paid $0.005 before exact tracking began">&asymp;</span>' : '') + '</td>' +
-        '<td class="num muted">' + (x.price_usd == null ? '' : money(x.price_usd)) + '</td>' +
-        '<td class="num">' + x.calls + '<span class="share" aria-hidden="true"><i style="width:' + (100 * x.calls / max).toFixed(1) + '%"></i></span></td>' +
-        '<td class="num">' + money(x.revenue_usd) + '</td>' +
-        '<td class="num muted">' + (x.quotes == null ? '' : x.quotes.toLocaleString()) + '</td>' +
-        '<td class="num muted">' + (x.refused == null ? '' : x.refused.toLocaleString()) + '</td></tr>';
-    }).join('');
+    var ranks = {}, lr = d.listing_ranks || { items: [] };
+    (lr.items || []).forEach(function (r) { ranks[r.path] = r; });
+    $('ranks-when').textContent = lr.checked_at ? 'Ranks checked ' + ago(lr.checked_at) + '.' : 'Ranks are checked every 6 hours; the first check is pending.';
+    function groupOf(p) {
+      if (!p) return 'Web pages and documents';
+      if (p.indexOf('/chain/') === 0) return 'On-chain';
+      if (p.indexOf('/extract') === 0) return 'Product data';
+      if (p === '/attest') return 'Proof';
+      if (/^\/(sec|data)\//.test(p) || ['/ip', '/weather', '/fx', '/geocode', '/airport/status'].indexOf(p) >= 0) return 'Public data';
+      return 'Web pages and documents';
+    }
+    var order = ['Web pages and documents', 'Public data', 'On-chain', 'Product data', 'Proof'];
+    var rows = '';
+    order.forEach(function (g) {
+      var items = d.by_tool.filter(function (x) { return groupOf(x.path) === g; });
+      if (!items.length) return;
+      rows += '<tr class="grp"><td colspan="8">' + esc(g) + '</td></tr>';
+      rows += items.map(function (x) {
+        var guess = x.tool === 'read_or_summarize';
+        var rk = x.path ? ranks[x.path] : null;
+        var rankCell = !rk ? '' : rk.rank ? '<span class="rank' + (rk.rank <= 3 ? ' top' : '') + '" title="for &ldquo;' + esc(rk.query) + '&rdquo;">#' + rk.rank + '</span>' : '<span class="muted" title="Not in the top 20 for &ldquo;' + esc(rk.query) + '&rdquo;">&ndash;</span>';
+        var conv = x.quotes ? (100 * x.calls / x.quotes) : null;
+        return '<tr' + (x.calls ? '' : ' class="zero"') + '><td>' + esc(x.name) + (guess ? '<span class="guess" title="Paid $0.005 before exact tracking began">&asymp;</span>' : '') + '</td>' +
+          '<td class="num muted">' + (x.price_usd == null ? '' : money(x.price_usd)) + '</td>' +
+          '<td class="num">' + x.calls + '<span class="share" aria-hidden="true"><i style="width:' + (100 * x.calls / max).toFixed(1) + '%"></i></span></td>' +
+          '<td class="num">' + money(x.revenue_usd) + '</td>' +
+          '<td class="num muted">' + (x.quotes == null ? '' : x.quotes.toLocaleString()) + '</td>' +
+          '<td class="num muted">' + (conv == null ? '' : conv === 0 ? '0%' : conv.toFixed(conv < 1 ? 2 : 1) + '%') + '</td>' +
+          '<td class="num muted">' + (x.refused == null ? '' : x.refused.toLocaleString()) + '</td>' +
+          '<td class="num">' + rankCell + '</td></tr>';
+      }).join('');
+    });
+    $('tools').innerHTML = rows;
+
+    // Buyers
+    var bs = d.buyers || [];
+    $('buyers').innerHTML = bs.length ? bs.map(function (b) {
+      return '<tr><td><a class="mono" href="' + esc(b.explorer_url) + '" target="_blank" rel="noopener">' + esc(b.payer_short) + '</a>' + (b.returning ? '<span class="pill">returning</span>' : '') + '</td>' +
+        '<td title="' + esc(new Date(b.first_at).toString()) + '">' + esc(when(b.first_at)) + '</td>' +
+        '<td title="' + esc(new Date(b.last_at).toString()) + '">' + esc(ago(b.last_at)) + '</td>' +
+        '<td class="num">' + b.calls + '</td>' +
+        '<td class="num">' + money(b.spent_usd) + '</td>' +
+        '<td class="num muted">' + b.active_days + '</td>' +
+        '<td class="wrap muted">' + b.tools.map(function (t) { return esc(t.name) + (t.calls > 1 ? ' ×' + t.calls : ''); }).join(', ') + '</td></tr>';
+    }).join('') : '<tr><td colspan="7" class="empty">No outside buyers yet.</td></tr>';
 
     // Recent
     $('recent').innerHTML = d.recent.length ? d.recent.map(function (r) {
