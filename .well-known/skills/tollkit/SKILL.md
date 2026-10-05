@@ -31,6 +31,7 @@ Prices are what each call costs today; the live price is always in the 402 quote
 | Read **and** summarize a page | `https://web.tollkit.dev/web/brief` | `{"url", "max_words"?}` | $0.007 |
 | Screenshot a page (1280x800 JPEG) | `https://web.tollkit.dev/screenshot` | `{"url"}` | $0.003 |
 | Summarize text you have | `https://web.tollkit.dev/summarize` | `{"text", "max_words"?}` | $0.005 |
+| **PDF to text**, page by page | `https://web.tollkit.dev/pdf` | `{"url", "max_pages"?}` | $0.005 |
 | Product price, stock, brand from a store page | `https://extract.tollkit.dev/extract` | `{"url"}` | $0.01 |
 | Same for up to 5 stores, one payment | `https://extract.tollkit.dev/extract/batch` | `{"urls": [...]}` | $0.04 |
 | Wallet balance (native, USDC, USDT, tokens) | `https://chain.tollkit.dev/chain/balance` | `{"address", "chain"?, "tokens"?}` | $0.002 |
@@ -44,7 +45,9 @@ Prices are what each call costs today; the live price is always in the 402 quote
 | **Company snapshot** (profile + key filings + financials) | `https://data.tollkit.dev/data/company` | `{"ticker"}` | $0.006 |
 | **Company due diligence** (ratios, filings, 8-K event summaries) | `https://data.tollkit.dev/data/diligence` | `{"ticker"}` | $0.03 |
 | IP geolocation | `https://data.tollkit.dev/ip` | `{"ip"}` | $0.002 |
-| US weather forecast and alerts | `https://data.tollkit.dev/weather` | `{"lat", "lon"}` | $0.002 |
+| US weather forecast and alerts | `https://data.tollkit.dev/weather` | `{"lat", "lon"}` or `{"address"}` | $0.002 |
+| US airport delays and ground stops (FAA) | `https://data.tollkit.dev/airport/status` | `{"airport"?}` (e.g. `"JFK"`; omit for all) | $0.003 |
+| US address to latitude/longitude | `https://data.tollkit.dev/geocode` | `{"address"}` | $0.002 |
 | Currency conversion (ECB rates) | `https://data.tollkit.dev/fx` | `{"from", "to", "amount"?}` | $0.002 |
 | Signed proof of what a page said | `https://attest.tollkit.dev/attest` | `{"url"}` | $0.25 |
 
