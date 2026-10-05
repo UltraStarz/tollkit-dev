@@ -1,0 +1,22 @@
+# Tollkit
+
+> Pay-per-call tools for AI agents, paid per call in USDC with x402 on Base or Solana. No account, no API key. Web pages, PDFs and search; SEC filings and due diligence; US weather, airport delays, geocoding, IP lookup and exchange rates; wallets, token prices and token checks on Base, Ethereum and Solana; product prices; signed page proofs. Failed calls are never charged.
+
+## Start here
+
+- MCP: add https://extract.tollkit.dev/mcp as a remote MCP server. A paid tool called without `payment` returns its price quote; pay it with your x402 wallet and call again.
+- HTTP: every tool, its URL, body and price: https://extract.tollkit.dev/llms.txt
+- OpenAPI: https://extract.tollkit.dev/openapi.json
+- Agent skill: `npx skills add https://tollkit.dev`
+
+## Pages
+
+- [All tools and prices](https://tollkit.dev/tools)
+- [Connect to your AI](https://tollkit.dev/connect)
+- [Weigh Station: free checks for any x402 endpoint](https://tollkit.dev/weigh-station)
+- [Live sales and usage](https://tollkit.dev/stats)
+- [Status](https://tollkit.dev/status)
+
+## Contact
+
+- hello@tollkit.dev
