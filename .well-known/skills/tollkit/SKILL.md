@@ -59,5 +59,5 @@ Prices are what each call costs today; the live price is always in the 402 quote
 - **Token check** returns facts read from the chain as `warnings` (no pool, thin liquidity, and on Solana an active mint or freeze authority). It is not a rating; no warnings does not mean safe.
 - **Page brief** says `input_truncated: true` when the page was longer than the part it summarized.
 - **Attest** results can be verified by anyone, free: `POST https://attest.tollkit.dev/attest/verify` with the attestation.
-- Full schemas: `https://extract.tollkit.dev/openapi.json`. Plain-language guide: `https://extract.tollkit.dev/llms.txt`. Live prices: `https://extract.tollkit.dev/health`.
+- Full schemas: each hostname's own `/openapi.json` (`https://web.tollkit.dev/openapi.json`, `https://data.tollkit.dev/openapi.json`, `https://chain.tollkit.dev/openapi.json`, `https://extract.tollkit.dev/openapi.json`, `https://attest.tollkit.dev/openapi.json`). Plain-language guide: `https://extract.tollkit.dev/llms.txt`. Live prices: `https://extract.tollkit.dev/health`.
 - Prefer MCP? Add `https://extract.tollkit.dev/mcp` as a remote MCP server; paid tools return the payment quote as their result.

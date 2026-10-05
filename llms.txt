@@ -6,7 +6,7 @@
 
 - MCP: add https://extract.tollkit.dev/mcp as a remote MCP server. A paid tool called without `payment` returns its price quote; pay it with your x402 wallet and call again.
 - HTTP: every tool, its URL, body and price: https://extract.tollkit.dev/llms.txt
-- OpenAPI: https://extract.tollkit.dev/openapi.json
+- OpenAPI, one per hostname: https://web.tollkit.dev/openapi.json, https://data.tollkit.dev/openapi.json, https://chain.tollkit.dev/openapi.json, https://extract.tollkit.dev/openapi.json, https://attest.tollkit.dev/openapi.json
 - Agent skill: `npx skills add https://tollkit.dev`
 
 ## Pages
