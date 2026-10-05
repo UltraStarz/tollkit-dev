@@ -40,6 +40,7 @@ Prices are what each call costs today; the live price is always in the 402 quote
 | Token USD price from on-chain pools | `https://chain.tollkit.dev/chain/price` | `{"token", "chain"?}` | $0.002 |
 | **Token check** before buying or accepting a token | `https://chain.tollkit.dev/chain/check` | `{"token", "chain"?}` | $0.004 |
 | **Wallet portfolio** in USD with liquidity warnings | `https://chain.tollkit.dev/chain/portfolio` | `{"address", "chain"?, "tokens"?}` | $0.008 |
+| **Pre-trade check**: price, liquidity, price impact of your size, your holding, recent news | `https://chain.tollkit.dev/chain/pretrade` | `{"token", "chain"?, "wallet"?, "amount_usd"?}` | $0.01 |
 | SEC company profile and filings | `https://data.tollkit.dev/sec/company` | `{"ticker"}` or `{"cik"}` | $0.002 |
 | SEC key financials | `https://data.tollkit.dev/sec/financials` | `{"ticker"}` | $0.005 |
 | **Company snapshot** (profile + key filings + financials) | `https://data.tollkit.dev/data/company` | `{"ticker"}` | $0.006 |
