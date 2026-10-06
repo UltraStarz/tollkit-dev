@@ -49,6 +49,9 @@ Prices are what each call costs today; the live price is always in the 402 quote
 | US weather forecast and alerts | `https://data.tollkit.dev/weather` | `{"lat", "lon"}` or `{"address"}` | $0.002 |
 | US airport delays and ground stops (FAA) | `https://data.tollkit.dev/airport/status` | `{"airport"?}` (e.g. `"JFK"`; omit for all) | $0.003 |
 | US address to latitude/longitude | `https://data.tollkit.dev/geocode` | `{"address"}` | $0.002 |
+| **Best x402 tools for a task** (ranked by repeat buyers) | `https://data.tollkit.dev/market/best` | `{"task", "limit"?}` | $0.01 |
+| x402 seller lookup | `https://data.tollkit.dev/market/seller` | `{"host"}` | $0.02 |
+| Whole x402 market dataset (weekly) | `https://data.tollkit.dev/market/dataset` | `{}` | $0.10 |
 | Currency conversion (ECB rates) | `https://data.tollkit.dev/fx` | `{"from", "to", "amount"?}` | $0.002 |
 | Signed proof of what a page said | `https://attest.tollkit.dev/attest` | `{"url"}` | $0.25 |
 
