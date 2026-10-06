@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>x402 market report — Tollkit</title>
+<meta name="description" content="Weekly, honest numbers on the x402 agent-payments market: who really earns, where buyers come back, and which numbers deserve a second look.">
+<meta property="og:title" content="x402 market report">
+<meta property="og:description" content="Who really earns from AI agents paying per call, every week. Free.">
+<link rel="alternate" type="application/rss+xml" title="x402 market report" href="https://extract.tollkit.dev/report.rss">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
+<style>
+  :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --panel-2:#151515; --line:#242424; --line-soft:#1c1c1c;
+    --text:#e5e5e5; --muted:#8a8a8a; --dim:#707070; --accent:#4a8eff; --accent-dim:#2f5fb0;
+    --warn:#e0a33a; --warn-bg:#1a1408; --warn-line:#3a2f14; --ok:#3ecf8e; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .container { max-width:880px; margin:0 auto; padding:0 16px; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  code, .mono { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  nav.top { border-bottom:1px solid var(--line-soft); padding:.9rem 0; }
+  nav.top .container { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  .brand { font-weight:700; letter-spacing:-.02em; color:var(--text); }
+  .brand .dot { color:var(--accent); }
+  nav.top .links { display:flex; gap:1.1rem; font-size:.9rem; }
+  nav.top .links a { color:var(--muted); }
+  header.head { padding:2.6rem 0 1rem; }
+  h1 { font-size:2rem; letter-spacing:-.03em; margin:0 0 .5rem; }
+  .lede { color:var(--muted); margin:0; font-size:1.02rem; max-width:40rem; }
+  .live { display:inline-flex; align-items:center; gap:.45rem; font-size:.8rem; color:var(--dim); margin-top:.8rem; }
+  .live i { width:7px; height:7px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 0 rgba(62,207,142,.5); animation:ping 2.4s ease-out infinite; }
+  .live.stale i { background:var(--warn); animation:none; }
+  @keyframes ping { 70% { box-shadow:0 0 0 6px rgba(62,207,142,0); } 100% { box-shadow:0 0 0 0 rgba(62,207,142,0); } }
+  @media (prefers-reduced-motion: reduce) { .live i { animation:none; } }
+
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.2rem 1.4rem; margin-top:1rem; }
+  .card h2 { font-size:1.02rem; margin:0 0 .2rem; }
+  .card .sub { color:var(--dim); font-size:.84rem; margin:0 0 1rem; }
+
+  /* Headline numbers */
+  .kpis { display:grid; grid-template-columns:1.3fr repeat(5, 1fr); gap:.6rem; margin-top:1.2rem; }
+  .kpi { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1rem 1.1rem; min-width:0; }
+  .kpi .label { font-size:.8rem; color:var(--muted); }
+  .kpi .value { font-size:1.6rem; font-weight:650; letter-spacing:-.02em; line-height:1.2; margin-top:.25rem; color:var(--text); }
+  .kpi .note { font-size:.76rem; color:var(--dim); margin-top:.2rem; }
+  .kpi.hero { background:#0e1626; border-color:#1e3358; }
+  .kpi.hero .value { font-size:3rem; line-height:1.05; }
+  @media (max-width:980px) { .kpis { grid-template-columns:1.3fr 1fr 1fr; } }
+  @media (max-width:720px) { .kpis { grid-template-columns:1fr 1fr; } .kpi.hero { grid-column:1 / -1; } }
+
+  /* Daily chart */
+  .chart { position:relative; height:200px; margin-top:.4rem; }
+  .chart svg { display:block; width:100%; height:100%; overflow:visible; }
+  .chart .grid line { stroke:var(--line-soft); stroke-width:1; }
+  .chart .axis text { fill:var(--dim); font-size:11px; font-family:inherit; }
+  .chart .bar { fill:var(--accent); }
+  .chart .col:hover .bar, .chart .col.on .bar { fill:#7aaeff; }
+  .chart .col .hit { fill:transparent; }
+  .chart .col.on .hit { fill:rgba(74,142,255,.06); }
+  .chart .base { stroke:#2a2a2a; stroke-width:1; }
+  .tip { position:absolute; pointer-events:none; background:#0b0d12; border:1px solid #2a3550; border-radius:8px; padding:.45rem .6rem; font-size:.8rem; color:var(--text); white-space:nowrap; transform:translate(-50%, calc(-100% - 10px)); opacity:0; transition:opacity .12s ease; box-shadow:0 8px 24px -8px rgba(0,0,0,.8); z-index:2; }
+  .tip.on { opacity:1; }
+  .tip b { font-weight:650; }
+  .tip span { color:var(--muted); }
+
+  /* Tables */
+  .tablewrap { overflow-x:auto; margin:0 -.2rem; }
+  table { width:100%; border-collapse:collapse; font-size:.88rem; }
+  th { text-align:left; font-weight:500; color:var(--dim); font-size:.76rem; padding:.45rem .5rem; border-bottom:1px solid var(--line); white-space:nowrap; }
+  td { padding:.55rem .5rem; border-bottom:1px solid var(--line-soft); white-space:nowrap; }
+  tr:last-child td { border-bottom:0; }
+  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+  td.muted { color:var(--muted); }
+  tbody tr { transition:background .15s ease; }
+  tbody tr:hover { background:rgba(74,142,255,.04); }
+  .share { display:inline-block; vertical-align:middle; width:64px; height:6px; border-radius:3px; background:#1a2233; margin-left:.5rem; overflow:hidden; }
+  .share i { display:block; height:100%; background:var(--accent); border-radius:3px; }
+  .guess { color:var(--warn); font-size:.78rem; margin-left:.25rem; cursor:help; }
+  .zero td { color:var(--dim); }
+  tr.grp td { color:var(--muted); font-size:.74rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; padding-top:1rem; border-bottom:1px solid var(--line); background:transparent; }
+  tbody tr.grp:hover { background:transparent; }
+  .rank { display:inline-block; min-width:2.2rem; text-align:center; border-radius:6px; padding:.05rem .35rem; font-size:.8rem; background:#1a2233; color:var(--text); }
+  .rank.top { background:rgba(74,142,255,.18); color:#cfe0ff; }
+  .pill { display:inline-block; font-size:.72rem; border-radius:999px; padding:.05rem .5rem; margin-left:.4rem; background:rgba(74,142,255,.15); color:#cfe0ff; }
+  td.wrap { white-space:normal; min-width:12rem; }
+  .split { display:flex; height:12px; border-radius:6px; overflow:hidden; background:#1a2233; margin:.4rem 0 .8rem; }
+  .split i { display:block; height:100%; }
+  .k-crawler { background:#3a4a66; } .k-empty { background:#5b6f94; } .k-example { background:#8aa3cf; } .k-real { background:var(--accent); }
+  .legend2 { display:flex; flex-wrap:wrap; gap:.4rem 1.1rem; font-size:.84rem; color:var(--muted); }
+  .legend2 b { color:var(--text); font-weight:600; }
+  .legend2 .sw { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:.35rem; vertical-align:-1px; }
+  .asked { display:grid; grid-template-columns:repeat(auto-fill, minmax(230px, 1fr)); gap:.8rem; }
+  .asked .box { border:1px solid var(--line); border-radius:10px; padding:.7rem .8rem; }
+  .asked h3 { font-size:.82rem; margin:0 0 .4rem; color:var(--text); font-weight:600; }
+  .asked ol { margin:0; padding-left:1.1rem; font-size:.84rem; color:var(--muted); }
+  .asked li span { color:var(--dim); }
+  .empty { color:var(--dim); font-size:.9rem; padding:1rem 0; }
+  .fine { font-size:.8rem; color:var(--dim); margin:.9rem 0 0; }
+  .fine code { font-size:.78rem; color:#9fb6dd; }
+  .err { font-size:.86rem; color:#e6d3a8; background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:8px; padding:.6rem .8rem; margin-top:1rem; display:none; }
+  .err.on { display:block; }
+  .skeleton { color:transparent !important; background:linear-gradient(90deg,#161616 0%,#1f1f1f 50%,#161616 100%); background-size:200% 100%; border-radius:6px; animation:shimmer 1.4s linear infinite; }
+  @keyframes shimmer { to { background-position:-200% 0; } }
+
+  footer { border-top:1px solid var(--line-soft); margin-top:2.5rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; }
+  footer a { color:var(--muted); }
+</style>
+<style>
+  .grid4 { display:grid; grid-template-columns:repeat(4,1fr); gap:.6rem; margin-top:1.2rem; }
+  @media (max-width:720px) { .grid4 { grid-template-columns:1fr 1fr; } }
+  .flag { display:inline-block; font-size:.72rem; border-radius:999px; padding:.05rem .5rem; margin:.15rem .3rem 0 0; background:var(--warn-bg); color:var(--warn); border:1px solid var(--warn-line); white-space:nowrap; }
+  .onote { display:block; font-size:.78rem; color:var(--warn); white-space:normal; margin-top:.2rem; max-width:34rem; }
+  .onote a { color:var(--warn); text-decoration:underline; }
+  .self td { background:rgba(74,142,255,.06); }
+  .sub2 { color:var(--dim); font-size:.78rem; }
+  form.sub { display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.6rem; }
+  form.sub input[type=email] { flex:1 1 240px; background:var(--panel-2); border:1px solid var(--line); border-radius:8px; color:var(--text); padding:.6rem .7rem; font-size:.95rem; }
+  form.sub button { background:var(--accent); color:#fff; border:0; border-radius:8px; padding:.6rem 1rem; font-weight:600; cursor:pointer; }
+  form.sub .hp { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+  #sub-msg { font-size:.85rem; color:var(--muted); margin-top:.4rem; min-height:1.2em; }
+  ul.caveats { margin:.3rem 0 0; padding-left:1.1rem; color:var(--dim); font-size:.82rem; }
+  td.desc { white-space:normal; color:var(--muted); font-size:.82rem; min-width:14rem; }
+</style>
+</head>
+<body>
+<nav class="top">
+  <div class="container">
+    <a class="brand" href="/">Toll<span class="dot">kit</span></a>
+    <div class="links"><a href="/#products">Products</a><a href="/connect">Connect</a><a href="/fund">Fund agents</a><a href="/report">Market report</a></div>
+  </div>
+</nav>
+<header class="head">
+  <div class="container">
+    <h1 id="title">x402 market report</h1>
+    <p class="lede">Every week: who is really earning from AI agents paying per call with x402, which categories have buyers who come back, and which numbers deserve a second look. From Coinbase&rsquo;s public catalog of every paid endpoint. Free.</p>
+    <div class="live" id="live"><i></i><span id="updated">Loading&hellip;</span></div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="err" id="err"></div>
+
+  <div class="grid4">
+    <div class="kpi hero"><div class="label">Paid calls, last 30 days</div><div class="value skeleton" id="h-calls">000</div><div class="note" id="h-calls-note">&nbsp;</div></div>
+    <div class="kpi"><div class="label">At list prices</div><div class="value skeleton" id="h-rev">$0</div><div class="note">before upstream costs</div></div>
+    <div class="kpi"><div class="label">Sellers over $1,000</div><div class="value skeleton" id="h-1000">0</div><div class="note" id="h-ladder">&nbsp;</div></div>
+    <div class="kpi"><div class="label">Top 10 sellers&rsquo; share</div><div class="value skeleton" id="h-top">0%</div><div class="note">of all paid calls</div></div>
+  </div>
+
+  <section class="card">
+    <h2>Top sellers by estimated revenue</h2>
+    <p class="sub">30 days, calls &times; listed price. <span class="flag">pattern</span> marks numbers that look unusual; a dated on-chain note says where our own checks found buyer wallets funded by the seller or by one wallet. Neither is a finding of wrongdoing.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th class="num">#</th><th>Seller</th><th class="num">Est. revenue</th><th class="num">Calls</th><th class="num">Paying wallets</th><th class="num">Calls / wallet</th><th class="num">Last week</th></tr></thead>
+      <tbody id="sellers"><tr><td colspan="7" class="empty">Loading&hellip;</td></tr></tbody>
+    </table></div>
+  </section>
+
+  <section class="card">
+    <h2>Where buyers come back</h2>
+    <p class="sub">Endpoints with 10+ paying wallets that each called at least 3 times on average. One-time samplers don&rsquo;t make this list.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Endpoint</th><th class="num">Price</th><th class="num">Wallets</th><th class="num">Calls / wallet</th><th>What it does</th></tr></thead>
+      <tbody id="repeat"><tr><td colspan="5" class="empty">Loading&hellip;</td></tr></tbody>
+    </table></div>
+  </section>
+
+  <section class="card">
+    <h2>Categories</h2>
+    <p class="sub">Grouped by what each endpoint says it does. <b style="color:var(--text);font-weight:600">With repeat buyers</b> counts sellers that have an endpoint with 5+ wallets calling it twice or more.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Category</th><th class="num">Est. revenue</th><th class="num">Calls</th><th class="num">Sellers</th><th class="num">With repeat buyers</th><th class="num">Median price</th></tr></thead>
+      <tbody id="cats"><tr><td colspan="6" class="empty">Loading&hellip;</td></tr></tbody>
+    </table></div>
+  </section>
+
+  <section class="card">
+    <h2>Where Tollkit stands</h2>
+    <p class="sub">We publish this report and sell x402 tools too, so here are our own numbers, ranked the same way as everyone else.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Hostname</th><th class="num">Rank</th><th class="num">Est. revenue</th><th class="num">Calls</th><th class="num">Paying wallets</th></tr></thead>
+      <tbody id="self"><tr><td colspan="5" class="empty">Loading&hellip;</td></tr></tbody>
+    </table></div>
+  </section>
+
+  <section class="card">
+    <h2>Get it every week</h2>
+    <p class="sub">One email on Mondays. We&rsquo;ll ask you to confirm before the first one, and every email has a one-click unsubscribe. Your address is used for nothing else.</p>
+    <form class="sub" id="subform">
+      <input type="email" id="email" required placeholder="you@example.com" autocomplete="email" aria-label="Email address">
+      <div class="hp" aria-hidden="true"><label>Website <input type="text" id="website" tabindex="-1" autocomplete="off"></label></div>
+      <button type="submit">Sign up</button>
+    </form>
+    <div id="sub-msg" role="status"></div>
+    <p class="fine">Or follow the <a href="https://extract.tollkit.dev/report.rss">RSS feed</a>.</p>
+  </section>
+
+  <section class="card">
+    <h2>How to read this</h2>
+    <ul class="caveats" id="caveats"></ul>
+    <p class="fine" id="source"></p>
+  </section>
+</main>
+<footer>
+  <div class="container">
+    <div class="brand" style="margin-bottom:.3rem">Toll<span class="dot">kit</span></div>
+    <a href="/">tollkit.dev</a> &middot; <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a> &middot; <a href="/status">Status</a>
+  </div>
+</footer>
+<script>
+(function () {
+  var API = 'https://extract.tollkit.dev';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); };
+  function usd(n) { if (n == null) return ''; if (n >= 1000) return '$' + Math.round(n).toLocaleString(); if (n >= 10) return '$' + n.toFixed(0); if (n >= 0.1) return '$' + n.toFixed(2); return '$' + n.toFixed(3); }
+  function price(n) { if (n == null) return ''; return n < 0.01 ? '$' + n.toFixed(4).replace(/0+$/, '') : '$' + n.toFixed(n < 1 ? 3 : 2).replace(/0+$/, '').replace(/\.$/, ''); }
+  var week = new URLSearchParams(location.search).get('week');
+
+  function render(r) {
+    var h = r.headline;
+    ['h-calls', 'h-rev', 'h-1000', 'h-top'].forEach(function (id) { $(id).classList.remove('skeleton'); });
+    $('title').textContent = 'x402 market report · week of ' + new Date(r.week + 'T00:00:00Z').toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+    document.title = $('title').textContent + ' — Tollkit';
+    $('updated').textContent = 'Built ' + new Date(r.generated_at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) + ' · next on Monday';
+    $('h-calls').textContent = h.calls_30d.toLocaleString();
+    $('h-calls-note').textContent = h.active_seller_hosts.toLocaleString() + ' sellers with any paid call' + (r.change ? ' · ' + (r.change.calls_30d >= 0 ? '+' : '') + r.change.calls_30d.toLocaleString() + ' vs last week' : '');
+    $('h-rev').textContent = usd(h.est_revenue_30d_usd);
+    $('h-1000').textContent = h.sellers_over_1000_usd;
+    $('h-ladder').textContent = h.sellers_over_100_usd + ' over $100 · ' + h.sellers_over_10_usd + ' over $10';
+    $('h-top').textContent = h.top10_share_of_calls_pct + '%';
+
+    $('sellers').innerHTML = r.top_sellers.map(function (s) {
+      var flags = (s.patterns || []).map(function (p) { return '<span class="flag">' + esc(p) + '</span>'; }).join('');
+      var note = s.onchain_note ? '<span class="onote">On-chain check, ' + esc(s.onchain_note.checked) + ': ' + esc(s.onchain_note.note) + ' <a href="' + esc(s.onchain_note.source) + '" target="_blank" rel="noopener">Source</a></span>' : '';
+      var lw = s.last_week_rank == null ? '<span class="muted">new</span>' : (s.last_week_rank === s.rank ? '–' : (s.last_week_rank > s.rank ? '▲ ' : '▼ ') + s.last_week_rank);
+      return '<tr><td class="num muted">' + s.rank + '</td><td class="desc" style="color:var(--text)">' + esc(s.host) + (flags ? '<br>' + flags : '') + note + '</td>' +
+        '<td class="num">' + usd(s.est_revenue_usd) + '</td><td class="num">' + s.calls.toLocaleString() + '</td><td class="num">' + (s.paying_wallets_max || 0).toLocaleString() + '</td>' +
+        '<td class="num muted">' + (s.calls_per_wallet == null ? '' : s.calls_per_wallet) + '</td><td class="num muted">' + lw + '</td></tr>';
+    }).join('');
+
+    $('repeat').innerHTML = r.repeat_use.length ? r.repeat_use.map(function (x) {
+      var path = x.resource.replace(/^https?:\/\//, '');
+      return '<tr><td class="mono" style="white-space:normal;max-width:18rem;word-break:break-all">' + esc(path) + '</td><td class="num">' + price(x.price_usd) + '</td><td class="num">' + x.paying_wallets.toLocaleString() + '</td><td class="num">' + x.calls_per_wallet + '</td><td class="desc">' + esc(x.description) + '</td></tr>';
+    }).join('') : '<tr><td colspan="5" class="empty">None this week.</td></tr>';
+
+    $('cats').innerHTML = r.categories.map(function (c) {
+      return '<tr><td>' + esc(c.category) + '</td><td class="num">' + usd(c.est_revenue_usd) + '</td><td class="num">' + c.calls.toLocaleString() + '</td><td class="num">' + c.sellers + '</td><td class="num">' + c.sellers_with_repeat_buyers + '</td><td class="num muted">' + price(c.median_price_usd) + '</td></tr>';
+    }).join('');
+
+    $('self').innerHTML = (r.tollkit || []).length ? r.tollkit.map(function (s) {
+      return '<tr class="self"><td>' + esc(s.host) + '</td><td class="num">#' + s.rank + ' of ' + s.active_sellers.toLocaleString() + '</td><td class="num">' + usd(s.est_revenue_usd) + '</td><td class="num">' + s.calls + '</td><td class="num">' + s.paying_wallets_max + '</td></tr>';
+    }).join('') : '<tr><td colspan="5" class="empty">Not listed this week.</td></tr>';
+
+    $('caveats').innerHTML = r.caveats.map(function (c) { return '<li>' + esc(c) + '</li>'; }).join('');
+    $('source').innerHTML = 'Source: ' + esc(r.source) + ' Raw data: <a href="' + API + '/report.json' + (week ? '?week=' + encodeURIComponent(week) : '') + '"><code>report.json</code></a>.';
+  }
+
+  fetch(API + '/report.json' + (week ? '?week=' + encodeURIComponent(week) : ''), { cache: 'no-store' }).then(function (r) {
+    return r.json().then(function (d) { if (!r.ok) throw new Error(d.message || ('HTTP ' + r.status)); return d; });
+  }).then(render).catch(function (e) {
+    var el = $('err'); el.textContent = 'The report isn’t available right now: ' + e.message; el.classList.add('on');
+    $('live').classList.add('stale'); $('updated').textContent = 'Unavailable';
+  });
+
+  $('subform').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var msg = $('sub-msg'); msg.textContent = 'Signing you up…';
+    fetch(API + '/report/subscribe', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: $('email').value, website: $('website').value }) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { msg.textContent = d.message || (d.ok ? 'You’re on the list.' : 'That didn’t work; try again.'); if (d.ok) $('email').value = ''; })
+      .catch(function () { msg.textContent = 'That didn’t work; try again in a minute.'; });
+  });
+})();
+</script>
+</body>
+</html>
