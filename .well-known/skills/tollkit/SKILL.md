@@ -61,7 +61,7 @@ Prices are what each call costs today; the live price is always in the 402 quote
 ## Good to know
 
 - **Failures are free.** Anything answered with HTTP 400 or above settled nothing. Bad input, a page that won't load, an unknown ticker, a token with no pool: no charge.
-- **Token check** returns facts read from the chain as `warnings` (no pool, thin liquidity, and on Solana an active mint or freeze authority). It is not a rating; no warnings does not mean safe.
+- **Token check** returns facts read from the chain as `warnings` (no pool, thin liquidity; on Base and Ethereum the contract's owner and whether it is upgradeable or has mint, pause, blacklist or fee-setting functions, in `controls`; on Solana an active mint or freeze authority). It is not a rating; no warnings does not mean safe.
 - **Page brief** says `input_truncated: true` when the page was longer than the part it summarized.
 - **Attest** results can be verified by anyone, free: `POST https://attest.tollkit.dev/attest/verify` with the attestation.
 - Full schemas: each hostname's own `/openapi.json` (`https://web.tollkit.dev/openapi.json`, `https://data.tollkit.dev/openapi.json`, `https://chain.tollkit.dev/openapi.json`, `https://extract.tollkit.dev/openapi.json`, `https://attest.tollkit.dev/openapi.json`). Plain-language guide: `https://extract.tollkit.dev/llms.txt`. Live prices: `https://extract.tollkit.dev/health`.
