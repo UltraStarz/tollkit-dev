@@ -35,6 +35,7 @@
   .facts { display:flex; flex-wrap:wrap; gap:.5rem; margin:1.2rem 0 0; padding:0; list-style:none; }
   .facts li { background:var(--panel); border:1px solid var(--line); border-radius:99px; padding:.3rem .8rem; font-size:.82rem; color:#c8c8c8; }
   .facts b { color:var(--text); font-weight:600; }
+  em.trial { font-style:normal; font-size:.7rem; font-weight:600; color:var(--ok); border:1px solid #1f4d38; background:#0f1f18; border-radius:99px; padding:.05rem .45rem; margin-left:.35rem; vertical-align:1px; white-space:nowrap; }
   .jump { display:flex; flex-wrap:wrap; gap:.4rem .9rem; margin:1.4rem 0 0; font-size:.88rem; }
   .jump a { color:var(--muted); }
   .jump a:hover { color:var(--text); }
@@ -97,11 +98,11 @@
 <header class="head">
   <div class="container">
     <h1>All tools and prices</h1>
-    <p class="lede">Every Tollkit tool in one place. Your agent pays per call in USDC on Base or Solana, with <strong>no account and no API key</strong>. Each call shows its price before anything is paid, and <strong>a call that fails costs nothing</strong>.</p>
+    <p class="lede">Every Tollkit tool in one place. Your agent pays per call in USDC on Base or Solana, with <strong>no account and no API key</strong>. Each call shows its price before anything is paid, and <strong>a call that fails costs nothing</strong>. Tools marked <em class="trial">3 free/day</em> give three free calls a day through the MCP connector, so you can try them before setting up a wallet.</p>
     <ul class="facts">
-      <li><b>21</b> paid tools</li>
+      <li><b>28</b> paid tools</li>
       <li><b>8</b> free tools</li>
-      <li>From <b>$0.001</b> a call</li>
+      <li>From <b>$0.002</b> a call</li>
       <li>One connector: <code>extract.tollkit.dev/mcp</code></li>
     </ul>
     <nav class="jump" aria-label="Jump to">
@@ -118,11 +119,12 @@
     <table>
       <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
       <tbody>
-        <tr><td class="name"><b>Read a page</b><span>Any page&rsquo;s visible text, title and final URL, up to 50,000 characters.</span></td><td class="ids"><code>read_page</code><code>POST web.tollkit.dev/read</code></td><td class="price" data-route="POST /read">$0.002</td></tr>
-        <tr><td class="name"><b>Screenshot a page</b><span>A 1280&times;800 JPEG of how the page looks, with its SHA-256.</span></td><td class="ids"><code>screenshot_page</code><code>POST web.tollkit.dev/screenshot</code></td><td class="price" data-route="POST /screenshot">$0.003</td></tr>
+        <tr><td class="name"><b>Read a page<em class="trial">3 free/day</em></b><span>Any page&rsquo;s visible text, title and final URL, up to 50,000 characters.</span></td><td class="ids"><code>read_page</code><code>POST web.tollkit.dev/read</code></td><td class="price" data-route="POST /read">$0.002</td></tr>
+        <tr><td class="name"><b>Screenshot a page<em class="trial">3 free/day</em></b><span>A 1280&times;800 JPEG of how the page looks, with its SHA-256.</span></td><td class="ids"><code>screenshot_page</code><code>POST web.tollkit.dev/screenshot</code></td><td class="price" data-route="POST /screenshot">$0.003</td></tr>
         <tr><td class="name"><b>Summarize text</b><span>A short summary of text you send (up to 8,000 characters).</span></td><td class="ids"><code>HTTP only</code><code>POST web.tollkit.dev/summarize</code></td><td class="price" data-route="POST /summarize">$0.005</td></tr>
         <tr><td class="name"><b>Page brief</b><span>Read a page in a real browser and summarize it, in one call and one payment.</span></td><td class="ids"><code>page_brief</code><code>POST web.tollkit.dev/web/brief</code></td><td class="price" data-route="POST /web/brief">$0.007</td></tr>
-        <tr><td class="name"><b>PDF to text</b><span>A PDF at a URL as text, page by page, with title, author and page count. Up to 300 pages and 25 MB; scans are refused free.</span></td><td class="ids"><code>pdf_to_text</code><code>POST web.tollkit.dev/pdf</code></td><td class="price" data-route="POST /pdf">$0.005</td></tr>
+        <tr><td class="name"><b>PDF to text<em class="trial">3 free/day</em></b><span>A PDF at a URL as text, page by page, with title, author and page count. Up to 300 pages and 25 MB; scans are refused free.</span></td><td class="ids"><code>pdf_to_text</code><code>POST web.tollkit.dev/pdf</code></td><td class="price" data-route="POST /pdf">$0.005</td></tr>
+        <tr><td class="name"><b>Search and read</b><span>Search the web and get the top results plus the full text of the top 1&ndash;3 pages, each rendered in a real browser.</span></td><td class="ids"><code>search_and_read</code><code>POST web.tollkit.dev/search/read</code></td><td class="price" data-route="POST /search/read">$0.015</td></tr>
       </tbody>
     </table>
   </section>
@@ -133,11 +135,11 @@
     <table>
       <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
       <tbody>
-        <tr><td class="name"><b>Wallet balance</b><span>ETH or SOL, USDC (and USDT on Ethereum and Solana) plus up to 20 tokens you name.</span></td><td class="ids"><code>wallet_balance</code><code>POST chain.tollkit.dev/chain/balance</code></td><td class="price" data-route="POST /chain/balance">$0.002</td></tr>
-        <tr><td class="name"><b>Token info</b><span>What a token really is: name, symbol, decimals, total supply (and mint authority on Solana).</span></td><td class="ids"><code>token_info</code><code>POST chain.tollkit.dev/chain/token</code></td><td class="price" data-route="POST /chain/token">$0.002</td></tr>
-        <tr><td class="name"><b>Transaction lookup</b><span>Did it go through, who paid whom, the fee, and every token transfer.</span></td><td class="ids"><code>transaction_lookup</code><code>POST chain.tollkit.dev/chain/tx</code></td><td class="price" data-route="POST /chain/tx">$0.002</td></tr>
-        <tr><td class="name"><b>Token price</b><span>USD price from the deepest Uniswap pool (Orca on Solana), with a thin-liquidity warning.</span></td><td class="ids"><code>token_price</code><code>POST chain.tollkit.dev/chain/price</code></td><td class="price" data-route="POST /chain/price">$0.002</td></tr>
-        <tr><td class="name"><b>Token check</b><span>Before you buy or accept a token: what it is, its price and liquidity, and warnings read from the chain.</span></td><td class="ids"><code>token_check</code><code>POST chain.tollkit.dev/chain/check</code></td><td class="price" data-route="POST /chain/check">$0.004</td></tr>
+        <tr><td class="name"><b>Wallet balance<em class="trial">3 free/day</em></b><span>ETH or SOL, USDC (and USDT on Ethereum and Solana) plus up to 20 tokens you name.</span></td><td class="ids"><code>wallet_balance</code><code>POST chain.tollkit.dev/chain/balance</code></td><td class="price" data-route="POST /chain/balance">$0.002</td></tr>
+        <tr><td class="name"><b>Token info<em class="trial">3 free/day</em></b><span>What a token really is: name, symbol, decimals, total supply (and mint authority on Solana).</span></td><td class="ids"><code>token_info</code><code>POST chain.tollkit.dev/chain/token</code></td><td class="price" data-route="POST /chain/token">$0.002</td></tr>
+        <tr><td class="name"><b>Transaction lookup<em class="trial">3 free/day</em></b><span>Did it go through, who paid whom, the fee, and every token transfer.</span></td><td class="ids"><code>transaction_lookup</code><code>POST chain.tollkit.dev/chain/tx</code></td><td class="price" data-route="POST /chain/tx">$0.002</td></tr>
+        <tr><td class="name"><b>Token price<em class="trial">3 free/day</em></b><span>USD price from the deepest Uniswap pool (Orca on Solana), with a thin-liquidity warning.</span></td><td class="ids"><code>token_price</code><code>POST chain.tollkit.dev/chain/price</code></td><td class="price" data-route="POST /chain/price">$0.002</td></tr>
+        <tr><td class="name"><b>Token check<em class="trial">3 free/day</em></b><span>Before you buy or accept a token: what it is, its price and liquidity, and warnings read from the chain.</span></td><td class="ids"><code>token_check</code><code>POST chain.tollkit.dev/chain/check</code></td><td class="price" data-route="POST /chain/check">$0.004</td></tr>
         <tr><td class="name"><b>Wallet portfolio</b><span>Every holding priced from on-chain pools, the wallet&rsquo;s total in USD, and liquidity warnings.</span></td><td class="ids"><code>wallet_portfolio</code><code>POST chain.tollkit.dev/chain/portfolio</code></td><td class="price" data-route="POST /chain/portfolio">$0.008</td></tr>
         <tr><td class="name"><b>Pre-trade check</b><span>One call before a trade: USD price, pool depth, chain warnings, your trade size vs the pool (rough price impact), your wallet&rsquo;s current holding, and recent web results. Facts, not advice.</span></td><td class="ids"><code>pretrade_check</code><code>POST chain.tollkit.dev/chain/pretrade</code></td><td class="price" data-route="POST /chain/pretrade">$0.01</td></tr>
       </tbody>
@@ -150,18 +152,18 @@
     <table>
       <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
       <tbody>
-        <tr><td class="name"><b>Company filings</b><span>A US public company&rsquo;s profile and latest SEC filings, with links. By ticker or CIK.</span></td><td class="ids"><code>sec_company</code><code>POST data.tollkit.dev/sec/company</code></td><td class="price" data-route="POST /sec/company">$0.002</td></tr>
+        <tr><td class="name"><b>Company filings<em class="trial">3 free/day</em></b><span>A US public company&rsquo;s profile and latest SEC filings, with links. By ticker or CIK.</span></td><td class="ids"><code>sec_company</code><code>POST data.tollkit.dev/sec/company</code></td><td class="price" data-route="POST /sec/company">$0.002</td></tr>
         <tr><td class="name"><b>Company financials</b><span>Revenue, profit, EPS, assets, cash and more: 4 years plus the latest quarter, as filed.</span></td><td class="ids"><code>sec_financials</code><code>POST data.tollkit.dev/sec/financials</code></td><td class="price" data-route="POST /sec/financials">$0.005</td></tr>
         <tr><td class="name"><b>Company snapshot</b><span>Profile, key filings and financials for a US public company in one call.</span></td><td class="ids"><code>company_snapshot</code><code>POST data.tollkit.dev/data/company</code></td><td class="price" data-route="POST /data/company">$0.006</td></tr>
         <tr><td class="name"><b>Company due diligence</b><span>Growth, margins and leverage from SEC filings, key filings, and plain-English summaries of the latest material events.</span></td><td class="ids"><code>company_due_diligence</code><code>POST data.tollkit.dev/data/diligence</code></td><td class="price" data-route="POST /data/diligence">$0.03</td></tr>
-        <tr><td class="name"><b>IP lookup</b><span>Country, region, city and approximate coordinates for an IPv4 or IPv6 address.</span></td><td class="ids"><code>ip_lookup</code><code>POST data.tollkit.dev/ip</code></td><td class="price" data-route="POST /ip">$0.002</td></tr>
-        <tr><td class="name"><b>US weather</b><span>7-day National Weather Service forecast and active alerts for a US street address or a latitude/longitude.</span></td><td class="ids"><code>weather_forecast</code><code>POST data.tollkit.dev/weather</code></td><td class="price" data-route="POST /weather">$0.002</td></tr>
-        <tr><td class="name"><b>Airport delays</b><span>Live FAA ground stops, ground delay programs, arrival and departure delays and closures, for one US airport or all of them.</span></td><td class="ids"><code>airport_delays</code><code>POST data.tollkit.dev/airport/status</code></td><td class="price" data-route="POST /airport/status">$0.003</td></tr>
-        <tr><td class="name"><b>Address to coordinates</b><span>A US street address as latitude and longitude, with the standardized address, ZIP, county and FIPS code, and census tract.</span></td><td class="ids"><code>geocode_address</code><code>POST data.tollkit.dev/geocode</code></td><td class="price" data-route="POST /geocode">$0.002</td></tr>
+        <tr><td class="name"><b>IP lookup<em class="trial">3 free/day</em></b><span>Country, region, city and approximate coordinates for an IPv4 or IPv6 address.</span></td><td class="ids"><code>ip_lookup</code><code>POST data.tollkit.dev/ip</code></td><td class="price" data-route="POST /ip">$0.002</td></tr>
+        <tr><td class="name"><b>US weather<em class="trial">3 free/day</em></b><span>7-day National Weather Service forecast and active alerts for a US street address or a latitude/longitude.</span></td><td class="ids"><code>weather_forecast</code><code>POST data.tollkit.dev/weather</code></td><td class="price" data-route="POST /weather">$0.002</td></tr>
+        <tr><td class="name"><b>Airport delays<em class="trial">3 free/day</em></b><span>Live FAA ground stops, ground delay programs, arrival and departure delays and closures, for one US airport or all of them.</span></td><td class="ids"><code>airport_delays</code><code>POST data.tollkit.dev/airport/status</code></td><td class="price" data-route="POST /airport/status">$0.003</td></tr>
+        <tr><td class="name"><b>Address to coordinates<em class="trial">3 free/day</em></b><span>A US street address as latitude and longitude, with the standardized address, ZIP, county and FIPS code, and census tract.</span></td><td class="ids"><code>geocode_address</code><code>POST data.tollkit.dev/geocode</code></td><td class="price" data-route="POST /geocode">$0.002</td></tr>
         <tr><td class="name"><b>Best x402 tools for a task</b><span>Describe a job; get the paid x402 APIs for it ranked by paying wallets and repeat buyers, with prices and cautions. Weekly data.</span></td><td class="ids"><code>best_x402_tools</code><code>POST data.tollkit.dev/market/best</code></td><td class="price" data-route="POST /market/best">$0.01</td></tr>
         <tr><td class="name"><b>x402 seller lookup</b><span>Any x402 seller by hostname: rank, calls, revenue estimate, paying wallets, endpoints, competitors and unusual-number labels.</span></td><td class="ids"><code>x402_seller_lookup</code><code>POST data.tollkit.dev/market/seller</code></td><td class="price" data-route="POST /market/seller">$0.02</td></tr>
         <tr><td class="name"><b>x402 market dataset</b><span>Every active x402 seller and category as one JSON document, rebuilt weekly.</span></td><td class="ids"><code>x402_market_dataset</code><code>POST data.tollkit.dev/market/dataset</code></td><td class="price" data-route="POST /market/dataset">$0.10</td></tr>
-        <tr><td class="name"><b>Exchange rate</b><span>ECB reference rates for 30 currencies, today or any day in the last 90.</span></td><td class="ids"><code>exchange_rate</code><code>POST data.tollkit.dev/fx</code></td><td class="price" data-route="POST /fx">$0.002</td></tr>
+        <tr><td class="name"><b>Exchange rate<em class="trial">3 free/day</em></b><span>ECB reference rates for 30 currencies, today or any day in the last 90.</span></td><td class="ids"><code>exchange_rate</code><code>POST data.tollkit.dev/fx</code></td><td class="price" data-route="POST /fx">$0.002</td></tr>
       </tbody>
     </table>
     <p class="credit">Sources: U.S. SEC EDGAR; <a href="https://db-ip.com">IP Geolocation by DB-IP</a> (CC BY 4.0); U.S. National Weather Service, which does not endorse Tollkit; U.S. Federal Aviation Administration; U.S. Census Bureau geocoder (this product uses the Census Bureau Data API but is not endorsed or certified by the Census Bureau); European Central Bank. The ECB publishes its reference rates free of charge at <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html">ecb.europa.eu</a>. They are for information only, not for transactions.</p>

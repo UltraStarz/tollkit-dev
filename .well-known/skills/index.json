@@ -2,7 +2,7 @@
   "skills": [
     {
       "name": "tollkit",
-      "description": "Tollkit's pay-per-call tools for agents (x402, USDC on Base or Solana): read, summarize or screenshot web pages, product prices, wallet/token/transaction data and token checks on Base, Ethereum and Solana, SEC filings, company snapshots and due diligence, wallet portfolio value, IP lookup, US weather (by address or point), US airport delays, address geocoding, PDF to text, exchange rates, and signed page proofs.",
+      "description": "Tollkit's pay-per-call tools for agents (x402, USDC on Base or Solana): read, summarize or screenshot web pages, search and read, PDF to text, product prices, wallet/token/transaction data, token checks and a pre-trade check on Base, Ethereum and Solana, SEC filings, company snapshots and due diligence, wallet portfolio value, IP lookup, US weather (by address or point), US airport delays, address geocoding, exchange rates, x402 market data, and signed page proofs.",
       "files": [
         "SKILL.md"
       ]

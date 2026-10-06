@@ -1,10 +1,10 @@
 # Tollkit
 
-> Pay-per-call tools for AI agents, paid per call in USDC with x402 on Base or Solana. No account, no API key. Web pages, PDFs and search; SEC filings and due diligence; US weather, airport delays, geocoding, IP lookup and exchange rates; wallets, token prices and token checks on Base, Ethereum and Solana; product prices; signed page proofs. Failed calls are never charged.
+> Pay-per-call tools for AI agents, paid per call in USDC with x402 on Base or Solana. No account, no API key. Web pages, PDFs and search; SEC filings and due diligence; US weather, airport delays, geocoding, IP lookup and exchange rates; wallets, token prices, token checks and a pre-trade check on Base, Ethereum and Solana; x402 market data (best tools for a task, seller lookups, a weekly dataset); product prices; signed page proofs. Failed calls are never charged.
 
 ## Start here
 
-- MCP: add https://extract.tollkit.dev/mcp as a remote MCP server. A paid tool called without `payment` returns its price quote; pay it with your x402 wallet and call again.
+- MCP: add https://extract.tollkit.dev/mcp as a remote MCP server. A paid tool called without `payment` returns its price quote; pay it with your x402 wallet and call again. No wallet yet? The everyday tools (read, screenshot, PDF, weather, airport delays, geocoding, FX, IP, wallet/token/transaction lookups, SEC company) give 3 free calls a day through MCP.
 - HTTP: every tool, its URL, body and price: https://extract.tollkit.dev/llms.txt
 - OpenAPI, one per hostname: https://web.tollkit.dev/openapi.json, https://data.tollkit.dev/openapi.json, https://chain.tollkit.dev/openapi.json, https://extract.tollkit.dev/openapi.json, https://attest.tollkit.dev/openapi.json
 - Agent skill: `npx skills add https://tollkit.dev`
@@ -14,6 +14,7 @@
 - [All tools and prices](https://tollkit.dev/tools)
 - [Connect to your AI](https://tollkit.dev/connect)
 - [Weigh Station: free checks for any x402 endpoint](https://tollkit.dev/weigh-station)
+- [Weekly x402 market report (free)](https://tollkit.dev/report)
 - [Live sales and usage](https://tollkit.dev/stats)
 - [Status](https://tollkit.dev/status)
 

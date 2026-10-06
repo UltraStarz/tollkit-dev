@@ -1,6 +1,6 @@
 ---
 name: tollkit
-description: Tollkit's pay-per-call tools for agents, paid in USDC on Base or Solana with x402 (no account, no API key). Use when a task needs to read, summarize or screenshot a web page in a real browser; get a product's price from a store page; check a wallet balance, token, transaction or token price on Base, Ethereum or Solana, or vet a token before buying; get SEC filings or a company's financials; geolocate an IP; get a US weather forecast; convert currencies; or produce signed proof of what a web page said.
+description: Tollkit's pay-per-call tools for agents, paid in USDC on Base or Solana with x402 (no account, no API key). Use when a task needs to read, summarize or screenshot a web page in a real browser; get a product's price from a store page; search the web and read the results; read a PDF; check a wallet balance, token, transaction or token price on Base, Ethereum or Solana, or vet a token before buying or trading; get SEC filings or a company's financials; geolocate an IP; get a US weather forecast, airport delays or an address's coordinates; convert currencies; find the best paid x402 tool for a job; or produce signed proof of what a web page said.
 license: Proprietary. Free to install and use; each tool call is paid per call.
 compatibility: Needs outbound HTTPS and an x402-capable wallet holding USDC on Base or Solana (for example Coinbase's Agentic Wallet, `npx awal`). No account or API key.
 metadata:
@@ -32,6 +32,7 @@ Prices are what each call costs today; the live price is always in the 402 quote
 | Screenshot a page (1280x800 JPEG) | `https://web.tollkit.dev/screenshot` | `{"url"}` | $0.003 |
 | Summarize text you have | `https://web.tollkit.dev/summarize` | `{"text", "max_words"?}` | $0.005 |
 | **PDF to text**, page by page | `https://web.tollkit.dev/pdf` | `{"url", "max_pages"?}` | $0.005 |
+| Search the web and read the top 1-3 pages | `https://web.tollkit.dev/search/read` | `{"query", "num"?}` | $0.015 |
 | Product price, stock, brand from a store page | `https://extract.tollkit.dev/extract` | `{"url"}` | $0.01 |
 | Same for up to 5 stores, one payment | `https://extract.tollkit.dev/extract/batch` | `{"urls": [...]}` | $0.04 |
 | Wallet balance (native, USDC, USDT, tokens) | `https://chain.tollkit.dev/chain/balance` | `{"address", "chain"?, "tokens"?}` | $0.002 |
@@ -64,4 +65,4 @@ Prices are what each call costs today; the live price is always in the 402 quote
 - **Page brief** says `input_truncated: true` when the page was longer than the part it summarized.
 - **Attest** results can be verified by anyone, free: `POST https://attest.tollkit.dev/attest/verify` with the attestation.
 - Full schemas: each hostname's own `/openapi.json` (`https://web.tollkit.dev/openapi.json`, `https://data.tollkit.dev/openapi.json`, `https://chain.tollkit.dev/openapi.json`, `https://extract.tollkit.dev/openapi.json`, `https://attest.tollkit.dev/openapi.json`). Plain-language guide: `https://extract.tollkit.dev/llms.txt`. Live prices: `https://extract.tollkit.dev/health`.
-- Prefer MCP? Add `https://extract.tollkit.dev/mcp` as a remote MCP server; paid tools return the payment quote as their result.
+- Prefer MCP? Add `https://extract.tollkit.dev/mcp` as a remote MCP server; paid tools return the payment quote as their result. Through MCP the everyday tools (read, screenshot, PDF, weather, airport delays, geocoding, FX, IP, wallet/token/transaction lookups, SEC company) give 3 free calls a day with no wallet.

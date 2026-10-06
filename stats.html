@@ -137,6 +137,7 @@
     <div class="kpi"><div class="label">Returning buyers</div><div class="value skeleton" id="k-return">0</div><div class="note">paid on 2+ days</div></div>
     <div class="kpi"><div class="label">Last paid call</div><div class="value skeleton" id="k-last">&mdash;</div><div class="note" id="k-last-note">&nbsp;</div></div>
   </div>
+  <p class="note" id="k-trial" style="color:var(--dim);font-size:.82rem;margin:.6rem 0 0" hidden></p>
 
   <section class="card">
     <h2>Paid calls per day</h2>
@@ -413,8 +414,19 @@
     });
   }
 
+  // Free MCP trial calls (3 a day per caller). Shown apart: no payment, so never sales.
+  function loadTrial() {
+    fetch('https://extract.tollkit.dev/health', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (h) {
+      var t = h && h.trial; if (!t) return;
+      var el = $('k-trial');
+      el.textContent = 'Free trial calls today: ' + t.free_calls_served + ' from ' + t.callers + (t.callers === 1 ? ' caller' : ' callers') + ' (3 free a day through MCP; not counted as sales).';
+      el.hidden = false;
+    }).catch(function () {});
+  }
   load();
   setInterval(load, 60000);
+  loadTrial();
+  setInterval(loadTrial, 60000);
   setInterval(tick, 5000);
   var rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { if (data) drawChart(); }, 120); });
 })();
