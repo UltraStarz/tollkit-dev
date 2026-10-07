@@ -56,4 +56,4 @@ The check makes one unpaid request and reads Coinbase's public index. It reports
 
 ## Also available as MCP tools
 
-The same checks are the `find_service` and `check_service` tools on the Tollkit MCP server at `https://extract.tollkit.dev/mcp`.
+The same checks are the `find_service` and `check_service` tools on the Tollkit MCP server at `https://api.tollkit.dev/mcp`.

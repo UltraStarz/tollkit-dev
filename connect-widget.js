@@ -15,7 +15,7 @@
 (function () {
   'use strict';
 
-  var DEFAULT_URL = 'https://extract.tollkit.dev/mcp';
+  var DEFAULT_URL = 'https://api.tollkit.dev/mcp';
   var DEFAULT_NAME = 'tollkit';
 
   // Filled at build time from simple-icons (24x24 paths) plus two generic glyphs.
