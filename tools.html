@@ -102,7 +102,7 @@
     <ul class="facts">
       <li><b>28</b> paid tools</li>
       <li><b>8</b> free tools</li>
-      <li>From <b>$0.002</b> a call</li>
+      <li>From <b>$0.001</b> a call</li>
       <li>One connector: <code>api.tollkit.dev/mcp</code></li>
     </ul>
     <nav class="jump" aria-label="Jump to">
@@ -138,9 +138,9 @@
         <tr><td class="name"><b>Wallet balance<em class="trial">3 free/day</em></b><span>ETH or SOL, USDC (and USDT on Ethereum and Solana) plus up to 20 tokens you name.</span></td><td class="ids"><code>wallet_balance</code><code>POST chain.tollkit.dev/chain/balance</code></td><td class="price" data-route="POST /chain/balance">$0.002</td></tr>
         <tr><td class="name"><b>Token info<em class="trial">3 free/day</em></b><span>What a token really is: name, symbol, decimals, total supply (and mint authority on Solana).</span></td><td class="ids"><code>token_info</code><code>POST chain.tollkit.dev/chain/token</code></td><td class="price" data-route="POST /chain/token">$0.002</td></tr>
         <tr><td class="name"><b>Transaction lookup<em class="trial">3 free/day</em></b><span>Did it go through, who paid whom, the fee, and every token transfer.</span></td><td class="ids"><code>transaction_lookup</code><code>POST chain.tollkit.dev/chain/tx</code></td><td class="price" data-route="POST /chain/tx">$0.002</td></tr>
-        <tr><td class="name"><b>Token price<em class="trial">3 free/day</em></b><span>USD price from the deepest Uniswap pool (Orca on Solana), with a thin-liquidity warning.</span></td><td class="ids"><code>token_price</code><code>POST chain.tollkit.dev/chain/price</code></td><td class="price" data-route="POST /chain/price">$0.002</td></tr>
+        <tr><td class="name"><b>Token price<em class="trial">3 free/day</em></b><span>USD price from the deepest Uniswap pool (Orca on Solana), with a thin-liquidity warning.</span></td><td class="ids"><code>token_price</code><code>POST chain.tollkit.dev/chain/price</code></td><td class="price" data-route="POST /chain/price">$0.001</td></tr>
         <tr><td class="name"><b>Token check<em class="trial">3 free/day</em></b><span>Before you buy or accept a token: what it is, its price and liquidity, and warnings read from the chain, including who controls the contract and whether it can mint, pause, blacklist or change fees.</span></td><td class="ids"><code>token_check</code><code>POST chain.tollkit.dev/chain/check</code></td><td class="price" data-route="POST /chain/check">$0.004</td></tr>
-        <tr><td class="name"><b>Wallet portfolio</b><span>Every holding priced from on-chain pools, the wallet&rsquo;s total in USD, and liquidity warnings.</span></td><td class="ids"><code>wallet_portfolio</code><code>POST chain.tollkit.dev/chain/portfolio</code></td><td class="price" data-route="POST /chain/portfolio">$0.008</td></tr>
+        <tr><td class="name"><b>Wallet portfolio</b><span>Every holding priced from on-chain pools, the wallet&rsquo;s total in USD, and liquidity warnings.</span></td><td class="ids"><code>wallet_portfolio</code><code>POST chain.tollkit.dev/chain/portfolio</code></td><td class="price" data-route="POST /chain/portfolio">$0.005</td></tr>
         <tr><td class="name"><b>Pre-trade check</b><span>One call before a trade: USD price, pool depth, chain warnings, your trade size vs the pool (rough price impact), your wallet&rsquo;s current holding, and recent web results. Facts, not advice.</span></td><td class="ids"><code>pretrade_check</code><code>POST chain.tollkit.dev/chain/pretrade</code></td><td class="price" data-route="POST /chain/pretrade">$0.01</td></tr>
       </tbody>
     </table>
@@ -153,7 +153,7 @@
       <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
       <tbody>
         <tr><td class="name"><b>Company filings<em class="trial">3 free/day</em></b><span>A US public company&rsquo;s profile and latest SEC filings, with links. By ticker or CIK.</span></td><td class="ids"><code>sec_company</code><code>POST data.tollkit.dev/sec/company</code></td><td class="price" data-route="POST /sec/company">$0.002</td></tr>
-        <tr><td class="name"><b>Company financials</b><span>Revenue, profit, EPS, assets, cash and more: 4 years plus the latest quarter, as filed.</span></td><td class="ids"><code>sec_financials</code><code>POST data.tollkit.dev/sec/financials</code></td><td class="price" data-route="POST /sec/financials">$0.005</td></tr>
+        <tr><td class="name"><b>Company financials</b><span>Revenue, profit, EPS, assets, cash and more: 4 years plus the latest quarter, as filed.</span></td><td class="ids"><code>sec_financials</code><code>POST data.tollkit.dev/sec/financials</code></td><td class="price" data-route="POST /sec/financials">$0.004</td></tr>
         <tr><td class="name"><b>Company snapshot</b><span>Profile, key filings and financials for a US public company in one call.</span></td><td class="ids"><code>company_snapshot</code><code>POST data.tollkit.dev/data/company</code></td><td class="price" data-route="POST /data/company">$0.006</td></tr>
         <tr><td class="name"><b>Company due diligence</b><span>Growth, margins and leverage from SEC filings, key filings, and plain-English summaries of the latest material events.</span></td><td class="ids"><code>company_due_diligence</code><code>POST data.tollkit.dev/data/diligence</code></td><td class="price" data-route="POST /data/diligence">$0.03</td></tr>
         <tr><td class="name"><b>IP lookup<em class="trial">3 free/day</em></b><span>Country, region, city and approximate coordinates for an IPv4 or IPv6 address.</span></td><td class="ids"><code>ip_lookup</code><code>POST data.tollkit.dev/ip</code></td><td class="price" data-route="POST /ip">$0.002</td></tr>
@@ -187,7 +187,7 @@
     <table>
       <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
       <tbody>
-        <tr><td class="name"><b>Prove what a page said</b><span>Signed, timestamped record of a page&rsquo;s text and screenshot. Anyone can verify it, free.</span></td><td class="ids"><code>attest_page</code><code>POST attest.tollkit.dev/attest</code></td><td class="price" data-route="POST /attest">$0.25</td></tr>
+        <tr><td class="name"><b>Prove what a page said</b><span>Signed, timestamped record of a page&rsquo;s text and screenshot. Anyone can verify it, free.</span></td><td class="ids"><code>attest_page</code><code>POST attest.tollkit.dev/attest</code></td><td class="price" data-route="POST /attest">$0.05</td></tr>
       </tbody>
     </table>
   </section>
