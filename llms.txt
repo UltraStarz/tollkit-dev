@@ -4,10 +4,12 @@
 
 ## Start here
 
-- MCP: add https://api.tollkit.dev/mcp as a remote MCP server. A paid tool called without `payment` returns its price quote; pay it with your x402 wallet and call again. No wallet yet? The everyday tools (read, screenshot, PDF, weather, airport delays, geocoding, FX, IP, wallet/token/transaction lookups, SEC company) give 3 free calls a day through MCP.
+- MCP: add https://api.tollkit.dev/mcp as a remote MCP server. A paid tool called without `payment` returns its price quote; pay it with your x402 wallet and call again. No wallet yet? The everyday tools (read, screenshot, PDF, weather, airport delays, geocoding, FX, IP, wallet/token/transaction lookups, token price, token check, SEC company) give 3 free calls a day through MCP.
 - HTTP: every tool, its URL, body and price: https://api.tollkit.dev/llms.txt
 - OpenAPI, one per hostname: https://web.tollkit.dev/openapi.json, https://data.tollkit.dev/openapi.json, https://chain.tollkit.dev/openapi.json, https://extract.tollkit.dev/openapi.json, https://attest.tollkit.dev/openapi.json
-- Agent skill: `npx skills add https://tollkit.dev`
+- Agent skill: `npx skills add https://tollkit.dev` or `npx skills add UltraStarz/tollkit-skills` (also a Claude Code plugin from the same repo)
+- AgentCash: `npx agentcash@latest add https://web.tollkit.dev` (and chain, data, extract)
+- Receipts and safe retries: every paid answer includes `receipt` (request_id, tool, price_usdc, payment_tx). Send an `Idempotency-Key` header; the same key and body within 10 minutes returns the same answer with no second charge.
 
 ## Pages
 

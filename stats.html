@@ -291,7 +291,7 @@
     // Who's checking
     var qk = d.quote_kinds || { crawler: 0, empty: 0, example: 0, real: 0 };
     var qt = qk.crawler + qk.empty + qk.example + qk.real;
-    $('kinds-since').textContent = qk.since ? new Date(qk.since).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) + ' (older checks weren’t sorted)' : 'the next deploy';
+    $('kinds-since').textContent = qk.since ? new Date(qk.since).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) + ' (counts restarted after the test-traffic filter)' : 'the next deploy';
     var kinds = [['crawler', 'Crawlers and monitors'], ['empty', 'No input (just the price)'], ['example', 'Our own example input'], ['real', 'Real questions']];
     $('split').innerHTML = qt ? kinds.map(function (k) { return qk[k[0]] ? '<i class="k-' + k[0] + '" style="width:' + (100 * qk[k[0]] / qt).toFixed(2) + '%"></i>' : ''; }).join('') : '';
     $('split-legend').innerHTML = kinds.map(function (k) {

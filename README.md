@@ -3,7 +3,7 @@
 Static landing page for the **tollkit.dev** brand — a family of paid developer tools that AI agents call over the [x402](https://x402.org) protocol.
 
 - **Live:** <https://tollkit.dev> (apex, hosted on Cloudflare Pages)
-- **Products:** weigh-station (free) · tollkit-web — read a page as text $0.002, screenshot $0.003, page brief $0.007 · tollkit-chain — wallet balance, token info, transaction lookup, token price $0.002, token check $0.004 (Base, Ethereum and Solana) · tollkit-data — SEC company $0.002, financials $0.005, company snapshot $0.006, IP lookup $0.002 (DB-IP Lite), US weather $0.002 (NWS), exchange rates $0.002 (ECB) · [tollkit-extract](https://extract.tollkit.dev) — product data, $0.01 a page or $0.04 for up to five · tollkit-attest — signed page proof, $0.25 · [tollkit-sms](https://sms.tollkit.dev) — from $0.03 a message (coming soon) · Unlisted: /stats (paid-call tracker)
+- **Products:** weigh-station (free) · tollkit-web — read a page as text $0.002, screenshot $0.003, page brief $0.007, PDF to text $0.005, search and read $0.015 · tollkit-chain — wallet balance, token info, transaction lookup $0.002, token price $0.001, token check $0.004, wallet portfolio $0.005, pre-trade check $0.01 (Base, Ethereum and Solana) · tollkit-data — SEC company $0.002, financials $0.004, company snapshot $0.006, due diligence $0.03, IP lookup $0.002 (DB-IP Lite), US weather $0.002 (NWS), exchange rates $0.002 (ECB) · [tollkit-extract](https://extract.tollkit.dev) — product data, $0.01 a page or $0.04 for up to five · tollkit-attest — signed page proof, $0.05 · [tollkit-sms](https://sms.tollkit.dev) — from $0.03 a message (coming soon) · Unlisted: /stats (paid-call tracker)
 
 ## Structure
 

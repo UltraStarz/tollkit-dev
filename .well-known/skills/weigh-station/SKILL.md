@@ -1,6 +1,7 @@
 ---
 name: weigh-station
-description: Weigh Station by Tollkit. Find a pay-per-call x402 API for a task and check any x402 endpoint before paying it. Use when a task needs an external paid service (data lookup, messaging, scraping, screenshots, AI models and so on), when comparing x402 services, or before signing an x402 payment to an endpoint you have not used before. Free; uses Tollkit's public check and find endpoints, which cover every x402 seller, not only Tollkit's.
+description: |
+  Weigh Station by Tollkit. Find a pay-per-call x402 API for a task and check any x402 endpoint before paying it. Use when a task needs an external paid service (data lookup, messaging, scraping, screenshots, AI models and so on), when comparing x402 services, or before signing an x402 payment to an endpoint you have not used before. Free; uses Tollkit's public check and find endpoints, which cover every x402 seller, not only Tollkit's.
 license: Proprietary. Free to install and use.
 compatibility: Needs outbound HTTPS (curl, fetch, or an HTTP tool). No account, key or wallet needed to search or check. Paying for a service is a separate step with your own x402 wallet.
 metadata:

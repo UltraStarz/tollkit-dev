@@ -226,7 +226,7 @@
     <ul class="how">
       <li><b>1. Ask</b>Your agent calls a tool. Without a payment it gets the price back, not an error.</li>
       <li><b>2. Pay</b>It signs a USDC payment on Base or Solana from its own wallet. No ETH or SOL needed for fees.</li>
-      <li><b>3. Get the result</b>The call runs and settles. If it fails, nothing is charged.</li>
+      <li><b>3. Get the result</b>The call runs and settles. If it fails, nothing is charged. Each answer comes with a receipt, and a retry with the same <code>Idempotency-Key</code> isn&rsquo;t charged twice.</li>
     </ul>
     <div class="cta">
       <button type="button" class="btn btn-primary" data-connect>Connect to your AI</button>

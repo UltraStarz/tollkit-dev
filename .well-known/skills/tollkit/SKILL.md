@@ -1,18 +1,27 @@
 ---
 name: tollkit
-description: Tollkit's pay-per-call tools for agents, paid in USDC on Base or Solana with x402 (no account, no API key). Use when a task needs to read, summarize or screenshot a web page in a real browser; get a product's price from a store page; search the web and read the results; read a PDF; check a wallet balance, token, transaction or token price on Base, Ethereum or Solana, or vet a token before buying or trading; get SEC filings or a company's financials; geolocate an IP; get a US weather forecast, airport delays or an address's coordinates; convert currencies; find the best paid x402 tool for a job; or produce signed proof of what a web page said.
+description: |
+  Pay-per-call tools for agents, paid in USDC on Base or Solana over x402, with no account or API key. Use when a task needs to read, summarize or screenshot a web page in a real browser, get a product's price from a store page, search the web and read the top results, read a PDF as text, check a wallet balance, token, transaction or token price on Base, Ethereum or Solana, vet a token before buying or trading it, get SEC filings or a company's financials, geolocate an IP, get a US weather forecast, airport delays or an address's coordinates, convert currencies, find the best paid x402 tool for a job, or produce signed proof of what a web page said.
 license: Proprietary. Free to install and use; each tool call is paid per call.
-compatibility: Needs outbound HTTPS and an x402-capable wallet holding USDC on Base or Solana (for example Coinbase's Agentic Wallet, `npx awal`). No account or API key.
+compatibility: Needs outbound HTTPS and an x402-capable wallet holding USDC on Base or Solana (AgentCash, Coinbase Agentic Wallet, or any x402 v2 client). No account or API key.
 metadata:
   author: tollkit.dev
-  version: "1.0"
+  version: "1.1"
 ---
 
 # Tollkit: web, on-chain and public-data tools, paid per call
 
 Every tool is one HTTPS POST with a JSON body. Call it without payment and it answers HTTP 402 with the exact price, once for each network you can pay on (USDC on Base, or USDC on Solana). Pay, retry, get the answer. **A call that fails is never charged.**
 
-## Pay with the Agentic Wallet CLI
+## Pay with AgentCash
+
+```bash
+npx agentcash@latest fetch https://web.tollkit.dev/read -m POST -b '{"url":"https://example.com"}'
+```
+
+To keep Tollkit in your AgentCash tools: `npx agentcash@latest add https://web.tollkit.dev` (and the same for `https://chain.tollkit.dev`, `https://data.tollkit.dev`, `https://extract.tollkit.dev`).
+
+## Or pay with the Agentic Wallet CLI
 
 ```bash
 npx awal@latest x402 pay https://web.tollkit.dev/read -X POST \
@@ -38,12 +47,12 @@ Prices are what each call costs today; the live price is always in the 402 quote
 | Wallet balance (native, USDC, USDT, tokens) | `https://chain.tollkit.dev/chain/balance` | `{"address", "chain"?, "tokens"?}` | $0.002 |
 | Token info (name, symbol, supply) | `https://chain.tollkit.dev/chain/token` | `{"token", "chain"?}` | $0.002 |
 | Transaction lookup | `https://chain.tollkit.dev/chain/tx` | `{"hash", "chain"?}` | $0.002 |
-| Token USD price from on-chain pools | `https://chain.tollkit.dev/chain/price` | `{"token", "chain"?}` | $0.002 |
+| Token USD price from on-chain pools | `https://chain.tollkit.dev/chain/price` | `{"token", "chain"?}` | $0.001 |
 | **Token check** before buying or accepting a token | `https://chain.tollkit.dev/chain/check` | `{"token", "chain"?}` | $0.004 |
-| **Wallet portfolio** in USD with liquidity warnings | `https://chain.tollkit.dev/chain/portfolio` | `{"address", "chain"?, "tokens"?}` | $0.008 |
+| **Wallet portfolio** in USD with liquidity warnings | `https://chain.tollkit.dev/chain/portfolio` | `{"address", "chain"?, "tokens"?}` | $0.005 |
 | **Pre-trade check**: price, liquidity, price impact of your size, your holding, recent news | `https://chain.tollkit.dev/chain/pretrade` | `{"token", "chain"?, "wallet"?, "amount_usd"?}` | $0.01 |
 | SEC company profile and filings | `https://data.tollkit.dev/sec/company` | `{"ticker"}` or `{"cik"}` | $0.002 |
-| SEC key financials | `https://data.tollkit.dev/sec/financials` | `{"ticker"}` | $0.005 |
+| SEC key financials | `https://data.tollkit.dev/sec/financials` | `{"ticker"}` | $0.004 |
 | **Company snapshot** (profile + key filings + financials) | `https://data.tollkit.dev/data/company` | `{"ticker"}` | $0.006 |
 | **Company due diligence** (ratios, filings, 8-K event summaries) | `https://data.tollkit.dev/data/diligence` | `{"ticker"}` | $0.03 |
 | IP geolocation | `https://data.tollkit.dev/ip` | `{"ip"}` | $0.002 |
@@ -54,12 +63,13 @@ Prices are what each call costs today; the live price is always in the 402 quote
 | x402 seller lookup | `https://data.tollkit.dev/market/seller` | `{"host"}` | $0.02 |
 | Whole x402 market dataset (weekly) | `https://data.tollkit.dev/market/dataset` | `{}` | $0.10 |
 | Currency conversion (ECB rates) | `https://data.tollkit.dev/fx` | `{"from", "to", "amount"?}` | $0.002 |
-| Signed proof of what a page said | `https://attest.tollkit.dev/attest` | `{"url"}` | $0.25 |
+| Signed proof of what a page said | `https://attest.tollkit.dev/attest` | `{"url"}` | $0.05 |
 
 `chain` is `"base"` (default), `"ethereum"` or `"solana"`. Solana addresses and mints are base58; for a Solana price you can pass `"token": "SOL"`.
 
 ## Good to know
 
+- **Receipts and safe retries.** Every paid answer carries `receipt` (request_id, tool, price_usdc, payment_tx). Send an `Idempotency-Key` header with a random UUID; repeating the same key and body within 10 minutes returns the same answer with no second charge.
 - **Failures are free.** Anything answered with HTTP 400 or above settled nothing. Bad input, a page that won't load, an unknown ticker, a token with no pool: no charge.
 - **Token check** returns facts read from the chain as `warnings` (no pool, thin liquidity; on Base and Ethereum the contract's owner and whether it is upgradeable or has mint, pause, blacklist or fee-setting functions, in `controls`; on Solana an active mint or freeze authority). It is not a rating; no warnings does not mean safe.
 - **Page brief** says `input_truncated: true` when the page was longer than the part it summarized.
