@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tollkit Wallet privacy policy</title>
+<meta name="description" content="What the Tollkit Wallet browser extension keeps on your computer, what it sends and to whom, and what Tollkit never sees.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
+<style>
+  :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --line:#242424; --line-soft:#1c1c1c; --text:#e5e5e5; --muted:#8a8a8a; --dim:#707070; --accent:#4a8eff; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; -webkit-font-smoothing:antialiased; }
+  .container { max-width:760px; margin:0 auto; padding:0 16px; }
+  a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.9em; }
+  nav.top { border-bottom:1px solid var(--line-soft); padding:.9rem 0; }
+  nav.top .container { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  .brand { font-weight:700; letter-spacing:-.02em; color:var(--text); } .brand .dot { color:var(--accent); }
+  nav.top .links { display:flex; gap:1.1rem; font-size:.9rem; } nav.top .links a { color:var(--muted); }
+  header.head { padding:2.4rem 0 .6rem; }
+  h1 { font-size:2rem; letter-spacing:-.03em; margin:0 0 .4rem; }
+  h2 { font-size:1.15rem; margin:2rem 0 .4rem; }
+  .lede { color:var(--muted); margin:0; font-size:1.02rem; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.1rem 1.3rem; margin-top:1rem; }
+  ul { padding-left:1.2rem; } li { margin:.3rem 0; }
+  .mut { color:var(--muted); }
+  footer { border-top:1px solid var(--line-soft); margin-top:2.5rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; } footer a { color:var(--muted); }
+</style>
+</head>
+<body>
+<nav class="top">
+  <div class="container">
+    <a class="brand" href="/">Toll<span class="dot">kit</span></a>
+    <div class="links"><a href="/wallet">Wallet</a><a href="/tools">Tools</a><a href="/status">Status</a></div>
+  </div>
+</nav>
+<main class="container">
+<header class="head">
+  <h1>Tollkit Wallet privacy policy</h1>
+  <p class="lede">For the Tollkit Wallet extension for Chrome. Effective October 14, 2026.</p>
+</header>
+
+<div class="card">
+  <strong>In short:</strong> your recovery phrase and keys stay in your browser, encrypted with your password. Tollkit has no accounts, no analytics and no ads, and never sees your password, phrase or keys. To show balances and send transactions, the wallet talks to blockchain networks and price services, and only sends what each one needs.
+</div>
+
+<h2>Who we are</h2>
+<p>Tollkit Wallet is made by Tollkit LLC, Annapolis, Maryland, USA. Questions: <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>.</p>
+
+<h2>What stays on your computer</h2>
+<p>The extension stores these in Chrome's extension storage on your computer. They aren't sent to Tollkit.</p>
+<ul>
+  <li><strong>Your recovery phrase</strong>, encrypted with AES-GCM using a key made from your password (PBKDF2-SHA256, 900,000 rounds). Your password itself is never stored.</li>
+  <li>While the wallet is unlocked, the encryption key is kept in Chrome's session storage so the wallet stays open while you use it. It's removed when you lock the wallet, when it auto-locks, or when Chrome closes.</li>
+  <li>Your wallet addresses, settings, tokens you added, the sites you've connected (their web addresses), and a list of your recent sends, swaps and site transactions.</li>
+</ul>
+<p>The extension runs on web pages only so sites can ask to connect to your wallet. It doesn't read page content or record the sites you visit. A site appears in your connected list only after you approve it.</p>
+
+<h2>What is sent, and to whom</h2>
+<p>All of these go over HTTPS, and only when the feature is used.</p>
+<ul>
+  <li><strong>Blockchain networks</strong>, to show balances and send what you approve: your addresses and signed transactions go to the Base network's public endpoint (mainnet.base.org), an Ethereum endpoint (ethereum-rpc.publicnode.com) and, for Solana, to Tollkit's server (api.tollkit.dev), which passes them to our Solana provider, Helius. Transactions you send are public on the blockchain, like any wallet's.</li>
+  <li><strong>Prices</strong>: coin names go to Coinbase's public price service, and token contract addresses to DefiLlama. Your address isn't included.</li>
+  <li><strong>Swaps</strong>: the coins, amount and your address go through Tollkit's server to 0x (Base and Ethereum) or Jupiter (Solana) for a price. For Solana swaps, the signed swap goes through the same path to be sent.</li>
+  <li><strong>Buy</strong>: Tollkit's server asks Coinbase for a checkout link with your address, the network, the coin and the amount, plus your IP address, which Coinbase requires. Payment happens on Coinbase's site, under Coinbase's own privacy policy.</li>
+  <li><strong>Sites you connect</strong>: a site you approve sees your address, and gets the signatures and transactions you approve one by one. You can disconnect a site in Settings.</li>
+</ul>
+
+<h2>What Tollkit's server keeps</h2>
+<p>Tollkit's server doesn't save wallet requests to logs or a database. It holds your IP address in memory for about a minute to limit how many requests one computer can make. It never receives your password, recovery phrase or private keys.</p>
+
+<h2>What we don't do</h2>
+<ul>
+  <li>No analytics, tracking or ads.</li>
+  <li>We don't sell or share data for advertising, credit or lending decisions, or with data brokers.</li>
+  <li>People at Tollkit don't read your data. We can't see your balances unless you send us your address.</li>
+</ul>
+<p>Tollkit Wallet's use of information it receives follows the <a href="https://developer.chrome.com/docs/webstore/program-policies/policies">Chrome Web Store User Data Policy</a>, including the <a href="https://developer.chrome.com/docs/webstore/program-policies/limited-use/">Limited Use requirements</a>.</p>
+
+<h2>Your control</h2>
+<ul>
+  <li>Lock the wallet any time, and set auto-lock in Settings.</li>
+  <li>Settings → Remove wallet, or removing the extension, deletes everything it stored in your browser. Keep your recovery phrase: without it, Tollkit can't restore your wallet, because we never have it.</li>
+</ul>
+
+<h2>Changes</h2>
+<p>If this policy changes, the new version will be posted here with a new effective date.</p>
+</main>
+<footer>
+  <div class="container">
+    <div class="brand" style="margin-bottom:.3rem">Toll<span class="dot">kit</span></div>
+    Tollkit LLC, Annapolis, Maryland, USA &middot; <a href="/wallet">Wallet</a> &middot; <a href="/wallet/privacy">Wallet privacy</a> &middot; <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
+  </div>
+</footer>
+</body>
+</html>
