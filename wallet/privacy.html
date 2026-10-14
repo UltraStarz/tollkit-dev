@@ -38,7 +38,7 @@
 <main class="container">
 <header class="head">
   <h1>Tollkit Wallet privacy policy</h1>
-  <p class="lede">For the Tollkit Wallet extension for Chrome. Effective October 14, 2026.</p>
+  <p class="lede">For the Tollkit Wallet extension for Chrome. Effective October 14, 2026 (updated the same day for Move, Cash out and Stake).</p>
 </header>
 
 <div class="card">
@@ -51,9 +51,9 @@
 <h2>What stays on your computer</h2>
 <p>The extension stores these in Chrome's extension storage on your computer. They aren't sent to Tollkit.</p>
 <ul>
-  <li><strong>Your recovery phrase</strong>, encrypted with AES-GCM using a key made from your password (PBKDF2-SHA256, 900,000 rounds). Your password itself is never stored.</li>
+  <li><strong>Your recovery phrase</strong> (or, for a wallet imported by its private keys, those two keys), encrypted with AES-GCM using a key made from your password (PBKDF2-SHA256, 900,000 rounds). Your password itself is never stored.</li>
   <li>While the wallet is unlocked, the encryption key is kept in Chrome's session storage so the wallet stays open while you use it. It's removed when you lock the wallet, when it auto-locks, or when Chrome closes.</li>
-  <li>Your wallet addresses, settings, tokens you added, the sites you've connected (their web addresses), and a list of your recent sends, swaps and site transactions.</li>
+  <li>Your wallet addresses, settings and spending limits, tokens you added, the sites you've connected (their web addresses), and a list of your recent sends, swaps, moves, cash outs, stakes and site transactions.</li>
 </ul>
 <p>The extension runs on web pages only so sites can ask to connect to your wallet. It doesn't read page content or record the sites you visit. A site appears in your connected list only after you approve it.</p>
 
@@ -63,6 +63,9 @@
   <li><strong>Blockchain networks</strong>, to show balances and send what you approve: your addresses and signed transactions go to the Base network's public endpoint (mainnet.base.org), an Ethereum endpoint (ethereum-rpc.publicnode.com) and, for Solana, to Tollkit's server (api.tollkit.dev), which passes them to our Solana provider, Helius. Transactions you send are public on the blockchain, like any wallet's.</li>
   <li><strong>Prices</strong>: coin names go to Coinbase's public price service, and token contract addresses to DefiLlama. Your address isn't included.</li>
   <li><strong>Swaps</strong>: the coins, amount and your address go through Tollkit's server to 0x (Base and Ethereum) or Jupiter (Solana) for a price. For Solana swaps, the signed swap goes through the same path to be sent.</li>
+  <li><strong>Move between networks</strong>: for USDC, the networks and amount go to Circle's public service (iris-api.circle.com) for its fee, and the transaction's ID to check when it arrives. For ETH, the networks, amount and your address go through Tollkit's server to Across for a route.</li>
+  <li><strong>Cash out</strong>: Tollkit's server asks Coinbase for a sell link with your address, the network, the coin and the amount, and then asks for that sale's status so the wallet knows where to send. Selling happens on Coinbase's site, under Coinbase's own privacy policy.</li>
+  <li><strong>Stake SOL</strong>: your Solana address goes through Tollkit's server to Helius to list your stake accounts. The list of validators comes from Tollkit's server.</li>
   <li><strong>Buy</strong>: Tollkit's server asks Coinbase for a checkout link with your address, the network, the coin and the amount, plus your IP address, which Coinbase requires. Payment happens on Coinbase's site, under Coinbase's own privacy policy.</li>
   <li><strong>Sites you connect</strong>: a site you approve sees your address, and gets the signatures and transactions you approve one by one. You can disconnect a site in Settings.</li>
 </ul>
