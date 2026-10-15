@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tollkit Town</title>
+<style>
+  html, body { margin: 0; padding: 0; min-height: 100%; background: #0e0e14;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace; color: #e8d480; }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 0; }
+  h1 { font-size: 22px; font-weight: 700; margin: 0 0 14px; letter-spacing: 0.12em; }
+  h1 .dot { color: #4a8eff; }
+  canvas {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    border: 4px solid #3a7028;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  }
+  .caption { font-size: 12px; opacity: 0.78; margin-top: 14px; max-width: 720px; text-align: center; line-height: 1.7; }
+  .caption b { color: #4a8eff; }
+  .caption em { color: #fcd34d; font-style: normal; }
+</style>
+</head>
+<body>
+
+<h1>TOLLKIT <span class="dot">TOWN</span></h1>
+<canvas id="c" width="320" height="240" style="width: 960px; height: 720px;"></canvas>
+<p class="caption">
+  AI agents arrive, walk through town,<br/>
+  pay <em>$0.03 USDC</em> at <b>x402-sms</b> for a text, then move on.
+</p>
+
+<script>
+const cvs = document.getElementById('c');
+const ctx = cvs.getContext('2d');
+ctx.imageSmoothingEnabled = false;
+
+const TILE = 16;
+const COLS = 20;
+const ROWS = 15;
+const W = COLS * TILE;  // 320
+const H = ROWS * TILE;  // 240
+
+// ── Palette ─────────────────────────────────────────────────────
+const C = {
+  treeDk: '#1f3a14', treeMid: '#3a7028', treeLt: '#6caa44', treeShade: '#0f1f08',
+  grassMid: '#5aa040', grassDk: '#3a7028', grassLt: '#7cc658',
+  pathLt: '#d8c89a', pathDk: '#8a7c5c', pathEdge: '#5a4f38',
+  road: '#3a3a3a', roadLt: '#4e4e4e', roadEdge: '#1f1f1f', roadLine: '#fdf6c8',
+  swMid: '#bcb09c', swDk: '#85795e', swLt: '#dad1bb',
+  wallTan: '#e3d2a8', wallTanDk: '#a08e6c',
+  wallWhite: '#f3ecd8', wallWhiteDk: '#b0a684',
+  wallBlue: '#d8e8f4', wallBlueDk: '#7a9eb8',
+  wallShade: '#1f1f1f',
+  roofBlue: '#4a8eff', roofBlueDk: '#1c3a82',
+  roofRed: '#c43e2a', roofRedDk: '#7a1d10',
+  roofOrange: '#e08428', roofOrangeDk: '#8a4a1a',
+  roofGreen: '#3aa056', roofGreenDk: '#1a5a2a',
+  roofGray: '#7c8a96', roofGrayDk: '#3e4a52',
+  door: '#5e3a1c', doorDk: '#321a08', doorHandle: '#fcd34d',
+  win: '#9cd6f8', winDk: '#3a6080', winFr: '#1f1f1f',
+  signWood: '#8a5a2c', signWoodDk: '#5a3a14',
+  signBoard: '#f3ecd8', signBoardDk: '#a08e6c',
+  signInk: '#1f1f1f',
+  usdcBlue: '#2775ca', usdcLt: '#5a9adf', usdcGold: '#fcd34d',
+  black: '#0e0e0e', white: '#ffffff', shadow: '#000000',
+};
+
+// ── Helpers ─────────────────────────────────────────────────────
+function rect(x, y, w, h, color) { ctx.fillStyle = color; ctx.fillRect(x | 0, y | 0, w | 0, h | 0); }
+function px(x, y, color) { rect(x, y, 1, 1, color); }
+
+// ── 3x5 Bitmap Font ─────────────────────────────────────────────
+const FONT = {
+  'A': ['010','101','111','101','101'],
+  'B': ['110','101','110','101','110'],
+  'C': ['011','100','100','100','011'],
+  'D': ['110','101','101','101','110'],
+  'E': ['111','100','110','100','111'],
+  'F': ['111','100','110','100','100'],
+  'G': ['011','100','101','101','011'],
+  'H': ['101','101','111','101','101'],
+  'I': ['111','010','010','010','111'],
+  'J': ['001','001','001','101','010'],
+  'K': ['101','110','100','110','101'],
+  'L': ['100','100','100','100','111'],
+  'M': ['101','111','111','101','101'],
+  'N': ['101','111','111','111','101'],
+  'O': ['010','101','101','101','010'],
+  'P': ['110','101','110','100','100'],
+  'Q': ['010','101','101','111','011'],
+  'R': ['110','101','110','110','101'],
+  'S': ['011','100','010','001','110'],
+  'T': ['111','010','010','010','010'],
+  'U': ['101','101','101','101','111'],
+  'V': ['101','101','101','111','010'],
+  'W': ['101','101','111','111','101'],
+  'X': ['101','101','010','101','101'],
+  'Y': ['101','101','010','010','010'],
+  'Z': ['111','001','010','100','111'],
+  '0': ['111','101','101','101','111'],
+  '1': ['010','110','010','010','111'],
+  '2': ['110','001','010','100','111'],
+  '3': ['110','001','110','001','110'],
+  '4': ['101','101','111','001','001'],
+  '5': ['111','100','110','001','110'],
+  '6': ['011','100','110','101','110'],
+  '7': ['111','001','010','100','100'],
+  '8': ['110','101','110','101','110'],
+  '9': ['110','101','111','001','110'],
+  '-': ['000','000','111','000','000'],
+  '.': ['000','000','000','000','010'],
+  '$': ['011','110','011','110','110'],
+  ' ': ['000','000','000','000','000'],
+};
+function drawText(x, y, text, color) {
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i].toUpperCase();
+    const g = FONT[ch] || FONT[' '];
+    for (let r = 0; r < 5; r++) {
+      for (let c = 0; c < 3; c++) {
+        if (g[r][c] === '1') px(x + i * 4 + c, y + r, color);
+      }
+    }
+  }
+}
+
+// ── Tile drawing ────────────────────────────────────────────────
+function drawGrass(x, y) {
+  rect(x, y, 16, 16, C.grassMid);
+  // Darker dots (sparse)
+  const dots = [[3,5],[8,2],[11,9],[5,12],[13,14],[1,8],[15,5]];
+  for (const [dx, dy] of dots) px(x + dx, y + dy, C.grassDk);
+  // Lighter dots
+  const lts = [[9,5],[2,12],[14,3],[6,8]];
+  for (const [dx, dy] of lts) px(x + dx, y + dy, C.grassLt);
+  // Tiny blades
+  rect(x + 4, y + 7, 1, 2, C.grassLt);
+  rect(x + 12, y + 11, 1, 2, C.grassLt);
+  rect(x + 9, y + 14, 1, 2, C.grassLt);
+}
+
+function drawTree(x, y) {
+  rect(x, y, 16, 16, C.treeShade);
+  // Outline (dark)
+  rect(x + 2, y + 1, 12, 14, C.treeDk);
+  rect(x + 1, y + 2, 14, 12, C.treeDk);
+  // Mid body
+  rect(x + 3, y + 2, 10, 12, C.treeMid);
+  rect(x + 2, y + 3, 12, 10, C.treeMid);
+  // Highlights (top-left)
+  rect(x + 4, y + 3, 4, 2, C.treeLt);
+  rect(x + 3, y + 5, 2, 2, C.treeLt);
+  px(x + 8, y + 4, C.treeLt);
+  // Shadow spots (bottom-right)
+  rect(x + 10, y + 9, 2, 2, C.treeDk);
+  rect(x + 7, y + 11, 2, 1, C.treeDk);
+  rect(x + 11, y + 6, 1, 2, C.treeDk);
+  px(x + 5, y + 12, C.treeDk);
+  // Texture
+  px(x + 8, y + 7, C.treeMid);
+  px(x + 6, y + 9, C.treeLt);
+}
+
+function drawSidewalk(x, y) {
+  rect(x, y, 16, 16, C.swMid);
+  // Brick pattern
+  rect(x, y, 16, 1, C.swLt);
+  rect(x, y + 7, 16, 1, C.swDk);
+  rect(x, y + 8, 16, 1, C.swLt);
+  rect(x, y + 15, 16, 1, C.swDk);
+  // Vertical joints (alternating)
+  rect(x + 7, y + 1, 1, 6, C.swDk);
+  rect(x + 3, y + 9, 1, 6, C.swDk);
+  rect(x + 11, y + 9, 1, 6, C.swDk);
+  // Highlight bricks
+  rect(x + 1, y + 1, 6, 6, C.swMid);
+  rect(x + 8, y + 1, 7, 6, C.swMid);
+  rect(x, y + 9, 3, 6, C.swMid);
+  rect(x + 4, y + 9, 7, 6, C.swMid);
+  rect(x + 12, y + 9, 4, 6, C.swMid);
+}
+
+function drawRoad(x, y) {
+  rect(x, y, 16, 16, C.road);
+  // Texture dots
+  px(x + 4, y + 6, C.roadLt);
+  px(x + 11, y + 3, C.roadLt);
+  px(x + 8, y + 13, C.roadLt);
+  px(x + 2, y + 11, C.roadLt);
+  px(x + 14, y + 9, C.roadLt);
+}
+
+function drawRoadLane(x, y) {
+  drawRoad(x, y);
+  // Dashed center line (one dash per tile)
+  rect(x + 7, y + 3, 2, 10, C.roadLine);
+}
+
+function drawRoadEdgeTop(x, y) {
+  drawRoad(x, y);
+  // Curb at top
+  rect(x, y, 16, 2, C.roadEdge);
+  rect(x, y + 2, 16, 1, C.roadLt);
+}
+
+function drawRoadEdgeBot(x, y) {
+  drawRoad(x, y);
+  rect(x, y + 14, 16, 2, C.roadEdge);
+  rect(x, y + 13, 16, 1, C.roadLt);
+}
+
+// ── Tilemap ─────────────────────────────────────────────────────
+// Determines which tile renderer to use for a given column/row
+function renderTile(c, r) {
+  const x = c * TILE, y = r * TILE;
+  // Tree border (thick)
+  if (r <= 1 || r >= 13 || c <= 0 || c >= 19) { drawTree(x, y); return; }
+  // Sidewalks
+  if (r === 6 || r === 10) { drawSidewalk(x, y); return; }
+  // Road
+  if (r === 7) { drawRoadEdgeTop(x, y); return; }
+  if (r === 8) { drawRoadLane(x, y); return; }
+  if (r === 9) { drawRoadEdgeBot(x, y); return; }
+  // Default grass
+  drawGrass(x, y);
+}
+
+// ── Town entrance sign ─────────────────────────────────────────
+function drawTownSign(cx, cy) {
+  // Two wooden posts
+  rect(cx - 11, cy + 4, 2, 14, C.signWoodDk);
+  rect(cx - 11, cy + 4, 1, 14, C.signWood);
+  rect(cx + 9, cy + 4, 2, 14, C.signWoodDk);
+  rect(cx + 9, cy + 4, 1, 14, C.signWood);
+  // Board (24 wide × 14 tall)
+  rect(cx - 14, cy - 5, 28, 14, C.signWoodDk);
+  rect(cx - 13, cy - 4, 26, 12, C.signBoard);
+  // Border shadow
+  rect(cx + 12, cy - 4, 1, 12, C.signBoardDk);
+  rect(cx - 13, cy + 7, 26, 1, C.signBoardDk);
+  // Text
+  drawText(cx - 11, cy - 2, 'TOLLKIT', C.signInk);
+  drawText(cx - 7, cy + 3, 'TOWN', C.signInk);
+}
+
+// ── Building factory ───────────────────────────────────────────
+function drawBuilding(bx, by, bw, bh, opts) {
+  const roofH = 10;
+  const wallH = bh - roofH;
+
+  // Roof base
+  rect(bx, by, bw, roofH, opts.roofDk);
+  rect(bx, by + 1, bw, roofH - 1, opts.roof);
+  // Roof slat lines (vertical stripes)
+  for (let i = 2; i < bw; i += 3) {
+    rect(bx + i, by + 2, 1, roofH - 3, opts.roofDk);
+  }
+  // Roof top edge
+  rect(bx, by, bw, 1, C.wallShade);
+  // Roof eaves (overhang shadow)
+  rect(bx, by + roofH, bw, 1, C.wallShade);
+
+  // Walls
+  rect(bx, by + roofH, bw, wallH, opts.wallDk);
+  rect(bx + 1, by + roofH + 1, bw - 2, wallH - 2, opts.wall);
+  // Wall side shadow
+  rect(bx + bw - 2, by + roofH + 1, 1, wallH - 2, opts.wallDk);
+  // Wall bottom shadow
+  rect(bx + 1, by + bh - 2, bw - 2, 1, opts.wallDk);
+
+  // Windows — 2 per floor, 1 floor if short, 2 floors if tall
+  const floors = bh >= 56 ? 2 : 1;
+  for (let floor = 0; floor < floors; floor++) {
+    const wy = by + roofH + 5 + floor * 14;
+    const winSpan = bw - 14;
+    const wOffsets = floors === 2 || bw >= 56
+      ? [4, 4 + Math.floor((winSpan - 6) * 0.33), 4 + Math.floor((winSpan - 6) * 0.66), bw - 10]
+      : [4, bw - 10];
+    // For visual cleanness use 2 windows
+    const winsToShow = floors === 2 ? [4, bw - 10] : [4, bw - 10];
+    for (const wx of winsToShow) {
+      const wAbs = bx + wx;
+      rect(wAbs, wy, 6, 5, C.winFr);
+      rect(wAbs + 1, wy + 1, 4, 3, C.win);
+      rect(wAbs + 3, wy + 1, 1, 3, C.winFr);
+      rect(wAbs + 1, wy + 2, 4, 1, C.winFr);
+      // Window sill
+      rect(wAbs - 1, wy + 5, 8, 1, opts.wallDk);
+    }
+  }
+
+  // Door (center-bottom)
+  const doorW = 6;
+  const doorH = 10;
+  const doorX = bx + (bw - doorW) / 2;
+  const doorY = by + bh - doorH;
+  rect(doorX - 1, doorY - 1, doorW + 2, doorH + 1, C.doorDk);
+  rect(doorX, doorY, doorW, doorH, C.door);
+  // Door panel lines
+  rect(doorX + 1, doorY + 1, 1, doorH - 2, C.doorDk);
+  rect(doorX + doorW - 2, doorY + 1, 1, doorH - 2, C.doorDk);
+  rect(doorX + 1, doorY + doorH / 2, doorW - 2, 1, C.doorDk);
+  // Handle
+  px(doorX + doorW - 2, doorY + doorH / 2 + 1, C.doorHandle);
+
+  // Sign above door (if specified)
+  if (opts.sign) {
+    const signY = by + roofH + (floors === 2 ? wallH - 6 : -3);
+    const signSpan = Math.min(bw - 6, opts.sign.length * 4 + 4);
+    const signX = bx + (bw - signSpan) / 2;
+    rect(signX - 1, signY - 1, signSpan + 2, 8, C.signWoodDk);
+    rect(signX, signY, signSpan, 7, C.signBoard);
+    rect(signX + signSpan - 1, signY, 1, 7, C.signBoardDk);
+    rect(signX, signY + 6, signSpan, 1, C.signBoardDk);
+    drawText(signX + 2, signY + 1, opts.sign, C.signInk);
+  }
+}
+
+// ── USDC coin ──────────────────────────────────────────────────
+function drawUsdcCoin(x, y, alpha) {
+  ctx.globalAlpha = alpha;
+  // Outer ring (gold)
+  rect(x + 2, y, 4, 1, C.usdcGold);
+  rect(x + 1, y + 1, 6, 1, C.usdcGold);
+  rect(x, y + 2, 8, 4, C.usdcGold);
+  rect(x + 1, y + 6, 6, 1, C.usdcGold);
+  rect(x + 2, y + 7, 4, 1, C.usdcGold);
+  // Inner blue
+  rect(x + 2, y + 2, 4, 4, C.usdcBlue);
+  // "$" mark
+  px(x + 3, y + 2, C.white);
+  px(x + 4, y + 2, C.white);
+  px(x + 3, y + 3, C.white);
+  px(x + 4, y + 4, C.white);
+  px(x + 3, y + 5, C.white);
+  px(x + 4, y + 5, C.white);
+  // Coin shine
+  px(x + 1, y + 2, C.white);
+  ctx.globalAlpha = 1;
+}
+
+// ── Agent sprite ──────────────────────────────────────────────
+// 12 wide × 16 tall, drawn from top-left
+function drawAgent(x, y, palette, frame) {
+  x = x | 0; y = y | 0;
+  // Shadow under feet
+  rect(x + 2, y + 15, 8, 1, C.shadow);
+  // Antenna
+  px(x + 5, y, palette.shirt);
+  px(x + 6, y, palette.shirt);
+  px(x + 5, y + 1, '#7a7a7a');
+  px(x + 6, y + 1, '#7a7a7a');
+  // Hair top
+  rect(x + 3, y + 2, 6, 1, palette.hair);
+  rect(x + 2, y + 3, 8, 1, palette.hair);
+  // Face
+  rect(x + 2, y + 4, 8, 3, palette.skin);
+  // Hair sides
+  px(x + 2, y + 4, palette.hair);
+  px(x + 9, y + 4, palette.hair);
+  // Hair fringe
+  px(x + 3, y + 4, palette.hair);
+  px(x + 8, y + 4, palette.hair);
+  // Eyes
+  px(x + 4, y + 5, C.black);
+  px(x + 7, y + 5, C.black);
+  // Neck shadow
+  rect(x + 3, y + 7, 6, 1, palette.shirtDk);
+  // Shirt
+  rect(x + 2, y + 8, 8, 4, palette.shirt);
+  rect(x + 2, y + 11, 8, 1, palette.shirtDk);
+  // Arms (swing with walk)
+  const armSwing = (frame === 1) ? -1 : (frame === 3) ? 1 : 0;
+  rect(x + 1, y + 8 + armSwing, 1, 4, palette.shirt);
+  rect(x + 10, y + 8 - armSwing, 1, 4, palette.shirt);
+  // Pants
+  rect(x + 2, y + 12, 8, 2, palette.pants);
+  // Feet — alternate based on frame
+  if (frame === 1) {
+    rect(x + 2, y + 14, 3, 1, C.black);
+    rect(x + 7, y + 14, 3, 2, C.black);
+  } else if (frame === 3) {
+    rect(x + 2, y + 14, 3, 2, C.black);
+    rect(x + 7, y + 14, 3, 1, C.black);
+  } else {
+    rect(x + 2, y + 14, 3, 1, C.black);
+    rect(x + 7, y + 14, 3, 1, C.black);
+  }
+}
+
+// ── Buildings ──────────────────────────────────────────────────
+// All on the NORTH side of the road
+const BUILDINGS = [
+  // Left house
+  { x: 32, y: 40, w: 48, h: 56, roof: C.roofRed, roofDk: C.roofRedDk,
+    wall: C.wallTan, wallDk: C.wallTanDk, sign: null },
+  // x402-sms shop (PROMINENT, center, blue roof)
+  { x: 112, y: 32, w: 64, h: 64, roof: C.roofBlue, roofDk: C.roofBlueDk,
+    wall: C.wallBlue, wallDk: C.wallBlueDk, sign: 'X402-SMS' },
+  // Right house
+  { x: 208, y: 40, w: 48, h: 56, roof: C.roofOrange, roofDk: C.roofOrangeDk,
+    wall: C.wallWhite, wallDk: C.wallWhiteDk, sign: null },
+
+  // SOUTH side
+  { x: 32, y: 176, w: 48, h: 40, roof: C.roofGreen, roofDk: C.roofGreenDk,
+    wall: C.wallWhite, wallDk: C.wallWhiteDk, sign: null },
+  { x: 96, y: 176, w: 48, h: 40, roof: C.roofGray, roofDk: C.roofGrayDk,
+    wall: C.wallTan, wallDk: C.wallTanDk, sign: null },
+  { x: 160, y: 176, w: 48, h: 40, roof: C.roofRed, roofDk: C.roofRedDk,
+    wall: C.wallBlue, wallDk: C.wallBlueDk, sign: null },
+  { x: 224, y: 176, w: 48, h: 40, roof: C.roofGreen, roofDk: C.roofGreenDk,
+    wall: C.wallTan, wallDk: C.wallTanDk, sign: null },
+];
+
+// Target X for x402-sms (door center)
+const SMS_BUILDING = BUILDINGS[1];
+const SMS_DOOR_X = SMS_BUILDING.x + SMS_BUILDING.w / 2;
+const SMS_DOOR_Y_FLOOR = SMS_BUILDING.y + SMS_BUILDING.h;
+
+// ── Agent state machine ────────────────────────────────────────
+const AGENT_PALETTES = [
+  { shirt: '#7c3aed', shirtDk: '#4c1d95', pants: '#1f1d4a', skin: '#f5cba7', hair: '#3a2817' },
+  { shirt: '#dc2626', shirtDk: '#7a1015', pants: '#2a0a05', skin: '#e9b886', hair: '#1f1f1f' },
+  { shirt: '#16a34a', shirtDk: '#0c5424', pants: '#1a3a1a', skin: '#f5cba7', hair: '#5e3a1c' },
+  { shirt: '#f59e0b', shirtDk: '#7a4a05', pants: '#3a200a', skin: '#fcd0a1', hair: '#1f1f1f' },
+  { shirt: '#0ea5e9', shirtDk: '#055578', pants: '#0f2a3a', skin: '#f5cba7', hair: '#3a2817' },
+  { shirt: '#ec4899', shirtDk: '#831843', pants: '#3a0a20', skin: '#f5cba7', hair: '#1f1f1f' },
+];
+
+const SIDEWALK_Y_TOP = 6 * TILE - 4;   // 92, agent stands on north sidewalk
+const SMS_FRONT_Y = SMS_DOOR_Y_FLOOR - 12;  // Just below the door
+const SPAWN_X = -14;
+const EXIT_X = W + 4;
+
+class Agent {
+  constructor(palette, id) {
+    this.id = id;
+    this.palette = palette;
+    this.x = SPAWN_X;
+    this.y = SIDEWALK_Y_TOP;
+    this.state = 'enter';
+    this.frame = 0;
+    this.frameTimer = 0;
+    this.payTimer = 0;
+    // Spread out the X target so agents don't queue exactly
+    this.targetX = SMS_DOOR_X - 6 + (Math.random() - 0.5) * 4;
+  }
+  update(dt) {
+    // Walk animation
+    this.frameTimer += dt;
+    if (this.frameTimer > 140) {
+      this.frame = (this.frame + 1) % 4;
+      this.frameTimer = 0;
+    }
+    const speed = 36; // px/sec
+    const step = speed * dt / 1000;
+    switch (this.state) {
+      case 'enter':
+        this.x += step;
+        if (this.x >= this.targetX) {
+          this.x = this.targetX;
+          this.state = 'approach';
+        }
+        break;
+      case 'approach':
+        this.y -= step;
+        if (this.y <= SMS_FRONT_Y) {
+          this.y = SMS_FRONT_Y;
+          this.state = 'pay';
+          this.payTimer = 0;
+        }
+        break;
+      case 'pay':
+        this.payTimer += dt;
+        if (this.payTimer > 1700) {
+          this.state = 'leave_step1';
+        }
+        break;
+      case 'leave_step1':
+        this.y += step;
+        if (this.y >= SIDEWALK_Y_TOP) {
+          this.y = SIDEWALK_Y_TOP;
+          this.state = 'leave';
+        }
+        break;
+      case 'leave':
+        this.x += step;
+        if (this.x >= EXIT_X) {
+          this.state = 'gone';
+        }
+        break;
+    }
+  }
+  draw() {
+    if (this.state === 'gone') return;
+    const isStill = (this.state === 'pay');
+    const frame = isStill ? 0 : this.frame;
+    drawAgent(this.x, this.y, this.palette, frame);
+    // Pay animation: coin floats up and fades
+    if (this.state === 'pay') {
+      const t = this.payTimer / 1700;
+      const coinY = this.y - 10 - t * 16;
+      const alpha = Math.max(0, 1 - t * 0.9);
+      drawUsdcCoin(this.x + 2, coinY, alpha);
+      // "$0.03" text appears briefly
+      if (t > 0.1 && t < 0.7) {
+        ctx.globalAlpha = Math.max(0, 1 - (t - 0.1) / 0.6);
+        drawText(this.x - 4, coinY - 7, '$.03', C.usdcGold);
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+}
+
+// ── Agent management ──────────────────────────────────────────
+const agents = [];
+let nextAgentId = 1;
+let nextSpawnAt = 800;
+
+function activeAgents() {
+  return agents.filter(a => a.state !== 'gone').length;
+}
+
+function spawnAgent() {
+  if (activeAgents() >= 4) return;
+  const pal = AGENT_PALETTES[(nextAgentId - 1) % AGENT_PALETTES.length];
+  agents.push(new Agent(pal, nextAgentId++));
+}
+
+// ── Counters (top-right of canvas) ────────────────────────────
+let totalSent = 0;
+let totalUsdc = 0;
+
+function drawCounters() {
+  const w = 64, h = 18;
+  const x = W - w - 6, y = 8;
+  // Background pill
+  rect(x - 1, y - 1, w + 2, h + 2, C.signWoodDk);
+  rect(x, y, w, h, '#1a1a1a');
+  // Border
+  rect(x, y, w, 1, C.signWood);
+  rect(x, y + h - 1, w, 1, C.signWood);
+  // Sent
+  drawText(x + 3, y + 3, 'SENT ' + totalSent, '#fcd34d');
+  // USDC
+  drawText(x + 3, y + 10, '$' + totalUsdc.toFixed(2) + ' USDC', '#5a9adf');
+}
+
+// ── Main loop ──────────────────────────────────────────────────
+let last = performance.now();
+function loop(now) {
+  const rawDt = now - last;
+  const dt = Math.min(rawDt, 100);
+  last = now;
+
+  // Spawner
+  nextSpawnAt -= dt;
+  if (nextSpawnAt <= 0) {
+    spawnAgent();
+    nextSpawnAt = 2400 + Math.random() * 2200;
+  }
+
+  // Clear with grass
+  rect(0, 0, W, H, C.grassMid);
+
+  // Tilemap
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      renderTile(c, r);
+    }
+  }
+
+  // Town entrance sign
+  drawTownSign(40, 70);
+
+  // Buildings
+  for (const b of BUILDINGS) drawBuilding(b.x, b.y, b.w, b.h, b);
+
+  // Sort agents by Y so closer ones render on top (depth)
+  const visible = agents.filter(a => a.state !== 'gone');
+  visible.sort((a, b) => a.y - b.y);
+  for (const a of visible) {
+    a.update(dt);
+    // Detect 'pay' event start for counters
+    if (a.state === 'pay' && !a._counted && a.payTimer > 200) {
+      a._counted = true;
+      totalSent++;
+      totalUsdc += 0.03;
+    }
+    a.draw();
+  }
+  // Garbage collect gone agents
+  for (let i = agents.length - 1; i >= 0; i--) {
+    if (agents[i].state === 'gone') agents.splice(i, 1);
+  }
+
+  // HUD
+  drawCounters();
+
+  requestAnimationFrame(loop);
+}
+
+requestAnimationFrame(loop);
+</script>
+
+</body>
+</html>

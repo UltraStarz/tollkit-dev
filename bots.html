@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bot board — Tollkit</title>
+<meta name="description" content="How Tollkit Wallet's rule-based trading bots do for the people who share their results: trades, success rate and median result per bot.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/motion.css">
+<style>
+  :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --line:#242424; --line-soft:#1c1c1c; --text:#e5e5e5; --muted:#8a8a8a; --dim:#707070; --accent:#4a8eff; --ok:#3ecf8e; --bad:#ff6b6b; --warn:#e0a33a; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .container { max-width:880px; margin:0 auto; padding:0 16px; }
+  a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+  nav.top { border-bottom:1px solid var(--line-soft); padding:.9rem 0; }
+  nav.top .container { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  .brand { font-weight:700; letter-spacing:-.02em; color:var(--text); } .brand .dot { color:var(--accent); }
+  nav.top .links { display:flex; gap:1.1rem; font-size:.9rem; } nav.top .links a { color:var(--muted); }
+  header.head { padding:2.6rem 0 1rem; }
+  h1 { font-size:2rem; letter-spacing:-.03em; margin:0 0 .5rem; }
+  .lede { color:var(--muted); margin:0; font-size:1.02rem; max-width:42rem; }
+  .meta { font-size:.82rem; color:var(--dim); margin-top:.8rem; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin-top:1.4rem; }
+  @media (max-width:720px) { .grid { grid-template-columns:1fr; } }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.1rem 1.2rem; min-width:0; }
+  .card h2 { font-size:1.05rem; margin:0; }
+  .card .what { color:var(--muted); font-size:.88rem; margin:.25rem 0 .9rem; }
+  .nums { display:grid; grid-template-columns:repeat(4,1fr); gap:.5rem; }
+  .num { background:#151515; border-radius:10px; padding:.55rem .65rem; min-width:0; }
+  .num small { display:block; color:var(--dim); font-size:.72rem; }
+  .num b { font-size:1.15rem; font-weight:650; white-space:nowrap; }
+  .ok { color:var(--ok); } .bad { color:var(--bad); }
+  .tokens { margin-top:.7rem; font-size:.8rem; color:var(--dim); }
+  .empty { color:var(--dim); font-size:.86rem; }
+  .note { margin:1.6rem 0 3rem; color:var(--dim); font-size:.82rem; max-width:44rem; }
+  .err { color:var(--warn); margin-top:1rem; }
+</style>
+</head>
+<body>
+<nav class="top"><div class="container"><a class="brand" href="/">Toll<span class="dot">kit</span></a><div class="links"><a href="/wallet">Wallet</a><a href="/tools">Tools</a></div></div></nav>
+<main class="container">
+  <header class="head">
+    <h1>Bot board</h1>
+    <p class="lede">Tollkit Wallet's bots are plain rules, no AI: buy on a schedule, buy dips, protect a position, trail a stop, take profits in steps, or trade a range. These are the results people chose to share from their wallets.</p>
+    <div class="meta" id="meta">Loading…</div>
+  </header>
+  <div class="grid" id="grid"></div>
+  <p class="note" id="note">Self-reported by Tollkit Wallet users who turned sharing on. Not verified on chain. Past results don't predict future ones, and none of this is advice.</p>
+</main>
+<script>
+(function () {
+  var NAMES = { dca: ["Steady buyer", "Buys a fixed dollar amount on a schedule."], dip: ["Buy the dip", "Buys after a drop, sells after a recovery."], protect: ["Protect a position", "Stop-loss and take-profit together."], trail: ["Trailing stop", "Follows the price up, sells after a fall from the high."], ladder: ["Take-profit ladder", "Sells in three steps as the price rises."], grid: ["Grid trader", "Buys each level on the way down, sells a level higher."] };
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function pct(n) { return n === null || n === undefined ? "—" : (n > 0 ? "+" : "") + n + "%"; }
+  fetch("https://api.tollkit.dev/wallet/bots/leaderboard").then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }).then(function (d) {
+    document.getElementById("meta").textContent = d.installs + " wallet" + (d.installs === 1 ? "" : "s") + " sharing · updated " + new Date(d.updated).toLocaleString();
+    if (d.note) document.getElementById("note").textContent = d.note + " None of this is advice.";
+    document.getElementById("grid").innerHTML = d.templates.map(function (t) {
+      var n = NAMES[t.template] || [t.template, ""], few = t.bots < 3;
+      return '<div class="card"><h2>' + esc(n[0]) + '</h2><div class="what">' + esc(n[1]) + '</div>' + (few ? '<div class="empty">Not enough shared results yet (' + t.bots + ' bot' + (t.bots === 1 ? "" : "s") + ').</div>' :
+        '<div class="nums"><div class="num"><small>Bots</small><b>' + t.bots + '</b></div><div class="num"><small>Trades</small><b>' + t.trades + '</b></div><div class="num"><small>Went through</small><b>' + (t.success_rate === null ? "—" : t.success_rate + "%") + '</b></div><div class="num"><small>Median result</small><b class="' + (t.median_result_pct > 0 ? "ok" : t.median_result_pct < 0 ? "bad" : "") + '">' + pct(t.median_result_pct) + '</b></div></div>' +
+        (t.tokens && t.tokens.length ? '<div class="tokens">Most used on: ' + t.tokens.map(function (x) { return esc(x.token) + " (" + x.bots + ")"; }).join(", ") + '</div>' : "")) + '</div>';
+    }).join("");
+  }).catch(function (e) { document.getElementById("meta").innerHTML = '<span class="err">The board isn’t available right now (' + esc(e.message) + ').</span>'; });
+})();
+</script>
+</body>
+</html>
