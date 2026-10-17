@@ -269,6 +269,15 @@
   .p-title { display: flex; align-items: center; gap: .6rem; }
   .p-icon { width: 36px; height: 36px; padding: 7px; flex: none; border-radius: 8px; background: #121a2a; border: 1px solid #1e3358; color: #4a8eff; }
   .product-featured .p-icon { background: #15294d; border-color: #2f5fb0; color: #8db8ff; }
+  /* Wallet band, between the hero and Products */
+  .wallet-band { padding: 2.5rem 0; border-top: 1px solid #1c1c1c; }
+  .wb-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 2.5rem; align-items: center; }
+  .wb-kicker { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: #4a8eff; font-weight: 600; margin-bottom: .4rem; }
+  .wallet-band h2 { margin: 0 0 .5rem; }
+  .wallet-band p { color: #b4b4b4; margin: 0 0 1.2rem; max-width: 34rem; }
+  .wb-shot { justify-self: center; }
+  .wb-shot img { display: block; width: 100%; max-width: 230px; height: auto; border-radius: 16px; border: 1px solid #2a2d38; box-shadow: 0 24px 60px -24px rgba(74,142,255,.35); }
+  @media (max-width: 700px) { .wb-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
 </style>
 <link rel="stylesheet" href="/motion.css">
 <script src="/motion.js"></script>
@@ -280,6 +289,7 @@
     <span class="brand">Toll<span class="dot">kit</span></span>
     <div class="links">
       <a class="nav-wide" href="#products">Products</a>
+      <a href="/wallet">Wallet</a>
       <a href="/tools">Tools</a>
       <a href="/connect">Connect</a>
       <a href="/weigh-station">Weigh Station</a>
@@ -301,6 +311,18 @@
     </div>
   </div>
 </header>
+
+<section id="wallet" class="wallet-band">
+  <div class="container wb-grid">
+    <div>
+      <div class="wb-kicker">Chrome extension &middot; Base, Ethereum, Solana</div>
+      <h2>Tollkit Wallet</h2>
+      <p>A self-custody wallet in Chrome's side panel. Buy through Coinbase, swap, cash out and stake, with spending limits you set. Rule-based trading bots, and an AI that suggests rules you approve.</p>
+      <a class="btn btn-primary" href="/wallet">See the wallet&nbsp;&rarr;</a>
+    </div>
+    <a class="wb-shot" href="/wallet"><img src="/wallet/img/home.webp" width="400" height="820" loading="lazy" alt="Tollkit Wallet home screen in Chrome's side panel."></a>
+  </div>
+</section>
 
 <section id="products">
   <div class="container">

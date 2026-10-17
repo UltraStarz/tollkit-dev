@@ -1,0 +1,4 @@
+Files used by /treasury (Tollkit's weekly fee sweep page):
+- ethers-6.17.0.umd.min.js: ethers v6.17.0 (MIT License, Richard Moore), copied from the npm package's dist/ethers.umd.min.js.
+- solana-web3-1.99.0.iife.min.js: @solana/web3.js v1.99.0 (MIT License, Solana Labs), copied from the npm package's lib/index.iife.min.js.
+- tokens.json: Base and Ethereum tokens from Tollkit Wallet's token list (Superchain Token List, MIT) plus core tokens.

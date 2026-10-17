@@ -4,64 +4,197 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tollkit Wallet</title>
-<meta name="description" content="A self-custody wallet for Base, Ethereum and Solana that stays open in Chrome's side panel.">
+<meta name="description" content="A self-custody wallet for Base, Ethereum and Solana in Chrome's side panel, with spending limits, rule-based trading bots and an AI that suggests rules you approve.">
+<meta property="og:title" content="Tollkit Wallet">
+<meta property="og:description" content="A self-custody wallet for Base, Ethereum and Solana in Chrome's side panel.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tollkit.dev/wallet">
+<meta property="og:image" content="https://tollkit.dev/wallet/img/home.webp">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
 <style>
-  :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --line:#242424; --line-soft:#1c1c1c; --text:#e5e5e5; --muted:#8a8a8a; --dim:#707070; --accent:#4a8eff; }
+  :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --panel2:#151821; --line:#242424; --line-soft:#1c1c1c; --text:#e5e5e5; --muted:#8a8a8a; --dim:#707070; --accent:#4a8eff; --ok:#3ccf91; }
   * { box-sizing:border-box; }
   html,body { margin:0; padding:0; }
   body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; -webkit-font-smoothing:antialiased; }
-  .container { max-width:760px; margin:0 auto; padding:0 16px; }
+  .container { max-width:980px; margin:0 auto; padding:0 16px; }
   a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
-  code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.9em; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.9em; background:#1a1a1a; padding:.1rem .35rem; border-radius:4px; }
   nav.top { border-bottom:1px solid var(--line-soft); padding:.9rem 0; }
   nav.top .container { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
   .brand { font-weight:700; letter-spacing:-.02em; color:var(--text); } .brand .dot { color:var(--accent); }
-  nav.top .links { display:flex; gap:1.1rem; font-size:.9rem; } nav.top .links a { color:var(--muted); }
-  header.head { padding:2.4rem 0 .6rem; }
-  h1 { font-size:2rem; letter-spacing:-.03em; margin:0 0 .4rem; }
-  h2 { font-size:1.15rem; margin:2rem 0 .4rem; }
-  .lede { color:var(--muted); margin:0; font-size:1.02rem; }
-  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.1rem 1.3rem; margin-top:1rem; }
-  ul { padding-left:1.2rem; } li { margin:.3rem 0; }
+  nav.top .links { display:flex; gap:1.1rem; font-size:.9rem; } nav.top .links a { color:var(--muted); } nav.top .links a.on { color:var(--text); }
+
+  .hero { display:grid; grid-template-columns:1.15fr .85fr; gap:2.5rem; align-items:center; padding:3.2rem 0 2.4rem; }
+  .eyebrow { display:inline-flex; align-items:center; gap:.45rem; font-size:.8rem; color:var(--muted); border:1px solid var(--line); border-radius:99px; padding:.25rem .7rem; margin-bottom:1rem; }
+  .eyebrow i { width:7px; height:7px; border-radius:50%; background:var(--ok); display:inline-block; }
+  h1 { font-size:2.6rem; line-height:1.12; letter-spacing:-.035em; margin:0 0 .8rem; }
+  h1 .dot { color:var(--accent); }
+  .lede { color:#b4b4b4; font-size:1.1rem; margin:0 0 1.4rem; max-width:34rem; }
+  .chips { display:flex; flex-wrap:wrap; gap:.5rem; margin:0 0 1.6rem; padding:0; list-style:none; }
+  .chips li { font-size:.85rem; color:#cfcfcf; background:var(--panel); border:1px solid var(--line); border-radius:99px; padding:.25rem .75rem; }
+  .ctas { display:flex; gap:.7rem; flex-wrap:wrap; }
+  .btn { display:inline-flex; align-items:center; gap:.4rem; padding:.65rem 1.1rem; border-radius:10px; font-weight:600; font-size:.95rem; border:1px solid var(--line); color:var(--text); background:var(--panel); }
+  .btn:hover { text-decoration:none; border-color:#3a3a3a; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn.soon { cursor:default; color:var(--muted); }
+
+  .shot { margin:0; justify-self:center; }
+  .shot img { display:block; width:100%; max-width:320px; height:auto; border-radius:18px; border:1px solid #2a2d38; box-shadow:0 30px 80px -30px rgba(74,142,255,.35), 0 10px 30px -10px rgba(0,0,0,.8); }
+  .hero .shot img { max-width:340px; }
+
+  section.feature { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center; padding:3rem 0; border-top:1px solid var(--line-soft); }
+  section.feature.flip .text { order:2; }
+  section.feature h2 { font-size:1.6rem; letter-spacing:-.025em; line-height:1.2; margin:0 0 .7rem; }
+  section.feature p { color:#b4b4b4; margin:0 0 .8rem; }
+  section.feature ul { margin:.4rem 0 0; padding-left:1.1rem; color:#c8c8c8; } section.feature li { margin:.35rem 0; }
+  .kicker { font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; color:var(--accent); font-weight:600; margin-bottom:.5rem; }
+
+  .band { border-top:1px solid var(--line-soft); padding:3rem 0; }
+  .band h2 { font-size:1.6rem; letter-spacing:-.025em; margin:0 0 .4rem; }
+  .band .sub { color:var(--muted); margin:0 0 1.4rem; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.1rem 1.2rem; }
+  .card h3 { font-size:1rem; margin:0 0 .35rem; }
+  .card p { color:var(--muted); margin:0; font-size:.94rem; }
+  table.fees { width:100%; border-collapse:collapse; font-size:.95rem; }
+  table.fees td { padding:.75rem .9rem; border-bottom:1px solid var(--line-soft); vertical-align:top; }
+  table.fees td:first-child { color:var(--text); width:42%; }
+  table.fees td:last-child { color:#c8c8c8; }
+  table.fees tr:last-child td { border-bottom:0; }
+  .tablewrap { background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
   .mut { color:var(--muted); }
-  footer { border-top:1px solid var(--line-soft); margin-top:2.5rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; } footer a { color:var(--muted); }
+  footer { border-top:1px solid var(--line-soft); margin-top:1rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; } footer a { color:var(--muted); }
+
+  @media (max-width:760px) {
+    .hero { grid-template-columns:1fr; padding-top:2.2rem; gap:2rem; }
+    h1 { font-size:2.1rem; }
+    section.feature { grid-template-columns:1fr; gap:1.6rem; padding:2.4rem 0; }
+    section.feature.flip .text { order:0; }
+    .grid3 { grid-template-columns:1fr; }
+    .shot img, .hero .shot img { max-width:290px; }
+  }
 </style>
 </head>
 <body>
 <nav class="top">
   <div class="container">
     <a class="brand" href="/">Toll<span class="dot">kit</span></a>
-    <div class="links"><a href="/wallet">Wallet</a><a href="/tools">Tools</a><a href="/status">Status</a></div>
+    <div class="links"><a class="on" href="/wallet">Wallet</a><a href="/bots">Bot board</a><a href="/tools">Tools</a><a href="/status">Status</a></div>
   </div>
 </nav>
+
 <main class="container">
-<header class="head">
-  <h1>Tollkit Wallet</h1>
-  <p class="lede">A self-custody wallet for Base, Ethereum and Solana that stays open in Chrome's side panel, next to the site you're using.</p>
+
+<header class="hero">
+  <div>
+    <div class="eyebrow"><i></i> Chrome extension &middot; Base, Ethereum, Solana</div>
+    <h1>Tollkit <span class="dot">Wallet</span></h1>
+    <p class="lede">A self-custody crypto wallet that stays open in Chrome's side panel, next to the site you're on. Your keys stay in your browser, and you set the limits on what can be spent.</p>
+    <ul class="chips">
+      <li>Buy with Coinbase</li><li>Swap</li><li>Send &amp; receive</li><li>Cash out</li><li>Move between networks</li><li>Stake SOL</li><li>Trading bots</li><li>AI suggestions</li>
+    </ul>
+    <div class="ctas">
+      <span class="btn soon" title="This page will link to the listing">Coming to the Chrome Web Store</span>
+      <a class="btn" href="#fees">Fees</a>
+    </div>
+  </div>
+  <figure class="shot"><img src="/wallet/img/home.webp" width="400" height="820" alt="Tollkit Wallet home screen: total balance, buttons for Buy, Sell, Receive, Move and Stake, today's spending against the limits, and balances on Base and Solana."></figure>
 </header>
 
-<div class="card">
-  <ul>
-    <li>Hold ETH, SOL, USDC, USDT and other tokens on Base, Ethereum and Solana from one 12-word recovery phrase.</li>
-    <li>Send, receive, swap and buy. Every swap shows Tollkit's 0.5% fee and the minimum you'll get before you confirm.</li>
-    <li>Cash out to your bank or PayPal through Coinbase, move USDC and ETH between networks, and stake SOL.</li>
-    <li>Spending limits like the Tollkit app: a cap per swap and per day, and your password for bigger swaps and sends.</li>
-    <li>Hundreds of tokens, found in your wallet automatically. Add any other token by name or address: Tollkit's token check runs first and shows its warnings in plain words.</li>
-    <li>Bots: rule-based trading bots, no AI (steady buys, dips, stops, profit ladders, grids), each with its trades, failures and result. See how they do for others on the <a href="/bots">bot board</a>.</li>
-    <li>Ask Claude on the Bots tab to suggest rules ($0.02 a step, paid from the wallet), and connect Claude, ChatGPT or Cursor with one private address. They stay inside your limits.</li>
-    <li>Connect to apps that support MetaMask or Phantom-style wallets. Each connection, signature and transaction waits for your OK in the panel, with the site's name and what it's asking for.</li>
-    <li>Your phrase is encrypted in your browser with your password. Tollkit never has it.</li>
-    <li>Already use the Tollkit app, MetaMask or Phantom? Import your recovery phrase (or the Tollkit app's two backup keys) and you get the same addresses.</li>
-  </ul>
-</div>
+<section class="feature">
+  <div class="text">
+    <div class="kicker">One wallet, three networks</div>
+    <h2>Everything in the side panel</h2>
+    <p>ETH, SOL, USDC, USDT and other tokens on Base, Ethereum and Solana, all from one 12-word recovery phrase. Tokens you hold show up on their own.</p>
+    <ul>
+      <li>Buy through Coinbase, straight to your own address.</li>
+      <li>Swap, with Tollkit's fee and the minimum you'll receive shown before you confirm.</li>
+      <li>Cash out to your bank or PayPal through Coinbase.</li>
+      <li>Move USDC and ETH between networks, and stake SOL.</li>
+      <li>Connect to apps that work with MetaMask or Phantom. Every request waits for your OK in the panel.</li>
+    </ul>
+    <p style="margin-top:1rem">Adding a token by name or address runs Tollkit's token check first, which says what it found in plain words: whether there's a pool to sell it into, or whether its owner can create more.</p>
+  </div>
+  <figure class="shot"><img src="/wallet/img/scamcheck.webp" width="400" height="820" loading="lazy" alt="Adding a token: Tollkit's token check shows two warnings in plain words before the token is added."></figure>
+</section>
 
-<h2>Get it</h2>
-<p>Tollkit Wallet is on its way to the Chrome Web Store. This page will link to it once it's listed.</p>
+<section class="feature flip">
+  <div class="text">
+    <div class="kicker">Bots</div>
+    <h2>Trading bots that show their numbers</h2>
+    <p>Plain rule-based bots, no AI involved: steady buys on a schedule, buying dips, stop-losses and take-profits, profit ladders and grids. You see every setting before a bot starts.</p>
+    <ul>
+      <li>Each bot shows its trades, failures and result.</li>
+      <li>The autopilot checks prices every 15 seconds while the wallet is open.</li>
+      <li>See how bots do for other people on the <a href="/bots">bot board</a>.</li>
+    </ul>
+  </div>
+  <figure class="shot"><img src="/wallet/img/bots.webp" width="400" height="820" loading="lazy" alt="The Bots tab: a running steady-buyer bot with its trades, failures and result, and a catalog of bots to set up."></figure>
+</section>
 
-<h2>Help</h2>
-<p>Email <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>. Tollkit can't recover a wallet for you: keep your recovery phrase written down and offline. Nobody from Tollkit will ever ask for it.</p>
-<p class="mut"><a href="/wallet/privacy">Privacy policy</a></p>
+<section class="feature">
+  <div class="text">
+    <div class="kicker">AI or Python</div>
+    <h2>Pick how you trade</h2>
+    <p>The first time you open the Bots tab, you choose how to run your trading. You can switch any time in Settings.</p>
+    <ul>
+      <li><b>Your own Claude or ChatGPT</b>, free: connect it to the wallet with a private address.</li>
+      <li><b>Tollkit's Claude</b>, built in: $0.02 a step, paid from the wallet in USDC.</li>
+      <li><b>Python</b>: run your own trading bots against the wallet through a private link.</li>
+    </ul>
+  </div>
+  <figure class="shot"><img src="/wallet/img/choose.webp" width="400" height="820" loading="lazy" alt="The first-time choice on the Bots tab: AI trading with your own Claude or ChatGPT or Tollkit's Claude, or Python trading."></figure>
+</section>
+
+<section class="feature flip">
+  <div class="text">
+    <div class="kicker">Connect your AI</div>
+    <h2>Your AI suggests, you decide</h2>
+    <p>Claude reads your balances and recent prices and suggests rules. Nothing turns on until you tap it. Connected AI apps work inside the same limits, can't withdraw, and never see your keys.</p>
+    <ul>
+      <li>One tap copies your private address and opens Claude's connectors page. Paste it and click Add.</li>
+      <li>The wallet shows Connected once your AI app actually reaches it.</li>
+      <li>Using Tollkit's Claude with no USDC on hand? It offers to swap a little SOL or ETH first, and can do it automatically after you say yes once.</li>
+    </ul>
+  </div>
+  <figure class="shot"><img src="/wallet/img/connect.webp" width="400" height="820" loading="lazy" alt="Connect your AI: a private connector address with a one-tap Copy and open Claude button and step-by-step instructions."></figure>
+</section>
+
+<section class="band">
+  <h2>Limits you set</h2>
+  <p class="sub">The wallet, its bots and any AI you connect all work inside the same rules. Changing them needs your password.</p>
+  <div class="grid3">
+    <div class="card"><h3>Caps</h3><p>A most-per-swap and a most-per-day for trading, and separate caps for paying for tools.</p></div>
+    <div class="card"><h3>Approvals</h3><p>Swaps over the amount you pick wait for your OK in the panel or on Telegram.</p></div>
+    <div class="card"><h3>Slippage</h3><p>A maximum price movement per swap, so a trade doesn't fill far from its quote.</p></div>
+    <div class="card"><h3>Password for withdrawals</h3><p>Sending funds out needs your password every time, so an AI or bot can't move money out of the wallet.</p></div>
+    <div class="card"><h3>Your keys</h3><p>Your recovery phrase is encrypted in your browser with your password. Tollkit never has it.</p></div>
+    <div class="card"><h3>Same addresses</h3><p>Import a phrase from MetaMask, Phantom or the Tollkit app and you get the same addresses.</p></div>
+  </div>
+</section>
+
+<section class="band" id="fees">
+  <h2>Fees</h2>
+  <p class="sub">Every fee is shown before you confirm.</p>
+  <div class="tablewrap">
+    <table class="fees">
+      <tr><td>Swaps</td><td>0.5% of the trade, included in the quote</td></tr>
+      <tr><td>Moving USDC or ETH between networks</td><td>0.25%, plus the bridge's own fee</td></tr>
+      <tr><td>Tollkit's Claude</td><td>$0.02 a step, in USDC. Your own Claude or ChatGPT costs nothing extra.</td></tr>
+      <tr><td>Buying and cashing out with Coinbase</td><td>Coinbase shows its own fee and the amount before you confirm</td></tr>
+      <tr><td>Sending, receiving and staking</td><td>No Tollkit fee. The network's own fee applies.</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="band">
+  <h2>Get it</h2>
+  <p>Tollkit Wallet is on its way to the Chrome Web Store. This page will link to the listing once it's live.</p>
+  <h2 style="margin-top:2rem">Help</h2>
+  <p>Email <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>. Tollkit can't recover a wallet for you: keep your recovery phrase written down and offline. Nobody from Tollkit will ever ask for it.</p>
+  <p class="mut"><a href="/wallet/privacy">Privacy policy</a></p>
+</section>
+
 </main>
 <footer>
   <div class="container">

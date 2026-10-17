@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Treasury — Tollkit</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
+<style>
+  :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --line:#242424; --soft:#1c1c1c; --text:#e5e5e5; --muted:#8a8a8a; --dim:#707070; --acc:#4a8eff; --ok:#3ecf8e; --bad:#ff6b6b; --warn:#e0a33a; }
+  * { box-sizing:border-box; } html,body { margin:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.55; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:940px; margin:0 auto; padding:0 16px 60px; }
+  header { padding:2.2rem 0 .6rem; } h1 { font-size:1.8rem; letter-spacing:-.03em; margin:0 0 .3rem; } h2 { font-size:1.05rem; margin:0 0 .6rem; }
+  .lede, .mut { color:var(--muted); } .sm { font-size:.84rem; } .dim { color:var(--dim); }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:1rem 1.1rem; margin-top:.9rem; min-width:0; }
+  ol.steps { margin:.2rem 0 0; padding-left:1.2rem; } ol.steps li { margin:.25rem 0; }
+  a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+  button { font:inherit; border:0; border-radius:10px; padding:.55rem .9rem; cursor:pointer; background:var(--acc); color:#fff; font-weight:600; }
+  button.g { background:#1b1b1b; color:var(--text); border:1px solid var(--line); } button:disabled { opacity:.5; cursor:default; }
+  .row { display:flex; gap:.6rem; align-items:center; flex-wrap:wrap; }
+  .addr { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.82rem; overflow-wrap:anywhere; }
+  .ok { color:var(--ok); } .bad { color:var(--bad); } .warn { color:var(--warn); }
+  table { width:100%; border-collapse:collapse; font-size:.88rem; } th, td { text-align:left; padding:.45rem .4rem; border-bottom:1px solid var(--soft); vertical-align:middle; }
+  th { color:var(--dim); font-weight:600; font-size:.78rem; } td.n { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .tbl { overflow-x:auto; }
+  input[type=number] { width:6rem; background:#0d0d0d; border:1px solid var(--line); color:var(--text); border-radius:8px; padding:.35rem .5rem; font:inherit; }
+  .pill { font-size:.75rem; padding:.1rem .5rem; border-radius:99px; background:#1b1b1b; color:var(--muted); white-space:nowrap; }
+  .pill.ok { background:rgba(62,207,142,.14); color:var(--ok); } .pill.warn { background:rgba(224,163,58,.14); color:var(--warn); }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.6rem; } @media (max-width:700px) { .grid { grid-template-columns:1fr; } }
+  .stat { background:#151515; border-radius:10px; padding:.6rem .7rem; } .stat small { display:block; color:var(--dim); font-size:.75rem; } .stat b { font-size:1.2rem; }
+  #log div { padding:.25rem 0; border-bottom:1px solid var(--soft); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Treasury</h1>
+  <p class="lede">Tollkit's fee revenue on Base, Ethereum and Solana, and a weekly sweep that turns it into USDC. Everything is signed in your own wallet. This page never sees a key, and Tollkit's fee wallets pay no Tollkit fee on their own swaps.</p>
+</header>
+
+<div class="card">
+  <h2>Each week</h2>
+  <ol class="steps sm">
+    <li>Claim Jupiter's fees on the <a href="https://referral.jup.ag/dashboard-ultra" target="_blank" rel="noopener">referral dashboard</a> (Ultra → Claim). They land in the Solana fee wallet.</li>
+    <li>Connect the fee wallets below and scan.</li>
+    <li>Convert everything over the minimum to USDC. Network-fee reserves of ETH and SOL are kept.</li>
+    <li>Download the report for your books.</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h2>Fee wallets</h2>
+  <div id="who" class="sm mut">Loading Tollkit's fee addresses…</div>
+  <div class="row" style="margin-top:.7rem">
+    <span id="evmBtns" class="row"></span>
+    <button class="g" id="solBtn">Connect Solana wallet</button>
+  </div>
+  <div id="conn" class="sm" style="margin-top:.5rem"></div>
+</div>
+
+<div class="card">
+  <div class="row" style="justify-content:space-between">
+    <h2 style="margin:0">Holdings</h2>
+    <div class="row sm">
+      <label>Convert when worth at least $<input type="number" id="min" value="20" min="1" step="1"></label>
+      <button id="scan">Scan</button>
+    </div>
+  </div>
+  <div class="grid" id="stats" style="margin-top:.8rem"></div>
+  <div class="tbl" style="margin-top:.8rem"><table><thead><tr><th>Network</th><th>Coin</th><th class="n">Amount</th><th class="n">≈ USDC</th><th></th></tr></thead><tbody id="rows"><tr><td colspan="5" class="mut sm">Press Scan.</td></tr></tbody></table></div>
+  <div class="row" style="margin-top:.8rem;justify-content:space-between">
+    <span id="sweepNote" class="sm mut"></span>
+    <button id="sweepAll" disabled>Convert all over the minimum</button>
+  </div>
+  <div id="refl" class="sm mut" style="margin-top:.8rem"></div>
+</div>
+
+<div class="card">
+  <div class="row" style="justify-content:space-between"><h2 style="margin:0">Sweep log</h2><button class="g" id="csv">Download report (CSV)</button></div>
+  <div id="log" class="sm" style="margin-top:.6rem"><span class="mut">Nothing converted yet in this browser.</span></div>
+</div>
+<p class="sm dim">Reserves kept for network fees: 0.002 ETH on Base, 0.01 ETH on Ethereum, 0.05 SOL. Prices are the live quote for converting to USDC through 0x (Base, Ethereum) and Jupiter (Solana), so they already include slippage.</p>
+</div>
+
+<script src="/treasury/ethers-6.17.0.umd.min.js"></script>
+<script src="/treasury/solana-web3-1.99.0.iife.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var API = "https://api.tollkit.dev";
+  var REFERRAL = "GaezRGEobGTMVrisPn9oXqPpXawXEBhaSGTWpWZwn1g4";
+  var NATIVE = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE";
+  var AH = "0x0000000000001fF3684f28c67538d4D072C22734"; // 0x AllowanceHolder: the only contract ever approved
+  var MC3 = "0xcA11bde05977b3631167028862bE2a173976CA11";
+  var CH = {
+    base: { name: "Base", id: 8453, hex: "0x2105", rpc: "https://mainnet.base.org", usdc: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", reserve: "0.002", tx: "https://basescan.org/tx/" },
+    ethereum: { name: "Ethereum", id: 1, hex: "0x1", rpc: "https://ethereum-rpc.publicnode.com", usdc: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", reserve: "0.01", tx: "https://etherscan.io/tx/" }
+  };
+  var SOL = { rpc: API + "/wallet/rpc/solana", usdc: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", wsol: "So11111111111111111111111111111111111111112", reserve: 50000000n, tx: "https://solscan.io/tx/" };
+  var TOKEN_PROGRAMS = ["TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"];
+  var E = ethers, FEE = null, TOKENS = null, ROWS = [], EVM = null, EVMNAME = "", SOLP = null, BUSY = false;
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function fmt(raw, dec) { var s = E.formatUnits(raw, dec); if (s.indexOf(".") >= 0) s = s.replace(/0+$/, "").replace(/\.$/, ""); var p = s.split("."); return p[1] && p[1].length > 8 ? p[0] + "." + p[1].slice(0, 8) : s; }
+  function usd(n) { return "$" + Number(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function short(a) { return a.slice(0, 6) + "…" + a.slice(-4); }
+  async function getJ(u, init) { var r = await fetch(u, init); var j = await r.json().catch(function () { return {}; }); if (!r.ok) throw new Error(j.message || j.error || ("HTTP " + r.status)); return j; }
+  async function solRpc(method, params) { var j = await getJ(SOL.rpc, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: method, params: params }) }); if (j.error) throw new Error(j.error.message || "Solana RPC error"); return j.result; }
+
+  // --- the log (this browser only)
+  function loadLog() { try { return JSON.parse(localStorage.getItem("tk-treasury-log") || "[]"); } catch (e) { return []; } }
+  function saveLog(l) { try { localStorage.setItem("tk-treasury-log", JSON.stringify(l.slice(-1000))); } catch (e) {} }
+  var LOG = loadLog();
+  function addLog(e) { LOG.push(e); saveLog(LOG); drawLog(); }
+  function drawLog() {
+    if (!LOG.length) return;
+    $("log").innerHTML = LOG.slice().reverse().slice(0, 50).map(function (e) {
+      return "<div>" + esc(new Date(e.time).toLocaleString()) + " · " + esc(e.chain) + " · " + esc(e.amount) + " " + esc(e.symbol) + " → " + (e.status === "done" ? '<span class="ok">' + esc(e.usdc) + " USDC</span>" : '<span class="bad">' + esc(e.error || "failed") + "</span>") + (e.tx ? ' · <a target="_blank" rel="noopener" href="' + esc(e.url) + '">tx</a>' : "") + "</div>";
+    }).join("");
+  }
+  $("csv").onclick = function () {
+    var head = "time,network,coin,amount,usdc_received,status,tx,error\n";
+    var rows = LOG.map(function (e) { return [e.time, e.chain, e.symbol, e.amount, e.usdc || "", e.status, e.tx || "", (e.error || "").replace(/[\n,]/g, " ")].join(","); }).join("\n");
+    var snap = ROWS.length ? "\n\nholdings at " + new Date().toISOString() + "\nnetwork,coin,amount,approx_usdc\n" + ROWS.map(function (r) { return [r.chain, r.symbol, r.amountText, r.usdc == null ? "" : r.usdc.toFixed(2)].join(","); }).join("\n") : "";
+    var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([head + rows + snap], { type: "text/csv" })); a.download = "tollkit-treasury-" + new Date().toISOString().slice(0, 10) + ".csv"; a.click();
+  };
+
+  // --- who the fee wallets are
+  async function boot() {
+    try {
+      var c = await getJ(API + "/wallet/bridge/config");
+      FEE = { evm: c.fee_recipient && c.fee_recipient.evm, solana: c.fee_recipient && c.fee_recipient.solana };
+      $("who").innerHTML = "Base/Ethereum: <span class=addr>" + esc(FEE.evm || "not set") + "</span><br>Solana: <span class=addr>" + esc(FEE.solana || "not set") + "</span><br>Jupiter referral account: <span class=addr>" + REFERRAL + "</span>";
+    } catch (e) { $("who").innerHTML = '<span class="bad">Couldn\'t load the fee addresses: ' + esc(e.message) + "</span>"; }
+    try { TOKENS = await getJ("/treasury/tokens.json"); } catch (e) { TOKENS = { base: [], ethereum: [] }; }
+    drawLog();
+  }
+
+  // --- wallets: any EIP-6963 browser wallet for Base/Ethereum; Phantom, Solflare or Backpack for Solana
+  var found = {};
+  window.addEventListener("eip6963:announceProvider", function (ev) {
+    var d = ev.detail; if (!d || !d.info || found[d.info.uuid]) return; found[d.info.uuid] = d;
+    var b = document.createElement("button"); b.className = "g"; b.textContent = "Connect " + d.info.name; b.onclick = function () { connectEvm(d); }; $("evmBtns").appendChild(b);
+  });
+  window.dispatchEvent(new Event("eip6963:requestProvider"));
+  async function connectEvm(d) {
+    try {
+      var acc = await d.provider.request({ method: "eth_requestAccounts" });
+      EVM = d.provider; EVMNAME = d.info.name;
+      var a = String(acc[0] || "");
+      showConn("evm", a);
+    } catch (e) { $("conn").innerHTML = '<span class="bad">' + esc(e.message) + "</span>"; }
+  }
+  $("solBtn").onclick = async function () {
+    var p = (window.phantom && window.phantom.solana) || window.solflare || (window.backpack && window.backpack.solana) || window.solana;
+    if (!p) { $("conn").innerHTML = '<span class="warn">No Solana wallet found in this browser.</span>'; return; }
+    try { await p.connect(); SOLP = p; showConn("sol", p.publicKey.toBase58()); } catch (e) { $("conn").innerHTML = '<span class="bad">' + esc(e.message) + "</span>"; }
+  };
+  var CONN = {};
+  function showConn(k, a) {
+    CONN[k] = a;
+    var line = function (label, a2, want) { if (!a2) return ""; var ok = want && a2.toLowerCase() === want.toLowerCase(); return label + ": <span class=addr>" + esc(a2) + "</span> " + (ok ? '<span class="pill ok">fee wallet</span>' : '<span class="pill warn">not the fee wallet: converting is off</span>') + "<br>"; };
+    $("conn").innerHTML = line(EVMNAME || "Base/Ethereum", CONN.evm, FEE && FEE.evm) + line("Solana", CONN.sol, FEE && FEE.solana);
+    draw();
+  }
+
+  // --- scan
+  var ERC20 = new E.Interface(["function balanceOf(address) view returns (uint256)", "function approve(address spender, uint256 amount) returns (bool)"]);
+  var MC = new E.Interface(["function aggregate3((address target, bool allowFailure, bytes callData)[] calls) view returns ((bool success, bytes returnData)[])"]);
+  async function scanEvm(chain) {
+    var c = CH[chain], prov = new E.JsonRpcProvider(c.rpc, c.id, { staticNetwork: true }), owner = FEE.evm, out = [];
+    var eth = await prov.getBalance(owner);
+    if (eth > 0n) out.push({ chain: chain, token: NATIVE, symbol: "ETH", decimals: 18, raw: eth, reserve: E.parseUnits(c.reserve, 18) });
+    var list = TOKENS[chain] || [];
+    for (var i = 0; i < list.length; i += 300) {
+      var part = list.slice(i, i + 300);
+      var data = MC.encodeFunctionData("aggregate3", [part.map(function (t) { return [t[0], true, ERC20.encodeFunctionData("balanceOf", [owner])]; })]);
+      var res = MC.decodeFunctionResult("aggregate3", await prov.call({ to: MC3, data: data }))[0];
+      res.forEach(function (r, k) { if (!r[0] || r[1] === "0x") return; var v = BigInt(r[1]); if (v > 0n) out.push({ chain: chain, token: part[k][0], symbol: part[k][1], decimals: part[k][2], raw: v, reserve: 0n }); });
+    }
+    return out;
+  }
+  async function scanSol() {
+    var owner = FEE.solana, out = [];
+    var lam = BigInt((await solRpc("getBalance", [owner, { commitment: "confirmed" }])).value);
+    if (lam > 0n) out.push({ chain: "solana", token: SOL.wsol, symbol: "SOL", decimals: 9, raw: lam, reserve: SOL.reserve });
+    var accts = async function (who) { var all = []; for (var p of TOKEN_PROGRAMS) { var r = await solRpc("getTokenAccountsByOwner", [who, { programId: p }, { encoding: "jsonParsed", commitment: "confirmed" }]); all = all.concat(r.value || []); } return all; };
+    // Jupiter's unclaimed fees sit in referral token accounts controlled by Jupiter's program, not by this wallet,
+    // so they're claimed (and seen) on Jupiter's dashboard; after claiming they show up here.
+    var mine = await accts(owner), ref = [];
+    var rows = function (list, where) { return list.map(function (a) { var i = a.account.data.parsed.info; return { chain: "solana", token: i.mint, symbol: i.mint.slice(0, 4) + "…", decimals: i.tokenAmount.decimals, raw: BigInt(i.tokenAmount.amount), reserve: 0n, where: where }; }).filter(function (r) { return r.raw > 0n; }); };
+    var held = rows(mine, "wallet"), unclaimed = rows(ref, "jupiter");
+    var mints = held.concat(unclaimed).map(function (r) { return r.token; }).filter(function (m, i, a) { return a.indexOf(m) === i; });
+    if (mints.length) try { var info = await getJ("https://lite-api.jup.ag/tokens/v2/search?query=" + mints.slice(0, 100).join(",")); var by = {}; info.forEach(function (t) { by[t.id] = t.symbol; }); held.concat(unclaimed).forEach(function (r) { if (by[r.token]) r.symbol = by[r.token]; }); } catch (e) {}
+    return { held: out.concat(held), unclaimed: unclaimed };
+  }
+  async function valueRow(r) {
+    var sellable = r.raw > r.reserve ? r.raw - r.reserve : 0n;
+    r.amountText = fmt(r.raw, r.decimals);
+    if (r.chain === "solana" ? r.token === SOL.usdc : r.token.toLowerCase() === CH[r.chain].usdc.toLowerCase()) { r.usdc = Number(E.formatUnits(r.raw, 6)); r.kind = "usdc"; return; }
+    if (sellable === 0n) { r.usdc = null; r.kind = "reserve"; return; }
+    try {
+      if (r.chain === "solana") { var o = await order(r.token, sellable); r.usdc = Number(o.outAmount) / 1e6; }
+      else { var q = await quote(r.chain, r.token, sellable); r.usdc = Number(q.buyAmount) / 1e6; }
+      r.sell = sellable; r.kind = "convert";
+    } catch (e) { r.usdc = null; r.kind = "noquote"; r.err = e.message; }
+  }
+  function quote(chain, token, amount) {
+    var u = new URL(API + "/wallet/swap/evm/quote");
+    u.search = new URLSearchParams({ chainId: String(CH[chain].id), sellToken: token, buyToken: CH[chain].usdc, sellAmount: amount.toString(), taker: FEE.evm, slippageBps: "100" }).toString();
+    return getJ(u.toString());
+  }
+  function order(mint, amount) {
+    var u = new URL(API + "/wallet/swap/solana/order");
+    u.search = new URLSearchParams({ inputMint: mint, outputMint: SOL.usdc, amount: amount.toString(), taker: FEE.solana, slippageBps: "100" }).toString();
+    return getJ(u.toString()).then(function (o) { if (!o.transaction && o.error) throw new Error(o.error); return o; });
+  }
+  $("scan").onclick = async function () {
+    if (!FEE || BUSY) return; BUSY = true; $("scan").disabled = true; $("rows").innerHTML = '<tr><td colspan="5" class="mut sm">Scanning Base, Ethereum and Solana…</td></tr>';
+    var rows = [], refl = [], errs = [];
+    for (var ch of ["base", "ethereum"]) { try { rows = rows.concat(await scanEvm(ch)); } catch (e) { errs.push(CH[ch].name + ": " + e.message); } }
+    try { var s = await scanSol(); rows = rows.concat(s.held); refl = s.unclaimed; } catch (e) { errs.push("Solana: " + e.message); }
+    for (var r of rows) await valueRow(r);
+    ROWS = rows;
+    $("refl").innerHTML = "Jupiter's unclaimed fees aren't counted here until you claim them on the <a target=_blank rel=noopener href='https://referral.jup.ag/dashboard-ultra'>referral dashboard</a> (Ultra → Claim). Then scan again.";
+    if (errs.length) $("refl").innerHTML += '<br><span class="warn">' + esc(errs.join(" · ")) + "</span>";
+    BUSY = false; $("scan").disabled = false; draw();
+  };
+  function draw() {
+    if (!ROWS.length) return;
+    var min = Number($("min").value) || 20;
+    var tot = { base: 0, ethereum: 0, solana: 0 };
+    ROWS.forEach(function (r) { if (r.usdc) tot[r.chain] += r.usdc; });
+    $("stats").innerHTML = ["base", "ethereum", "solana"].map(function (c) { return '<div class="stat"><small>' + (c === "solana" ? "Solana" : CH[c].name) + "</small><b>" + usd(tot[c]) + "</b></div>"; }).join("");
+    var can = { evm: CONN.evm && FEE && CONN.evm.toLowerCase() === (FEE.evm || "").toLowerCase(), sol: CONN.sol && FEE && CONN.sol === FEE.solana };
+    var todo = 0;
+    $("rows").innerHTML = ROWS.map(function (r, i) {
+      var act = "";
+      if (r.kind === "usdc") act = '<span class="pill ok">USDC</span>';
+      else if (r.kind === "reserve") act = '<span class="pill">network-fee reserve</span>';
+      else if (r.kind === "noquote") act = '<span class="pill warn" title="' + esc(r.err || "") + '">no route to USDC</span>';
+      else if (r.usdc < min) act = '<span class="pill">under $' + min + "</span>";
+      else { var ok = r.chain === "solana" ? can.sol : can.evm; todo++; act = r.done ? '<span class="pill ok">converted</span>' : '<button data-i="' + i + '"' + (ok ? "" : " disabled title='Connect the fee wallet first'") + ">Convert</button>"; }
+      return "<tr><td>" + esc(r.chain === "solana" ? "Solana" : CH[r.chain].name) + "</td><td>" + esc(r.symbol) + (r.where === "jupiter" ? ' <span class="pill">unclaimed</span>' : "") + "</td><td class=n>" + esc(r.amountText) + "</td><td class=n>" + (r.usdc == null ? "—" : usd(r.usdc)) + "</td><td>" + act + "</td></tr>";
+    }).join("") || '<tr><td colspan="5" class="mut sm">The fee wallets are empty.</td></tr>';
+    $("sweepAll").disabled = !todo || (!can.evm && !can.sol);
+    $("sweepNote").textContent = todo ? todo + " to convert" + (!can.evm || !can.sol ? " (connect the fee wallets to convert)" : "") : "Nothing over the minimum to convert.";
+  }
+  $("min").oninput = draw;
+  $("rows").onclick = function (e) { var b = e.target.closest("button[data-i]"); if (b) convert(ROWS[Number(b.getAttribute("data-i"))], b); };
+  $("sweepAll").onclick = async function () {
+    var min = Number($("min").value) || 20;
+    for (var r of ROWS.slice()) if (r.kind === "convert" && !r.done && r.usdc >= min) { var b = document.querySelector('button[data-i="' + ROWS.indexOf(r) + '"]'); if (b && !b.disabled) await convert(r, b); }
+  };
+
+  // --- convert one holding to USDC, signed in the connected wallet
+  async function convert(r, btn) {
+    if (btn) { btn.disabled = true; btn.textContent = "Converting…"; }
+    var entry = { time: new Date().toISOString(), chain: r.chain, symbol: r.symbol, amount: fmt(r.sell, r.decimals), status: "failed" };
+    try {
+      var res = r.chain === "solana" ? await convertSol(r) : await convertEvm(r);
+      entry.status = "done"; entry.tx = res.tx; entry.url = res.url; entry.usdc = res.usdc;
+      r.done = true;
+    } catch (e) { entry.error = (e && (e.shortMessage || e.message)) || String(e); }
+    addLog(entry); draw();
+  }
+  async function convertEvm(r) {
+    var c = CH[r.chain];
+    await EVM.request({ method: "wallet_switchEthereumChain", params: [{ chainId: c.hex }] });
+    var signer = await new E.BrowserProvider(EVM).getSigner();
+    if ((await signer.getAddress()).toLowerCase() !== FEE.evm.toLowerCase()) throw new Error("The connected account isn't the fee wallet.");
+    var q = await quote(r.chain, r.token, r.sell);
+    if (q.issues && q.issues.allowance) {
+      if (String(q.issues.allowance.spender).toLowerCase() !== AH.toLowerCase()) throw new Error("The quote asks to approve an unknown contract. Not approving.");
+      var ap = await signer.sendTransaction({ to: r.token, data: ERC20.encodeFunctionData("approve", [AH, r.sell]) }); // exactly this amount
+      await ap.wait();
+      q = await quote(r.chain, r.token, r.sell);
+    }
+    var t = q.transaction;
+    if (!t || String(t.to).toLowerCase() !== AH.toLowerCase()) throw new Error("The swap isn't sent to 0x AllowanceHolder. Not signing it.");
+    if (BigInt(t.value || "0") !== (r.token === NATIVE ? r.sell : 0n)) throw new Error("The swap would send a different amount of ETH. Not signing it.");
+    var sent = await signer.sendTransaction({ to: t.to, data: t.data, value: BigInt(t.value || "0") });
+    var rc = await sent.wait();
+    if (!rc || rc.status !== 1) throw new Error("The swap reverted.");
+    return { tx: sent.hash, url: c.tx + sent.hash, usdc: (Number(q.buyAmount) / 1e6).toFixed(2) };
+  }
+  async function convertSol(r) {
+    if (!SOLP || SOLP.publicKey.toBase58() !== FEE.solana) throw new Error("Connect the Solana fee wallet first.");
+    var o = await order(r.token, r.sell);
+    var tx = solanaWeb3.VersionedTransaction.deserialize(Uint8Array.from(atob(o.transaction), function (ch) { return ch.charCodeAt(0); }));
+    var signed = await SOLP.signTransaction(tx);
+    var bytes = signed.serialize(), bin = ""; for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    var j = await getJ(API + "/wallet/swap/solana/execute", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ signedTransaction: btoa(bin), requestId: o.requestId }) });
+    if (j.status && j.status !== "Success") throw new Error(j.error || j.status);
+    return { tx: j.signature, url: SOL.tx + j.signature, usdc: (Number(j.outputAmountResult || o.outAmount) / 1e6).toFixed(2) };
+  }
+  // For the page's own browser test.
+  window.tkTreasury = { rows: function () { return ROWS; }, convert: convert, draw: draw };
+  boot();
+})();
+</script>
+</body>
+</html>
