@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tollkit — paid developer tools for AI agents</title>
-<meta name="description" content="Pay-per-call tools AI agents can use without API keys or subscriptions: read or screenshot any web page, check wallets and token prices on-chain, look up SEC filings, IP addresses, weather, airport delays, addresses and exchange rates, read PDFs, get product prices, or get signed proof of what a page said. Built on x402.">
+<title>Tollkit — fund your AI agent and let it trade for you</title>
+<meta name="description" content="A self-custody wallet for Base, Ethereum and Solana. Put money in, connect your AI or turn on a trading bot, and it trades and pays for tools inside limits you set. Your keys stay in your browser.">
 <meta property="og:title" content="Tollkit">
-<meta property="og:description" content="Read or screenshot any web page, check wallets and token prices on-chain, look up SEC filings, IP addresses, weather, airport delays and exchange rates, read PDFs, get product prices, or prove what a page said. Pay per call in USDC, no account. Built on x402.">
+<meta property="og:description" content="A self-custody wallet for Base, Ethereum and Solana. Put money in, connect your AI or turn on a trading bot, and it trades and pays for tools inside limits you set. Your keys stay in your browser.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tollkit.dev">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
@@ -292,42 +292,55 @@
       <a href="/wallet">Wallet</a>
       <a href="/tools">Tools</a>
       <a href="/connect">Connect</a>
-      <a href="/weigh-station">Weigh Station</a>
-      <a href="/fund">Fund agents</a>
-      <a href="/report">Market report</a>
+      <a class="nav-more" href="/weigh-station">Weigh Station</a>
+      <a class="nav-more" href="/report">Market report</a>
       <a class="nav-more" href="#how">How it works</a>
     </div>
   </div>
 </nav>
 
 <header class="hero">
-  <div class="container">
-    <h1>Toll<span class="dot">kit</span></h1>
-    <p class="tag">Pay-per-call tools for AI agents.</p>
-    <p class="sub">No signup, no API key, no subscription. Your agent pays a few cents in USDC per call, on Base or Solana, and nothing when a call fails. Try first: the everyday tools give <strong>3 free calls a day</strong> through the connector, no wallet needed.</p>
-    <div class="ctas">
-      <button type="button" class="btn btn-primary" data-connect>Connect to your AI</button>
-      <a class="btn btn-secondary" href="#products">See products</a>
+  <div class="container wb-grid">
+    <div>
+      <h1>Toll<span class="dot">kit</span></h1>
+      <p class="tag">Fund your agent. Let it trade for you.</p>
+      <p class="sub">Put a few dollars in Tollkit Wallet, connect Claude or ChatGPT or turn on a trading bot, and it trades for you. Trades and tool payments stay inside your limits. Sending money out needs your password, so your AI and bots can&rsquo;t do it.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="/wallet">See the wallet</a>
+        <a class="btn btn-secondary" href="#how">How it works</a>
+      </div>
     </div>
+    <a class="wb-shot" href="/wallet"><img src="/wallet/img/home.webp" width="400" height="820" alt="Tollkit Wallet home screen in Chrome's side panel."></a>
   </div>
 </header>
 
-<section id="wallet" class="wallet-band">
-  <div class="container wb-grid">
-    <div>
-      <div class="wb-kicker">Chrome extension &middot; Base, Ethereum, Solana</div>
-      <h2>Tollkit Wallet</h2>
-      <p>A self-custody wallet in Chrome's side panel. Buy through Coinbase, swap, cash out and stake, with spending limits you set. Rule-based trading bots, and an AI that suggests rules you approve.</p>
-      <a class="btn btn-primary" href="/wallet">See the wallet&nbsp;&rarr;</a>
+<section id="how" class="wallet-band">
+  <div class="container">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="num">1</span>
+        <h4>Fund it</h4>
+        <p>Buy through Coinbase straight to your own address, or send crypto you already have. Base, Ethereum and Solana.</p>
+      </div>
+      <div class="step">
+        <span class="num">2</span>
+        <h4>Set the limits</h4>
+        <p>A most-per-swap, a most-per-day, and approvals over an amount you pick. Changing them needs your password.</p>
+      </div>
+      <div class="step">
+        <span class="num">3</span>
+        <h4>Let it trade</h4>
+        <p>Connect your own Claude or ChatGPT, or start a rule-based bot: steady buys, dip buys, stop-losses, grids. Every trade and result shows in the wallet. Bots run while the wallet is open.</p>
+      </div>
     </div>
-    <a class="wb-shot" href="/wallet"><img src="/wallet/img/home.webp" width="400" height="820" loading="lazy" alt="Tollkit Wallet home screen in Chrome's side panel."></a>
   </div>
 </section>
 
 <section id="products">
   <div class="container">
-    <h2>Products</h2>
-    <p class="section-sub">Press <b>Connect to your AI</b> and pick your app. Failed calls are never charged. <a href="/tools">See every tool and price&nbsp;&rarr;</a></p>
+    <h2>Tools your agent can buy</h2>
+    <p class="section-sub">Web, market and company data, paid per call in USDC from the wallet. Failed calls are never charged. The everyday tools give 3 free calls a day without a wallet. <a href="/tools">See every tool and price&nbsp;&rarr;</a></p>
     <div class="products">
 
       <div class="product product-featured">
@@ -354,7 +367,7 @@
         </div>
         <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://api.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-          <a class="fund-link" href="/fund">Pays from a wallet &middot; Fund one&nbsp;&rarr;</a>
+          <a class="fund-link" href="/wallet">Pays from a wallet &middot; Get one&nbsp;&rarr;</a>
         </div>
       </div>
 
@@ -368,7 +381,7 @@
         </div>
         <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://api.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-          <a class="fund-link" href="/fund">Pays from a wallet &middot; Fund one&nbsp;&rarr;</a>
+          <a class="fund-link" href="/wallet">Pays from a wallet &middot; Get one&nbsp;&rarr;</a>
         </div>
       </div>
 
@@ -382,7 +395,7 @@
         </div>
         <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://api.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-          <a class="fund-link" href="/fund">Pays from a wallet &middot; Fund one&nbsp;&rarr;</a>
+          <a class="fund-link" href="/wallet">Pays from a wallet &middot; Get one&nbsp;&rarr;</a>
         </div>
       </div>
 
@@ -396,7 +409,7 @@
         </div>
         <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://api.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-          <a class="fund-link" href="/fund">Pays from a wallet &middot; Fund one&nbsp;&rarr;</a>
+          <a class="fund-link" href="/wallet">Pays from a wallet &middot; Get one&nbsp;&rarr;</a>
         </div>
       </div>
 
@@ -410,7 +423,7 @@
         </div>
         <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://api.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-          <a class="fund-link" href="/fund">Pays from a wallet &middot; Fund one&nbsp;&rarr;</a>
+          <a class="fund-link" href="/wallet">Pays from a wallet &middot; Get one&nbsp;&rarr;</a>
         </div>
       </div>
 
@@ -424,7 +437,7 @@
         </div>
         <div class="product-actions">
           <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://mcp.tollkit.dev/mcp" data-connect-name="tollkit-sms">Connect to your AI</button>
-          <a class="fund-link" href="/fund">Pays from a wallet &middot; Fund one&nbsp;&rarr;</a>
+          <a class="fund-link" href="/wallet">Pays from a wallet &middot; Get one&nbsp;&rarr;</a>
         </div>
       </div>
 
@@ -432,9 +445,9 @@
   </div>
 </section>
 
-<section id="how">
+<section id="using-tools">
   <div class="container">
-    <h2>How it works</h2>
+    <h2>Using the tools</h2>
     <div class="steps">
       <div class="step">
         <span class="num">1</span>
@@ -445,7 +458,7 @@
         <span class="num">2</span>
         <h4>Fund a wallet</h4>
         <p>Put a few dollars of USDC on Base or Solana in a wallet your agent can use. No ETH or SOL needed for fees. Until then, the everyday tools give 3 free calls a day.</p>
-        <a class="btn btn-secondary step-btn" href="/fund">Fund a wallet</a>
+        <a class="btn btn-secondary step-btn" href="/wallet">Get Tollkit Wallet</a>
       </div>
       <div class="step">
         <span class="num">3</span>
@@ -475,7 +488,7 @@
     <div class="row">
       <div>
         <div class="brand">Toll<span class="dot">kit</span></div>
-        <div style="margin-top:0.35rem; color:#707070;">Pay-per-call tools for AI agents.</div>
+        <div style="margin-top:0.35rem; color:#707070;">Fund your agent. Let it trade for you.</div>
       </div>
       <div>
         Got a tool you wish your agent could pay for? <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a> &middot; <a href="/status">Status</a>

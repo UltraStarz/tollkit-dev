@@ -184,7 +184,7 @@
       '<div class="tkc-head">' + svg(a.icon) + '<div><h3>' + esc(a.name) + '</h3></div></div>' +
       a.body(this.url, this.name) +
       '<div class="tkc-done"><b>Check it worked.</b> ' + check +
-      ' Free tools work straight away; paid ones need an agent with its own wallet — <a href="/fund">set one up</a>.</div>';
+      ' Free tools work straight away; paid ones need an agent with its own wallet — <a href="/wallet">set one up</a>.</div>';
     this.onPick(id);
     return this.root.querySelector('.tkc-back');
   };

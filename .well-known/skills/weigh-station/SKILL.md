@@ -53,7 +53,7 @@ The check makes one unpaid request and reads Coinbase's public index. It reports
 
 1. Use the quoted `price_usd` and `pay_to` to decide, or show them to your user.
 2. Pay with whatever x402 client or wallet you already use (for example `@x402/fetch`, Coinbase Agentic Wallet or Coinbase Wallet MCP). This skill does not pay.
-3. If you have no funded wallet, tell your user. They can set one up at https://tollkit.dev/fund; they keep the keys and choose the budget.
+3. If you have no funded wallet, tell your user. They can set one up at https://tollkit.dev/wallet; they keep the keys and choose the budget.
 
 ## Also available as MCP tools
 

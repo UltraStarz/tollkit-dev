@@ -91,7 +91,7 @@
 <nav class="top">
   <div class="container">
     <a class="brand" href="/">Toll<span class="dot">kit</span></a>
-    <div class="links"><a href="/#products">Products</a><a href="/tools" aria-current="page">Tools</a><a href="/connect">Connect</a><a href="/fund">Fund agents</a></div>
+    <div class="links"><a href="/#products">Products</a><a href="/tools" aria-current="page">Tools</a><a href="/connect">Connect</a><a href="/wallet">Wallet</a></div>
   </div>
 </nav>
 
@@ -203,7 +203,6 @@
         <tr><td class="name"><b>Verify a page proof</b><span>Check a signed page record is genuine, without trusting us.</span></td><td class="ids"><code>verify_attestation</code><code>POST /attest/verify</code></td><td class="price free">Free</td></tr>
         <tr><td class="name"><b>Free sample</b><span>A real product extraction of an example page, to see the output.</span></td><td class="ids"><code>try_it_free</code><code>GET /preview</code></td><td class="price free">Free</td></tr>
         <tr><td class="name"><b>Check my balance</b><span>How much USDC an agent&rsquo;s wallet has left.</span></td><td class="ids"><code>check_my_balance</code><code>GET /agents/balance</code></td><td class="price free">Free</td></tr>
-        <tr><td class="name"><b>Low-balance alerts</b><span>A webhook or email when an agent&rsquo;s wallet runs low. <a href="/fund">Set up</a>.</span></td><td class="ids"><code>tollkit.dev/fund</code><code>POST /alerts</code></td><td class="price free">Free</td></tr>
         <tr><td class="name"><b>Service info</b><span>Prices, network and what each tool returns, machine-readable.</span></td><td class="ids"><code>get_service_info</code><code>GET /health</code></td><td class="price free">Free</td></tr>
         <tr><td class="name"><b>Monitoring status</b><span>Public uptime and price record for a monitored endpoint.</span></td><td class="ids"><code>HTTP only</code><code>GET /weigh/status?url=&hellip;</code></td><td class="price free">Free</td></tr>
       </tbody>
@@ -230,7 +229,7 @@
     </ul>
     <div class="cta">
       <button type="button" class="btn btn-primary" data-connect>Connect to your AI</button>
-      <a class="btn btn-secondary" href="/fund">Fund an agent wallet</a>
+      <a class="btn btn-secondary" href="/wallet">Get Tollkit Wallet</a>
     </div>
     <p class="live" id="live">Prices shown are the ones the service charges.</p>
   </section>
