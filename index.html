@@ -3,510 +3,197 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tollkit — fund your AI agent and let it trade for you</title>
-<meta name="description" content="A self-custody wallet for Base, Ethereum and Solana. Put money in, connect your AI or turn on a trading bot, and it trades and pays for tools inside limits you set. Your keys stay in your browser.">
-<meta property="og:title" content="Tollkit">
-<meta property="og:description" content="A self-custody wallet for Base, Ethereum and Solana. Put money in, connect your AI or turn on a trading bot, and it trades and pays for tools inside limits you set. Your keys stay in your browser.">
+<title>TOLLkit — fund your AI, let it work for you</title>
+<meta name="description" content="A self-custody wallet where Autopilot, bots or your AI do the trading, inside a budget, a cap per trade and a loss stop that only you can change. Chrome, iPhone and Android.">
+<meta property="og:title" content="TOLLkit — fund your AI, let it work for you">
+<meta property="og:description" content="A self-custody wallet where Autopilot, bots or your AI do the trading, inside limits only you can change.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tollkit.dev">
+<meta property="og:image" content="https://tollkit.dev/wallet/img/autopilot.webp">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
 <style>
-  :root { color-scheme: dark; }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-    background: #0a0a0a;
-    color: #e5e5e5;
-    line-height: 1.6;
-    font-size: 16px;
+  :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --panel2:#151821; --line:#242424; --line-soft:#1c1c1c; --text:#e5e5e5; --muted:#8a8a8a; --dim:#707070; --accent:#4a8eff; --violet:#8b7bff; --ok:#3ccf91; --warn:#f5b84a; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .container { max-width:980px; margin:0 auto; padding:0 16px; }
+  a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+
+  .hero { position:relative; display:grid; grid-template-columns:1.1fr .9fr; gap:2.5rem; align-items:center; padding:3.4rem 0 2.6rem; }
+  .eyebrow { display:inline-flex; align-items:center; gap:.45rem; font-size:.8rem; color:var(--muted); border:1px solid var(--line); border-radius:99px; padding:.25rem .7rem; margin-bottom:1rem; }
+  .eyebrow i { width:7px; height:7px; border-radius:50%; background:var(--ok); display:inline-block; }
+  h1 { font-size:3rem; line-height:1.06; letter-spacing:-.04em; margin:0 0 .9rem; }
+  h1 .grad { background:linear-gradient(90deg,var(--accent),var(--violet)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .lede { color:#b4b4b4; font-size:1.08rem; margin:0 0 1.5rem; max-width:32rem; }
+  .ctas { display:flex; gap:.7rem; flex-wrap:wrap; }
+  .btn { display:inline-flex; align-items:center; gap:.4rem; padding:.7rem 1.15rem; border-radius:11px; font-weight:600; font-size:.95rem; border:1px solid var(--line); color:var(--text); background:var(--panel); }
+  .btn:hover { text-decoration:none; border-color:#3a3a3a; }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn.primary:hover { background:#3a7bea; }
+  .note { font-size:.8rem; color:var(--dim); margin-top:.8rem; }
+
+  .shot { position:relative; margin:0; justify-self:center; }
+  .shot img { display:block; width:100%; max-width:320px; height:auto; border-radius:20px; border:1px solid #2a2d38; box-shadow:0 30px 80px -30px rgba(74,142,255,.45), 0 10px 30px -10px rgba(0,0,0,.8); }
+  .shot .tag { position:absolute; top:-13px; left:50%; transform:translateX(-50%); white-space:nowrap; z-index:2; font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:.35rem .7rem; border-radius:99px; color:#fff; background:linear-gradient(90deg,var(--accent),var(--violet)); box-shadow:0 8px 24px -8px rgba(74,142,255,.8); }
+
+  section { border-top:1px solid var(--line-soft); padding:3rem 0; }
+  section h2 { font-size:1.75rem; letter-spacing:-.03em; line-height:1.15; margin:0 0 .6rem; }
+  .section-sub { color:var(--muted); margin:0 0 1.6rem; max-width:36rem; }
+  .kicker { font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; color:var(--accent); font-weight:700; margin-bottom:.45rem; }
+
+  /* Three ways */
+  .ways { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+  .product { background:var(--panel); border:1px solid var(--line); border-radius:16px; overflow:hidden; display:flex; flex-direction:column; }
+  .product .pic { position:relative; height:210px; overflow:hidden; background:radial-gradient(400px 200px at 50% 0%,rgba(74,142,255,.18),transparent 70%); border-bottom:1px solid var(--line); }
+  .product .pic img { position:absolute; left:50%; top:22px; width:200px; transform:translateX(-50%); border-radius:14px; border:1px solid #2a2d38; box-shadow:0 20px 50px -20px rgba(0,0,0,.8); }
+  .product .body { padding:1.05rem 1.15rem 1.2rem; }
+  .product h3 { font-size:1.05rem; margin:0 0 .3rem; display:flex; align-items:center; gap:.5rem; }
+  .product p { color:var(--muted); margin:0; font-size:.93rem; }
+  .pill { font-size:.65rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:.15rem .5rem; border-radius:99px; background:rgba(139,123,255,.16); color:#b7adff; }
+  .lbl { font-size:.75rem; color:var(--dim); text-transform:uppercase; letter-spacing:.06em; margin-bottom:.15rem; }
+
+  /* Limits */
+  .limits { display:grid; grid-template-columns:repeat(4,1fr); gap:.8rem; }
+  .step { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:1rem 1.05rem; }
+  .step .ico { width:34px; height:34px; border-radius:10px; display:grid; place-items:center; background:#15294d; color:#8db8ff; margin-bottom:.6rem; }
+  .step .ico svg { width:18px; height:18px; }
+  .step h4 { margin:0 0 .25rem; font-size:.98rem; }
+  .step p { margin:0; font-size:.88rem; color:var(--muted); }
+
+  /* Toolbox */
+  .tb { display:grid; grid-template-columns:1.1fr .9fr; gap:2rem; align-items:center; }
+  .chips { display:flex; flex-wrap:wrap; gap:.45rem; margin:0 0 1.2rem; padding:0; list-style:none; }
+  .chips li { font-size:.85rem; color:#cfcfcf; background:var(--panel); border:1px solid var(--line); border-radius:99px; padding:.3rem .8rem; }
+  .price { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:1.1rem 1.2rem; }
+  .price .row { display:flex; justify-content:space-between; padding:.5rem 0; border-bottom:1px solid var(--line-soft); font-size:.93rem; }
+  .price .row:last-child { border-bottom:0; }
+  .price .row span:last-child { color:#c8c8c8; font-variant-numeric:tabular-nums; }
+
+  /* Honest part */
+  .promises { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; }
+  .promises li { background:#111; border:1px solid #222; border-radius:12px; padding:.9rem 1rem; color:#a0a0a0; font-size:.92rem; }
+  .promises b { color:#f5f5f5; display:block; margin-bottom:.15rem; }
+
+  /* Builders */
+  .builders { background:linear-gradient(135deg,rgba(74,142,255,.08),rgba(139,123,255,.05) 60%,transparent); border:1px solid var(--line); border-radius:18px; padding:1.6rem 1.6rem 1.4rem; }
+  .builders h2 .mono { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:-.02em; }
+  .builders h2 .mono span { color:var(--accent); }
+  .links { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1rem; }
+
+  footer { border-top:1px solid var(--line-soft); padding:1.8rem 0 3rem; color:var(--dim); font-size:.84rem; }
+  footer a { color:var(--muted); }
+  footer .brand { font:700 .95rem ui-monospace,SFMono-Regular,monospace; color:#c8c8c8; margin-bottom:.35rem; } footer .brand span { color:var(--accent); }
+  footer .legal { color:#555; font-size:.78rem; margin-top:1rem; max-width:40rem; line-height:1.55; }
+
+  @media (max-width:860px) { .ways { grid-template-columns:1fr; } .product.ap .pic { display:none; } .limits { grid-template-columns:repeat(2,1fr); } .promises { grid-template-columns:1fr; } .tb { grid-template-columns:1fr; } }
+  @media (max-width:760px) {
+    .hero { grid-template-columns:1fr; padding-top:2.2rem; gap:2rem; }
+    h1 { font-size:2.3rem; }
+    .shot img { max-width:280px; }
   }
-  .container { max-width: 980px; margin: 0 auto; padding: 0 1.5rem; }
-  a { color: #4a8eff; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  strong { color: #f5f5f5; }
-  code, .mono { font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-  code { background: #1f1f1f; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.92em; color: #e5e5e5; }
-
-  /* ── Top nav ───────────────────────────────────────────────────── */
-  nav.top {
-    border-bottom: 1px solid #1f1f1f;
-    padding: 1.1rem 0;
-    position: sticky; top: 0; background: rgba(10,10,10,0.85);
-    backdrop-filter: saturate(120%) blur(8px);
-    -webkit-backdrop-filter: saturate(120%) blur(8px);
-    z-index: 10;
-  }
-  nav.top .container { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-  nav.top .brand { font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 700; font-size: 1rem; color: #f5f5f5; letter-spacing: -0.01em; }
-  nav.top .brand .dot { color: #4a8eff; }
-  nav.top .links { display: flex; gap: 1.5rem; font-size: 0.92rem; }
-  nav.top .links a { color: #a0a0a0; }
-  nav.top .links a:hover { color: #e5e5e5; text-decoration: none; }
-  /* Six links do not fit a phone. Keep the three that get someone started. */
-  @media (max-width: 720px) { nav.top .links { gap: 0.9rem; } nav.top .links a { white-space: nowrap; } nav.top .links .nav-more { display: none; } }
-  @media (max-width: 420px) { nav.top .links { gap: 0.6rem; font-size: 0.82rem; } nav.top .links .nav-wide { display: none; } }
-
-  /* ── Hero ──────────────────────────────────────────────────────── */
-  .hero { padding: 5rem 0 4rem; text-align: left; }
-  .hero h1 {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
-    font-size: clamp(2.6rem, 7vw, 4.5rem);
-    font-weight: 700;
-    margin: 0 0 1rem;
-    letter-spacing: -0.025em;
-    line-height: 1.05;
-    color: #f5f5f5;
-  }
-  .hero h1 .dot { color: #4a8eff; }
-  .hero .tag { font-size: clamp(1.15rem, 2.2vw, 1.45rem); color: #c8c8c8; margin: 0 0 0.75rem; max-width: 36rem; }
-  .hero .sub { font-size: 1rem; color: #888; margin: 0 0 2.25rem; max-width: 38rem; }
-  .hero .ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-  .btn {
-    display: inline-block;
-    padding: 0.75rem 1.4rem;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    text-decoration: none;
-    transition: background 120ms ease, border-color 120ms ease;
-    line-height: 1;
-  }
-  .btn-primary { background: #f5f5f5; color: #0a0a0a; }
-  .btn-primary:hover { background: #ffffff; text-decoration: none; }
-  .btn-secondary { background: transparent; color: #e5e5e5; border: 1px solid #2a2a2a; }
-  .btn-secondary:hover { border-color: #4a4a4a; background: #141414; text-decoration: none; }
-
-  /* ── Section ───────────────────────────────────────────────────── */
-  section { padding: 3.5rem 0; border-top: 1px solid #1a1a1a; }
-  section h2 {
-    font-size: 1.5rem;
-    margin: 0 0 0.5rem;
-    font-weight: 600;
-    color: #f5f5f5;
-    letter-spacing: -0.01em;
-  }
-  section .section-sub { color: #888; margin: 0 0 2rem; font-size: 0.95rem; max-width: 38rem; }
-
-  /* ── Product grid ──────────────────────────────────────────────── */
-  .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
-  .product {
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 10px;
-    padding: 1.5rem;
-    transition: border-color 120ms ease, background 120ms ease;
-    display: flex; flex-direction: column;
-  }
-  .product:hover { border-color: #333; background: #131313; }
-  .product .product-head {
-    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
-    margin-bottom: 0.6rem;
-  }
-  .product h3 { margin: 0; font-size: 1.1rem; font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 700; color: #f5f5f5; }
-  .product .badge {
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 0.15rem 0.55rem;
-    border-radius: 99px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-  .product .badge.live { background: #0f2a14; color: #6ce687; border: 1px solid #1f5d2d; }
-  .product .badge.soon { background: #1a1a1a; color: #888; border: 1px solid #333; }
-  .product .product-body { color: #b0b0b0; font-size: 0.95rem; flex: 1; }
-  .product .product-meta { color: #707070; font-size: 0.85rem; margin: 0.75rem 0 0; padding-top: 0.75rem; border-top: 1px solid #1f1f1f; }
-  .product .product-meta a { color: #4a8eff; }
-  /* One row per card: the Connect button, plus Read more where the tool has
-     a page of its own. Pinned to the bottom so the rows line up across cards. */
-  .product .product-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin: 1rem 0 0; padding-top: 1rem; border-top: 1px solid #1f1f1f; }
-  .product .read-more { color: #4a8eff; white-space: nowrap; }
-  .product .product-actions .btn { width: 100%; justify-content: center; }
-  .product .fund-link { width: 100%; text-align: center; font-size: 0.85rem; color: #8a8a8a; margin-top: -0.35rem; }
-  .product .fund-link:hover { color: #4a8eff; }
-  /* Fund a wallet band, right after Products */
-  .fund-band { display: flex; align-items: center; justify-content: space-between; gap: 2rem; background: #0e1626; border: 1px solid #1e3358; border-radius: 12px; padding: 1.75rem; }
-  .fund-band .section-sub { margin-bottom: 1rem; }
-  .fund-points { margin: 0; padding-left: 1.1rem; color: #a0a0a0; font-size: 0.92rem; max-width: 40rem; }
-  .fund-points li { margin: 0.35rem 0; }
-  .fund-points b { color: #f5f5f5; }
-  .fund-band .btn { flex-shrink: 0; }
-  @media (max-width: 640px) { .fund-band { flex-direction: column; align-items: stretch; padding: 1.25rem; } .fund-band .btn { text-align: center; } }
-  .how-ctas { margin: 1.5rem 0 0; }
-  .step .step-btn { margin-top: 0.9rem; font-size: 0.85rem; padding: 0.6rem 1rem; }
-
-  /* Compact install action — single button, hidden snippet copied on click */
-  .product .install-wrap { margin: 1rem 0 0; }
-  .product .install-btn {
-    display: inline-flex; align-items: center; gap: 0.55rem;
-    padding: 0.55rem 1rem;
-    background: transparent;
-    border: 1px solid #2a2a2a;
-    border-radius: 8px;
-    color: #e5e5e5;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 0.88rem; font-weight: 600;
-    cursor: pointer;
-    transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
-    line-height: 1;
-  }
-  .product .install-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
-  .product .install-btn:hover { border-color: #4a8eff; background: #141a2a; color: #ffffff; }
-  .product .install-btn:focus-visible { outline: 2px solid #4a8eff; outline-offset: 2px; }
-  .product .install-btn.copied {
-    border-color: #4caf50;
-    background: #0f2a14;
-    color: #6ce687;
-  }
-  .product .install-btn.copied .btn-text::before { content: "✓ Copied — add it as a remote MCP server"; }
-  .product .install-btn:not(.copied) .btn-text::before { content: "Copy connector URL"; }
-
-  /* ── How it works ──────────────────────────────────────────────── */
-  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; counter-reset: step; }
-  .step { background: #111; border: 1px solid #222; border-radius: 10px; padding: 1.25rem 1.5rem; }
-  .step .num {
-    display: inline-block;
-    width: 1.8rem; height: 1.8rem;
-    border-radius: 50%;
-    background: #1a1a1a;
-    color: #4a8eff;
-    font-family: ui-monospace, SFMono-Regular, monospace;
-    font-weight: 700;
-    text-align: center;
-    line-height: 1.8rem;
-    font-size: 0.9rem;
-    margin-bottom: 0.75rem;
-    border: 1px solid #2a2a2a;
-  }
-  .step h4 { margin: 0 0 0.35rem; font-size: 1rem; color: #f5f5f5; font-weight: 600; }
-  .step p { margin: 0; font-size: 0.9rem; color: #a0a0a0; }
-
-  /* ── For developers ────────────────────────────────────────────── */
-  .dev-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
-  .dev-meta .chip {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    background: #111; border: 1px solid #2a2a2a; padding: 0.5rem 0.85rem;
-    border-radius: 8px; font-size: 0.85rem; color: #c8c8c8;
-    text-decoration: none;
-    transition: border-color 120ms ease, color 120ms ease;
-  }
-  .dev-meta .chip:hover { border-color: #4a4a4a; color: #f5f5f5; text-decoration: none; }
-  .dev-meta .chip .label { color: #707070; }
-
-  /* ── Footer ───────────────────────────────────────────────────── */
-  footer { border-top: 1px solid #1a1a1a; padding: 2.5rem 0 4rem; color: #707070; font-size: 0.85rem; }
-  footer .row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem; }
-  footer .brand { font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 700; color: #c8c8c8; font-size: 0.9rem; }
-  footer .brand .dot { color: #4a8eff; }
-  footer .legal { color: #555; font-size: 0.78rem; margin-top: 1.5rem; max-width: 38rem; line-height: 1.55; }
-  footer a { color: #888; }
-  footer a:hover { color: #e5e5e5; text-decoration: none; }
-
-  /* Weigh Station */
-  .ws { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; align-items: start; background: #0e1626; border: 1px solid #1e3358; border-radius: 12px; padding: 1.75rem; }
-  .ws > div { min-width: 0; }
-  .ws h2 { margin-top: .6rem; }
-  .ws .section-sub { margin-bottom: 1rem; }
-  .badge-free { display: inline-block; font-size: .72rem; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; color: #6ce687; background: #0f2a14; border: 1px solid #1f5d2d; border-radius: 99px; padding: .15rem .6rem; }
-  .ws-points { margin: 0; padding-left: 1.1rem; color: #a0a0a0; font-size: .92rem; }
-  .ws-points li { margin: .4rem 0; }
-  .ws-points b { color: #f5f5f5; }
-  .ws-label { margin: 0 0 .45rem; font-size: .8rem; color: #8a8a8a; }
-  .ws-cmd, .ws-btn { margin-bottom: 1.1rem; }
-  .ws-cmd { display: flex; align-items: center; gap: .6rem; width: 100%; justify-content: space-between; background: #08090c; border: 1px solid #2a2a2a; border-radius: 8px; padding: .65rem .8rem; cursor: pointer; color: #e5e5e5; font: inherit; }
-  .ws-cmd:hover { border-color: #4a8eff; }
-  .ws-cmd code { min-width: 0; background: none; padding: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85rem; color: #cfe0ff; overflow-x: auto; white-space: nowrap; }
-  .ws-copy-label { color: #8a8a8a; font-size: .8rem; flex-shrink: 0; }
-  .ws-cmd.copied .ws-copy-label { color: #6ce687; }
-  .ws-cmd.copied .ws-copy-label::after { content: "ed"; }
-  .ws-btn { width: 100%; text-align: center; }
-  .ws-small { margin: 0; font-size: .8rem; color: #707070; }
-  .ws-small code { color: #cfe0ff; font-size: .78rem; }
-  @media (max-width: 760px) { .ws { grid-template-columns: 1fr; padding: 1.25rem; gap: 1.25rem; } .ws-cmd code { white-space: normal; text-align: left; font-size: .8rem; } }
-
-  .ws-sellers { margin-top: 1rem; background: #111; border: 1px solid #222; border-radius: 12px; padding: 1.75rem; }
-  .ws-kicker { margin: 0; font-size: .74rem; text-transform: uppercase; letter-spacing: .06em; color: #4a8eff; font-weight: 600; }
-  .ws-sellers h3 { margin: .35rem 0 .4rem; font-size: 1.2rem; color: #f5f5f5; }
-  .ws-sub { margin: 0 0 1.2rem; color: #a0a0a0; font-size: .93rem; max-width: 44rem; }
-  .ws-sub b { color: #f5f5f5; }
-  .ws-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: .6rem; margin-bottom: 1.3rem; }
-  .ws-card { background: #151515; border: 1px solid #242424; border-radius: 10px; padding: .75rem .9rem; font-size: .85rem; color: #a0a0a0; }
-  .ws-card b { display: block; color: #f5f5f5; font-size: .92rem; margin-bottom: .15rem; }
-  .ws-card-warn { border-color: #3a2f14; background: #1a1408; }
-  .ws-card-warn b { color: #e6d3a8; }
-  .ws-steps { margin: 0; padding-left: 1.2rem; color: #a0a0a0; font-size: .9rem; }
-  .ws-steps li { margin: .6rem 0; }
-  .ws-steps b { color: #f5f5f5; }
-  .ws-steps code, .ws-fine code { color: #cfe0ff; font-size: .82rem; }
-  .ws-steps pre { margin: .5rem 0 0; background: #08090c; border: 1px solid #242424; border-radius: 8px; padding: .7rem .85rem; font-size: .78rem; color: #cdd6e4; overflow-x: auto; white-space: pre; }
-  .ws-fine { margin: 1rem 0 0; font-size: .8rem; color: #707070; }
-  .ws-fine code { word-break: break-all; }
-  @media (max-width: 760px) { .ws-sellers { padding: 1.25rem; } }
-
-  .promises { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: .6rem; }
-  .promises li { background: #111; border: 1px solid #222; border-radius: 10px; padding: .85rem 1rem; color: #a0a0a0; font-size: .92rem; }
-  .promises b { color: #f5f5f5; }
-  .dev-line { margin: 1.5rem 0 0; font-size: .85rem; color: #707070; }
-  .ws-how { margin-top: .4rem; }
-  .ws-how summary { cursor: pointer; color: #4a8eff; font-size: .9rem; }
-  .ws-how[open] summary { margin-bottom: .4rem; }
-  #products .section-sub { margin-bottom: 1.5rem; }
-
-
-  .ws-featured { margin-bottom: 1rem; border-color: #2f5fb0; box-shadow: 0 0 0 1px #2f5fb033, 0 10px 40px #4a8eff14; }
-  .ws-title { margin: .6rem 0 .5rem; font-size: 1.35rem; font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 700; color: #f5f5f5; }
-  .ws-lead { margin: 0 0 .9rem; color: #b0b0b0; font-size: .97rem; }
-  .ws-featured .ws-small { margin-top: .2rem; }
-  .product-featured { border-color: #2f5fb0; background: #0e1626; box-shadow: 0 0 0 1px #2f5fb033, 0 10px 40px #4a8eff14; }
-  .product-featured:hover { border-color: #4a8eff; background: #0f1a2e; }
-  #products .products { grid-template-columns: repeat(2, 1fr); }
-  /* Weigh Station spans the row so the paid tools sit in an even 2x2 below it. */
-  #products .product-featured { grid-column: 1 / -1; }
-  /* An odd card out at the end spans the row instead of leaving a gap. */
-  #products .products > .product:last-child:nth-child(even) { grid-column: 1 / -1; }
-  @media (max-width: 700px) { #products .products { grid-template-columns: 1fr; } }
-
-  .p-title { display: flex; align-items: center; gap: .6rem; }
-  .p-icon { width: 36px; height: 36px; padding: 7px; flex: none; border-radius: 8px; background: #121a2a; border: 1px solid #1e3358; color: #4a8eff; }
-  .product-featured .p-icon { background: #15294d; border-color: #2f5fb0; color: #8db8ff; }
-  /* Wallet band, between the hero and Products */
-  .wallet-band { padding: 2.5rem 0; border-top: 1px solid #1c1c1c; }
-  .wb-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 2.5rem; align-items: center; }
-  .wb-kicker { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: #4a8eff; font-weight: 600; margin-bottom: .4rem; }
-  .wallet-band h2 { margin: 0 0 .5rem; }
-  .wallet-band p { color: #b4b4b4; margin: 0 0 1.2rem; max-width: 34rem; }
-  .wb-shot { justify-self: center; }
-  .wb-shot img { display: block; width: 100%; max-width: 230px; height: auto; border-radius: 16px; border: 1px solid #2a2d38; box-shadow: 0 24px 60px -24px rgba(74,142,255,.35); }
-  @media (max-width: 700px) { .wb-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+  @media (max-width:440px) { .limits { grid-template-columns:1fr; } .builders { padding:1.2rem; } }
 </style>
 <link rel="stylesheet" href="/motion.css">
 <script src="/motion.js"></script>
 <link rel="stylesheet" href="/nav.css">
 </head>
 <body>
+<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">TOLL<span>kit</span></a><div class="sn-links"><a href="/wallet">Wallet</a><a href="/wallet#autopilot">Autopilot</a><a href="/bots">Bots</a><a href="/tools">Tools</a><a href="/connect">Connect</a><a href="/command">Live</a></div></div></nav>
 
-<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">Toll<span>kit</span></a><div class="sn-links"><a href="/wallet">Wallet</a><a href="/tools">Tools</a><a href="/connect">Connect</a><a href="/bots">Bots</a><a href="/command">Live</a><a href="/report">Report</a></div></div></nav>
+<main class="container">
 
 <header class="hero">
-  <div class="container wb-grid">
-    <div>
-      <h1>Toll<span class="dot">kit</span></h1>
-      <p class="tag">Fund your agent. Let it trade for you.</p>
-      <p class="sub">Put a few dollars in Tollkit Wallet, connect your AI (Claude, ChatGPT, Cursor and more) or turn on a trading bot, and it trades for you. Trades and tool payments stay inside your limits. Sending money out needs your password, so your AI and bots can&rsquo;t do it.</p>
-      <div class="ctas">
-        <a class="btn btn-primary" href="/wallet">See the wallet</a>
-        <a class="btn btn-secondary" href="#how">How it works</a>
-      </div>
+  <div>
+    <div class="eyebrow"><i></i> TOLLkit Wallet &middot; Chrome, iPhone and Android</div>
+    <h1>Fund your AI.<br><span class="grad">Let it work for you.</span></h1>
+    <p class="lede">A self-custody wallet where Autopilot, bots or your AI do the trading, inside a budget, a cap per trade and a loss stop that only you can change. Keep your own keys, and read why it made every move.</p>
+    <div class="ctas">
+      <a class="btn primary" href="/wallet">Get the wallet</a>
+      <a class="btn" href="/wallet#autopilot">See how it decides</a>
     </div>
-    <a class="wb-shot" href="/wallet"><img src="/wallet/img/home.webp" width="400" height="820" alt="Tollkit Wallet home screen in Chrome's side panel."></a>
+    <div class="note">Base, Ethereum and Solana. Chrome Web Store listing in review.</div>
   </div>
+  <figure class="shot"><span class="tag">Autopilot · coming soon</span><img src="/wallet/img/autopilot.webp" width="400" height="820" alt="The Autopilot screen in TOLLkit Wallet with example numbers: live result, budget, two strategies (one live, one on paper with its trial progress), and the AI's latest decisions."></figure>
 </header>
 
-<section id="how" class="wallet-band">
-  <div class="container">
-    <h2>How it works</h2>
-    <div class="steps">
-      <div class="step">
-        <span class="num">1</span>
-        <h4>Fund it</h4>
-        <p>Buy through Coinbase straight to your own address, or send crypto you already have. Base, Ethereum and Solana.</p>
-      </div>
-      <div class="step">
-        <span class="num">2</span>
-        <h4>Set the limits</h4>
-        <p>A most-per-swap, a most-per-day, and approvals over an amount you pick. Changing them needs your password.</p>
-      </div>
-      <div class="step">
-        <span class="num">3</span>
-        <h4>Let it trade</h4>
-        <p>Connect your own AI app, or start a rule-based bot: steady buys, dip buys, stop-losses, grids. Every trade and result shows in the wallet. Bots run while the wallet is open.</p>
-      </div>
+<section>
+  <div class="kicker">Three ways to let it trade</div>
+  <h2>Hands-off, by the rules, or with your AI</h2>
+  <p class="section-sub">All three work inside the same limits, and every trade shows in Activity with its receipt.</p>
+  <div class="ways">
+    <div class="product ap">
+      <div class="pic"><img src="/wallet/img/autopilot.webp" alt="" loading="lazy"></div>
+      <div class="body"><div class="lbl">Autopilot</div><h3>Adapts to the market <span class="pill">Soon</span></h3><p>Reads prices, funding, news and Fear &amp; Greed every half hour. Tests every strategy on paper first, goes live only if it beat holding USDC, and shows its reasons for every change.</p></div>
+    </div>
+    <div class="product">
+      <div class="pic"><img src="/wallet/img/bots.webp" alt="" loading="lazy"></div>
+      <div class="body"><div class="lbl">Bots</div><h3>Rules you pick</h3><p>Steady buys, dips, stop-losses, profit ladders and grids. No AI. Replay a bot over the last 30 days before it starts.</p></div>
+    </div>
+    <div class="product">
+      <div class="pic"><img src="/wallet/img/connect.webp" alt="" loading="lazy"></div>
+      <div class="body"><div class="lbl">Your AI</div><h3>Sets it up, you approve</h3><p>Connect Claude or ChatGPT, or use TOLLkit's built-in AI. It sets up what you describe, and nothing turns on until you tap it.</p></div>
     </div>
   </div>
 </section>
 
-<section id="products">
-  <div class="container">
-    <h2>Tools your agent can buy</h2>
-    <p class="section-sub">Web, market and company data, paid per call in USDC from the wallet. Failed calls are never charged. The everyday tools give 3 free calls a day without a wallet. <a href="/tools">See every tool and price&nbsp;&rarr;</a></p>
-    <div class="products">
+<section>
+  <div class="kicker">Limits you set</div>
+  <h2>Your rules, not the AI's</h2>
+  <p class="section-sub">Changing any of them needs your password.</p>
+  <div class="limits">
+    <div class="step"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h10M4 18h7"/></svg></div><h4>Caps</h4><p>A most-per-trade and a most-per-day, plus a total budget for Autopilot.</p></div>
+    <div class="step"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div><h4>Approvals</h4><p>Trades over the amount you pick wait for your OK, in the panel or on Telegram.</p></div>
+    <div class="step"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div><h4>Password to withdraw</h4><p>Nothing leaves the wallet without it, so a bot or an AI can't move money out.</p></div>
+    <div class="step"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l2 2"/></svg></div><h4>Your keys</h4><p>Encrypted on your device. TOLLkit never has them and can't recover them.</p></div>
+  </div>
+</section>
 
-      <div class="product product-featured">
-        <div class="product-head">
-          <h3 class="p-title"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M7 21h10"/><path d="M5 7h14"/><path d="M12 5l0 0"/><path d="M5 7l-3 7a3.5 3.5 0 0 0 6 0z"/><path d="M19 7l-3 7a3.5 3.5 0 0 0 6 0z"/></svg><span>weigh-station</span></h3>
-          <span class="badge live">New &middot; Free</span>
-        </div>
-        <div class="product-body">
-          Before your agent pays a service, see what it really charges and which wallet gets the money, checked against its public listing. Also finds paid tools for any job. Covers every x402 seller. <a class="read-more" href="/weigh-station">Read more&nbsp;&rarr;</a>
-        </div>
-        <div class="product-actions">
-          <button type="button" class="btn btn-primary" data-connect data-connect-url="https://api.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-          <a class="fund-link" href="/weigh-station">Free &middot; Or install as a skill&nbsp;&rarr;</a>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-head">
-          <h3 class="p-title"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M7 13h10"/><path d="M7 16h6"/></svg><span>tollkit-web</span></h3>
-          <span class="badge live">New</span>
-        </div>
-        <div class="product-body">
-          Give it any web page; get back the page as clean text your agent can read, or a screenshot of how it looks. Works on JavaScript-heavy sites. <strong>$0.002</strong> to read, <strong>$0.003</strong> for a screenshot, <strong>$0.007</strong> to read and summarize in one call, <strong>$0.005</strong> to read a PDF as text, or <strong>$0.015</strong> to search the web and read the top pages in one call.
-        </div>
-        <div class="product-actions">
-          <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://api.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-          <a class="fund-link" href="/wallet">Pays from a wallet &middot; Get one&nbsp;&rarr;</a>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-head">
-          <h3 class="p-title"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>tollkit-chain</span></h3>
-          <span class="badge live">New</span>
-        </div>
-        <div class="product-body">
-          Wallet balances, token details, transaction lookups and token prices on Base, Ethereum and Solana, read live from the chain. Prices come from on-chain pools, with a warning when liquidity is thin, plus a one-call token check before you buy, a whole-wallet value in USD, and a <strong>pre-trade check</strong> for trading agents: price, pool depth, how big your trade is next to the pool, your current holding and recent news, in one call. From <strong>$0.001</strong> a call: <strong>$0.004</strong> for a token check, <strong>$0.005</strong> for a wallet&rsquo;s value, <strong>$0.01</strong> for the pre-trade check.
-        </div>
-        <div class="product-actions">
-          <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://api.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-          <a class="fund-link" href="/wallet">Pays from a wallet &middot; Get one&nbsp;&rarr;</a>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-head">
-          <h3 class="p-title"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg><span>tollkit-data</span></h3>
-          <span class="badge live">New</span>
-        </div>
-        <div class="product-body">
-          Public data agents ask for most: company filings and financials from the SEC, where an IP address is, weather forecasts anywhere in the world (with alerts and street addresses in the US), live US airport delays, address-to-coordinates, and currency exchange rates. From <strong>$0.002</strong> a call, <strong>$0.006</strong> for a full company snapshot, or <strong>$0.03</strong> for due diligence with plain-English summaries of the latest 8-K filings. Also <strong>x402 market data</strong>: the best paid tools for a task ranked by repeat buyers ($0.01), any seller&rsquo;s numbers ($0.02), or the whole weekly dataset ($0.10). The <a href="/report">weekly market report</a> is free. <span style="color:#707070;font-size:.85rem">IP data: <a href="https://db-ip.com">IP Geolocation by DB-IP</a>. Exchange rates are the ECB&rsquo;s, free at ecb.europa.eu.</span>
-        </div>
-        <div class="product-actions">
-          <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://api.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-          <a class="fund-link" href="/wallet">Pays from a wallet &middot; Get one&nbsp;&rarr;</a>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-head">
-          <h3 class="p-title"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg><span>tollkit-extract</span></h3>
-          <span class="badge live">Live</span>
-        </div>
-        <div class="product-body">
-          Give it a product page; get back the price, stock, brand, SKU, images and variants as clean JSON. Works on JavaScript-heavy stores. <strong>$0.01</strong> a page, or <strong>$0.04</strong> for up to five.
-        </div>
-        <div class="product-actions">
-          <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://api.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-          <a class="fund-link" href="/wallet">Pays from a wallet &middot; Get one&nbsp;&rarr;</a>
-        </div>
-      </div>
-
-      <div class="product">
-        <div class="product-head">
-          <h3 class="p-title"><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l2.4 1.8 3-.2.9 2.9 2.5 1.7-1 2.8 1 2.8-2.5 1.7-.9 2.9-3-.2L12 22l-2.4-1.8-3 .2-.9-2.9-2.5-1.7 1-2.8-1-2.8 2.5-1.7.9-2.9 3 .2z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><span>tollkit-attest</span></h3>
-          <span class="badge live">Live</span>
-        </div>
-        <div class="product-body">
-          Signed, timestamped proof of what a web page said, with a screenshot &mdash; for terms, prices or claims you may need to prove later. Anyone can verify it free, without us. <strong>$0.05</strong> a page.
-        </div>
-        <div class="product-actions">
-          <button type="button" class="btn btn-secondary" data-connect data-connect-url="https://api.tollkit.dev/mcp" data-connect-name="tollkit">Connect to your AI</button>
-          <a class="fund-link" href="/wallet">Pays from a wallet &middot; Get one&nbsp;&rarr;</a>
-        </div>
-      </div>
-
-
+<section>
+  <div class="tb">
+    <div>
+      <div class="kicker">Your AI's toolbox</div>
+      <h2>Everything the AI reads, your AI can read too</h2>
+      <p class="section-sub">Paid per call in USDC, a fraction of a cent each, with free calls every day to try them. Any AI app can use them, from this wallet or any other.</p>
+      <ul class="chips"><li>Crypto news</li><li>Perps</li><li>Market pulse</li><li>Price history</li><li>Token check</li><li>Web search</li><li>Read a page</li><li>SEC filings</li></ul>
+      <a class="btn" href="/tools">All tools and prices</a>
+    </div>
+    <div class="price">
+      <div class="row"><span>Crypto news, with a mood read</span><span>$0.004</span></div>
+      <div class="row"><span>Hyperliquid perps</span><span>$0.001</span></div>
+      <div class="row"><span>Market pulse</span><span>$0.003</span></div>
+      <div class="row"><span>Token check</span><span>$0.004</span></div>
+      <div class="row"><span>Web search</span><span>$0.003</span></div>
+      <div class="row"><span>Read a page</span><span>$0.002</span></div>
     </div>
   </div>
 </section>
 
-<section id="using-tools">
-  <div class="container">
-    <h2>Using the tools</h2>
-    <div class="steps">
-      <div class="step">
-        <span class="num">1</span>
-        <h4>Connect</h4>
-        <p>Press <b>Connect to your AI</b>, pick your app, follow two or three steps.</p>
-      </div>
-      <div class="step">
-        <span class="num">2</span>
-        <h4>Fund a wallet</h4>
-        <p>Put a few dollars of USDC on Base or Solana in a wallet your agent can use. No ETH or SOL needed for fees. Until then, the everyday tools give 3 free calls a day.</p>
-        <a class="btn btn-secondary step-btn" href="/wallet">Get Tollkit Wallet</a>
-      </div>
-      <div class="step">
-        <span class="num">3</span>
-        <h4>Your agent pays per call</h4>
-        <p>Each call shows its price first. Your agent pays, gets the result. Failed calls cost nothing.</p>
-      </div>
-    </div>
+<section>
+  <div class="kicker">The honest part</div>
+  <h2>What to know before you turn it on</h2>
+  <ul class="promises" style="margin-top:1.2rem">
+    <li><b>Paper first</b>New strategies trade pretend money first. Paper results run a little better than live ones.</li>
+    <li><b>Runs while the app is open</b>Base ETH strategies can keep running when it's closed. Everything else waits.</li>
+    <li><b>Not financial advice</b>You choose the budget and every limit. Crypto can lose most of its value quickly.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="builders">
+    <div class="kicker">For builders</div>
+    <h2><span class="mono">TOLL<span>kit</span></span>: Trade On Large Language.</h2>
+    <p class="section-sub" style="margin-bottom:0">TOLLkit's wallet pays for tools over x402; TOLLkit's tools collect. Selling your own? List it, and Weigh Station checks what it charges, for free. Building an agent? Connect it to a wallet with limits.</p>
+    <div class="links"><a class="btn" href="/tools">Tools</a><a class="btn" href="/connect">Connect</a><a class="btn" href="/weigh-station">Weigh Station</a><a class="btn" href="/report">Market report</a></div>
   </div>
 </section>
 
-<section id="guarantees">
-  <div class="container">
-    <h2>Our promises</h2>
-    <ul class="promises">
-      <li><b>Failed calls are free.</b> Blocked, dead or unreadable pages cost nothing.</li>
-      <li><b>No wrong answers passed off as right.</b> If a product link redirects somewhere else, we refuse instead of guessing.</li>
-      <li><b>Nothing invented.</b> A detail the page doesn&rsquo;t state comes back empty, not made up.</li>
-      <li><b>Cached answers say so</b>, with when they were really fetched.</li>
-      <li><b>Proof anyone can check</b>, free and without trusting us.</li>
-    </ul>
-    <p class="dev-line">For developers: <a href="https://api.tollkit.dev/openapi.json">OpenAPI</a> &middot; <a href="https://api.tollkit.dev/llms.txt">llms.txt</a> &middot; <a href="https://extract.tollkit.dev/.well-known/x402">x402 manifest</a> &middot; <a href="https://attest.tollkit.dev/attest/signer">signing address</a> &middot; built on <a href="https://x402.org" target="_blank" rel="noopener">x402</a>, settles in USDC on Base or Solana.</p>
-  </div>
-</section>
-
+</main>
 <footer>
   <div class="container">
-    <div class="row">
-      <div>
-        <div class="brand">Toll<span class="dot">kit</span></div>
-        <div style="margin-top:0.35rem; color:#707070;">Fund your agent. Let it trade for you.</div>
-      </div>
-      <div>
-        Got a tool you wish your agent could pay for? <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a> &middot; <a href="/status">Status</a>
-      </div>
-    </div>
-    <div class="legal">
-      <strong>Tollkit</strong> is operated by <strong>Tollkit LLC</strong>, a limited liability company in the USA. <a href="/terms">Terms</a> &middot; <a href="/privacy">Privacy</a>. Built on the open <a href="https://x402.org" target="_blank" rel="noopener">x402</a> protocol. Settlement in USDC on Base or Solana. © 2026.
-    </div>
+    <div class="brand">TOLL<span>kit</span></div>
+    Tollkit LLC, USA &middot; <a href="/wallet">Wallet</a> &middot; <a href="/report">Report</a> &middot; <a href="/status">Status</a> &middot; <a href="/terms">Terms</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
+    <div class="legal">TOLLkit is operated by Tollkit LLC, a limited liability company in the USA. Tools are paid with the open <a href="https://x402.org" target="_blank" rel="noopener">x402</a> protocol; settlement in USDC on Base or Solana. Screenshots show example numbers. © 2026.</div>
   </div>
 </footer>
-
-<script>
-  function copyInstall(el) {
-    // Snippet can live on a data-snippet attribute (new button form)
-    // or in an inner <pre> (legacy block form).
-    var text = el.getAttribute('data-snippet');
-    if (!text) {
-      var pre = el.querySelector('pre');
-      if (pre) text = pre.textContent;
-    }
-    if (!text) return;
-    var done = function() {
-      el.classList.add('copied');
-      clearTimeout(el._copiedTimer);
-      el._copiedTimer = setTimeout(function() { el.classList.remove('copied'); }, 2200);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done).catch(function() { fallback(text, done); });
-    } else {
-      fallback(text, done);
-    }
-  }
-  function fallback(text, done) {
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand('copy'); done(); } catch (e) {}
-    document.body.removeChild(ta);
-  }
-</script>
-<script src="/connect-widget.js" defer></script>
 </body>
 </html>

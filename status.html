@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Status — Tollkit</title>
-<meta name="description" content="Live uptime and response times for every Tollkit service, measured independently every 5 minutes.">
+<title>Status — TOLLkit</title>
+<meta name="description" content="Live uptime and response times for every TOLLkit service, measured independently every 5 minutes.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
 <style>
   :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --panel-2:#151515; --line:#242424; --line-soft:#1c1c1c;
@@ -100,12 +100,12 @@
 </head>
 <body>
 
-<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">Toll<span>kit</span></a><div class="sn-links"><a href="/wallet">Wallet</a><a href="/tools">Tools</a><a href="/connect">Connect</a><a href="/bots">Bots</a><a href="/command">Live</a><a href="/report">Report</a></div></div></nav>
+<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">TOLL<span>kit</span></a><div class="sn-links"><a href="/wallet">Wallet</a><a href="/wallet#autopilot">Autopilot</a><a href="/bots">Bots</a><a href="/tools">Tools</a><a href="/connect">Connect</a><a href="/command">Live</a></div></div></nav>
 
 <main class="container">
 <header class="head">
   <h1>Status</h1>
-  <p class="lede">Every Tollkit service is checked every 5 minutes from Cloudflare, separately from the servers it checks, so an outage gets recorded even if our own servers are down.</p>
+  <p class="lede">Every TOLLkit service is checked every 5 minutes from Cloudflare, separately from the servers it checks, so an outage gets recorded even if our own servers are down.</p>
   <div class="live" id="live"><i></i><span id="overall">Checking&hellip;</span></div>
 </header>
 
@@ -138,7 +138,7 @@
 
 <footer>
   <div class="container">
-    <div class="brand" style="margin-bottom:.3rem">Toll<span class="dot">kit</span></div>
+    <div class="brand" style="margin-bottom:.3rem">TOLL<span class="dot">kit</span></div>
     <a href="/">tollkit.dev</a> &middot; <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
   </div>
 </footer>
@@ -148,7 +148,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
   var pct = function (v) { return v == null ? '&mdash;' : (v >= 99.995 ? '100' : v.toFixed(2)) + '%'; };
-  var NAMES = { 'extract.tollkit.dev': 'Tollkit (product data)', 'web.tollkit.dev': 'Tollkit Web', 'chain.tollkit.dev': 'Tollkit Chain', 'data.tollkit.dev': 'Tollkit Data', 'attest.tollkit.dev': 'Tollkit Attest' };
+  var NAMES = { 'extract.tollkit.dev': 'TOLLkit (product data)', 'web.tollkit.dev': 'TOLLkit Web', 'chain.tollkit.dev': 'TOLLkit Chain', 'data.tollkit.dev': 'TOLLkit Data', 'attest.tollkit.dev': 'TOLLkit Attest' };
   function strip(daily) {
     var byDate = {}; (daily || []).forEach(function (d) { byDate[d.date] = d; });
     var out = '';

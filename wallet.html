@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tollkit Wallet</title>
-<meta name="description" content="A self-custody wallet for Base, Ethereum and Solana in Chrome's side panel, with spending limits, rule-based trading bots and an AI that sets up the rules you describe and waits for your OK.">
-<meta property="og:title" content="Tollkit Wallet">
-<meta property="og:description" content="A self-custody wallet for Base, Ethereum and Solana in Chrome's side panel.">
+<title>TOLLkit Wallet — self-custody, with Autopilot, bots and AI</title>
+<meta name="description" content="A wallet in Chrome's side panel and on your phone. Autopilot adapts to the market, bots follow your rules, your AI sets things up. All inside limits only you can change.">
+<meta property="og:title" content="TOLLkit Wallet">
+<meta property="og:description" content="Autopilot, bots and your AI, inside limits only you can change. Base, Ethereum and Solana.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tollkit.dev/wallet">
 <meta property="og:image" content="https://tollkit.dev/wallet/img/home.webp">
@@ -37,6 +37,9 @@
   .btn:hover { text-decoration:none; border-color:#3a3a3a; }
   .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
   .btn.soon { cursor:default; color:var(--muted); }
+  .shot { position:relative; }
+  .shot .tag { position:absolute; top:-13px; left:50%; transform:translateX(-50%); white-space:nowrap; z-index:2; font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:.35rem .7rem; border-radius:99px; color:#fff; background:linear-gradient(90deg,#4a8eff,#8b7bff); box-shadow:0 8px 24px -8px rgba(74,142,255,.8); }
+  .honest { color:#a0a0a0; font-size:.92rem; max-width:44rem; }
 
   .shot { margin:0; justify-self:center; }
   .shot img { display:block; width:100%; max-width:320px; height:auto; border-radius:18px; border:1px solid #2a2d38; box-shadow:0 30px 80px -30px rgba(74,142,255,.35), 0 10px 30px -10px rgba(0,0,0,.8); }
@@ -77,44 +80,60 @@
 <link rel="stylesheet" href="/nav.css">
 </head>
 <body>
-<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">Toll<span>kit</span></a><div class="sn-links"><a href="/wallet" aria-current="page">Wallet</a><a href="/tools">Tools</a><a href="/connect">Connect</a><a href="/bots">Bots</a><a href="/command">Live</a><a href="/report">Report</a></div></div></nav>
+<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">TOLL<span>kit</span></a><div class="sn-links"><a href="/wallet" aria-current="page">Wallet</a><a href="/wallet#autopilot">Autopilot</a><a href="/bots">Bots</a><a href="/tools">Tools</a><a href="/connect">Connect</a><a href="/command">Live</a></div></div></nav>
 
 <main class="container">
 
 <header class="hero">
   <div>
-    <div class="eyebrow"><i></i> Chrome extension &middot; Base, Ethereum, Solana</div>
-    <h1>Tollkit <span class="dot">Wallet</span></h1>
-    <p class="lede">A self-custody crypto wallet that stays open in Chrome's side panel, next to the site you're on. Your keys stay in your browser, and you set the limits on what can be spent.</p>
+    <div class="eyebrow"><i></i> Chrome extension, iPhone and Android &middot; Base, Ethereum, Solana</div>
+    <h1>TOLLkit <span class="dot">Wallet</span></h1>
+    <p class="lede">A self-custody wallet that stays open next to the site you're on. Your keys stay on your device. You set the limits, and the wallet, its bots and any AI you connect all work inside them.</p>
     <ul class="chips">
-      <li>Buy with Coinbase</li><li>Swap</li><li>Send &amp; receive</li><li>Cash out</li><li>Move between networks</li><li>Stake SOL</li><li>Trading bots</li><li>AI assistant</li>
+      <li>Autopilot</li><li>Trading bots</li><li>AI assistant</li><li>Buy with Coinbase</li><li>Swap</li><li>Send &amp; receive</li><li>Cash out</li><li>Move between networks</li><li>Stake SOL</li>
     </ul>
     <div class="ctas">
-      <span class="btn soon" title="This page will link to the listing">Coming to the Chrome Web Store</span>
+      <span class="btn soon" title="This page will link to the listing once it's live">Chrome Web Store &middot; in review</span>
       <a class="btn" href="#fees">Fees</a>
     </div>
   </div>
-  <figure class="shot"><img src="/wallet/img/home.webp" width="400" height="820" alt="Tollkit Wallet home screen: total balance, buttons for Buy, Sell, Receive, Move, Stake and Withdraw, a box to ask the AI, a backup reminder, Connect your AI, and today's spending against the limits."></figure>
+  <figure class="shot"><img src="/wallet/img/home.webp" width="400" height="820" alt="TOLLkit Wallet home screen: total balance, buttons for Buy, Sell, Receive, Move, Stake and Withdraw, a box to ask the AI, a backup reminder, Connect your AI, and today's spending against the limits."></figure>
 </header>
 
-<section class="feature">
+<section class="feature" id="autopilot">
+  <div class="text">
+    <div class="kicker">Autopilot &middot; Coming soon</div>
+    <h2>Strategies that change with the market</h2>
+    <p>Every half hour, Autopilot reads a market snapshot: prices, funding, open interest, Fear &amp; Greed, a mood read of the news, and Farcaster. When something moved, it asks the AI for one decision: adjust a strategy, pause it, retire it, or start a new one. Every new strategy trades pretend money first.</p>
+    <ul>
+      <li>Goes live only after it beat holding USDC after fees for the paper period you set. A live strategy that's losing goes back to paper.</li>
+      <li>Every decision is logged with its reasons and the signals behind it. Tap one to read them.</li>
+      <li>You set the budget, a cap per trade, a cap per token, and daily and weekly loss stops that pause everything. One switch turns it all off.</li>
+      <li>Each decision costs $0.005, paid from the wallet, and only when the market moved.</li>
+      <li>Runs while the app is open. Base ETH strategies can keep running when it's closed.</li>
+    </ul>
+  </div>
+  <figure class="shot"><span class="tag">Coming soon</span><img src="/wallet/img/autopilot.webp" width="400" height="820" loading="lazy" alt="The Autopilot screen with example numbers: live result, budget, a live strategy and a paper one with its trial progress, and the AI's latest decisions."></figure>
+</section>
+
+<section class="feature flip">
   <div class="text">
     <div class="kicker">One wallet, three networks</div>
     <h2>Everything in the side panel</h2>
     <p>ETH, SOL, USDC, USDT and other tokens on Base, Ethereum and Solana, all from one 12-word recovery phrase. Tokens you hold show up on their own.</p>
     <ul>
       <li>Buy through Coinbase, straight to your own address.</li>
-      <li>Swap, with Tollkit's fee and the minimum you'll receive shown before you confirm.</li>
+      <li>Swap, with TOLLkit's fee and the minimum you'll receive shown before you confirm.</li>
       <li>Cash out to your bank or PayPal through Coinbase.</li>
       <li>Move USDC and ETH between networks, and stake SOL.</li>
       <li>Connect to apps that work with MetaMask or Phantom. Every request waits for your OK in the panel.</li>
     </ul>
-    <p style="margin-top:1rem">Adding a token by name or address runs Tollkit's token check first, which says what it found in plain words: whether there's a pool to sell it into, or whether its owner can create more.</p>
+    <p style="margin-top:1rem">Adding a token by name or address runs TOLLkit's token check first, which says what it found in plain words: whether there's a pool to sell it into, or whether its owner can create more.</p>
   </div>
-  <figure class="shot"><img src="/wallet/img/scamcheck.webp" width="400" height="820" loading="lazy" alt="Adding a token: Tollkit's token check shows two warnings in plain words before the token is added."></figure>
+  <figure class="shot"><img src="/wallet/img/scamcheck.webp" width="400" height="820" loading="lazy" alt="Adding a token: TOLLkit's token check shows two warnings in plain words before the token is added."></figure>
 </section>
 
-<section class="feature flip">
+<section class="feature">
   <div class="text">
     <div class="kicker">Bots</div>
     <h2>Trading bots that show their numbers</h2>
@@ -122,23 +141,23 @@
     <ul>
       <li>Each bot shows its trades, failures and result, on a price chart that marks where it buys and sells.</li>
       <li>Before a bot starts, drag its lines on the chart to set it up, and replay it over the last 30 days of prices.</li>
-      <li>The autopilot checks prices every 15 seconds while the wallet is open.</li>
+      <li>Bots check prices every 15 seconds while the wallet is open.</li>
       <li>See how bots do for other people on the <a href="/bots">bot board</a>.</li>
     </ul>
   </div>
   <figure class="shot"><img src="/wallet/img/bots.webp" width="400" height="820" loading="lazy" alt="The Bots tab: two bots running, their combined result and next move, and a Buy the dip bot with a price chart showing its buy and take-profit lines and the trade it made."></figure>
 </section>
 
-<section class="feature">
+<section class="feature flip">
   <div class="text">
     <div class="kicker">Connect your AI</div>
-    <h2>Your AI sets it up, you decide</h2>
-    <p>Claude reads your balances and recent prices and sets up the rules you describe. Nothing turns on until you tap it. Connected AI apps work inside the same limits, can't withdraw, and never see your keys.</p>
+    <h2>Your AI sets it up. You decide.</h2>
+    <p>Claude reads your balances and recent prices and sets up the swap, rule or bot you describe. It doesn't pick coins or prices for you, and nothing turns on until you tap it. Connected AI apps work inside the same limits, can't withdraw, and never see your keys.</p>
     <ul>
-      <li>Use your own AI app at no extra cost, or Tollkit's built-in AI at $0.02 a step, paid from the wallet in USDC.</li>
+      <li>Use your own AI app at no extra cost, or TOLLkit's built-in AI at $0.02 a step, paid from the wallet in USDC.</li>
       <li>One tap copies your private address and opens Claude's connectors page. Paste it and click Add.</li>
       <li>The wallet shows Connected once your AI app actually reaches it.</li>
-      <li>Using Tollkit's built-in AI with no USDC on hand? It offers to swap a little SOL or ETH first, and can do it automatically after you say yes once.</li>
+      <li>Using TOLLkit's built-in AI with no USDC on hand? It offers to swap a little SOL or ETH first, and can do it automatically after you say yes once.</li>
     </ul>
   </div>
   <figure class="shot"><img src="/wallet/img/connect.webp" width="400" height="820" loading="lazy" alt="Connect your AI: a private connector address with a Copy button, and the steps for adding it to Claude."></figure>
@@ -148,12 +167,12 @@
   <h2>Limits you set</h2>
   <p class="sub">The wallet, its bots and any AI you connect all work inside the same rules. Changing them needs your password.</p>
   <div class="grid3">
-    <div class="card"><h3>Caps</h3><p>A most-per-swap and a most-per-day for trading, and separate caps for paying for tools.</p></div>
+    <div class="card"><h3>Autopilot budget</h3><p>A total it may put into live strategies, a cap per trade and per token, and daily and weekly loss stops.</p></div>
+    <div class="card"><h3>Caps</h3><p>A most-per-swap and a most-per-day for trading, a slippage cap, and separate caps for paying for tools.</p></div>
     <div class="card"><h3>Approvals</h3><p>Swaps over the amount you pick wait for your OK in the panel or on Telegram.</p></div>
-    <div class="card"><h3>Slippage</h3><p>A maximum price movement per swap, so a trade doesn't fill far from its quote.</p></div>
-    <div class="card"><h3>Password for withdrawals</h3><p>Sending funds out needs your password every time, so an AI or bot can't move money out of the wallet.</p></div>
-    <div class="card"><h3>Your keys</h3><p>Your recovery phrase is encrypted in your browser with your password. Tollkit never has it.</p></div>
-    <div class="card"><h3>Same addresses</h3><p>Import a phrase from MetaMask, Phantom or the Tollkit app and you get the same addresses.</p></div>
+        <div class="card"><h3>Password for withdrawals</h3><p>Sending funds out needs your password every time, so an AI or bot can't move money out of the wallet.</p></div>
+    <div class="card"><h3>Your keys</h3><p>Your recovery phrase is encrypted on your device with your password. TOLLkit never has it.</p></div>
+    <div class="card"><h3>Same addresses</h3><p>Import a phrase from MetaMask, Phantom or the TOLLkit app and you get the same addresses.</p></div>
   </div>
 </section>
 
@@ -164,25 +183,27 @@
     <table class="fees">
       <tr><td>Swaps</td><td>0.5% of the trade, included in the quote</td></tr>
       <tr><td>Moving USDC or ETH between networks</td><td>0.25%, plus the bridge's own fee</td></tr>
-      <tr><td>Tollkit's built-in AI</td><td>$0.02 a step, in USDC. Your own AI app costs nothing extra.</td></tr>
+      <tr><td>Autopilot decisions</td><td>$0.005 each, in USDC, only when the market moved. About $1 to $3 a month.</td></tr>
+      <tr><td>TOLLkit's built-in AI</td><td>$0.02 a step, in USDC. Your own AI app costs nothing extra.</td></tr>
       <tr><td>Buying and cashing out with Coinbase</td><td>Coinbase shows its own fee and the amount before you confirm</td></tr>
-      <tr><td>Sending, receiving and staking</td><td>No Tollkit fee. The network's own fee applies.</td></tr>
+      <tr><td>Sending, receiving and staking</td><td>No TOLLkit fee. The network's own fee applies.</td></tr>
     </table>
   </div>
+  <p class="honest" style="margin-top:1.2rem">Paper results run a little better than live ones, because pretend trades fill at the quote and real ones can slip. Nothing in the wallet is financial advice. Crypto can lose most of its value quickly; only use money you can afford to lose.</p>
 </section>
 
 <section class="band">
   <h2>Get it</h2>
-  <p>Tollkit Wallet is on its way to the Chrome Web Store. This page will link to the listing once it's live.</p>
+  <p>TOLLkit Wallet is in review on the Chrome Web Store. iPhone and Android apps follow once the store accounts are approved. This page links to each once it's live.</p>
   <h2 style="margin-top:2rem">Help</h2>
-  <p>Email <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>. Tollkit can't recover a wallet for you: keep your recovery phrase written down and offline. Nobody from Tollkit will ever ask for it.</p>
+  <p>Email <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>. TOLLkit can't recover a wallet for you: keep your recovery phrase written down and offline. Nobody from TOLLkit will ever ask for it.</p>
   <p class="mut"><a href="/wallet/privacy">Privacy policy</a> &middot; <a href="/wallet/terms">Terms of service</a></p>
 </section>
 
 </main>
 <footer>
   <div class="container">
-    <div class="brand" style="margin-bottom:.3rem">Toll<span class="dot">kit</span></div>
+    <div class="brand" style="margin-bottom:.3rem">TOLL<span class="dot">kit</span></div>
     Tollkit LLC, USA &middot; <a href="/wallet">Wallet</a> &middot; <a href="/wallet/privacy">Wallet privacy</a> &middot; <a href="/wallet/terms">Wallet terms</a> &middot; <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
   </div>
 </footer>

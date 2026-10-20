@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Command center — Tollkit</title>
-<meta name="description" content="Live state of every Tollkit service: uptime, response times, price checks and paid calls, updated every 15 seconds.">
+<title>Command center — TOLLkit</title>
+<meta name="description" content="Live state of every TOLLkit service: uptime, response times, price checks and paid calls, updated every 15 seconds.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,monospace' font-size='56' font-weight='700' text-anchor='middle' fill='%234a8eff'%3Et%3C/text%3E%3C/svg%3E">
 <style>
 :root{color-scheme:dark;--bg:#05070b;--panel:#0b0f16;--panel2:#0f1520;--line:#1b2433;--line2:#141b27;--grid:#101722;
@@ -119,14 +119,14 @@ footer{border-top:1px solid var(--line2);margin-top:2.5rem;padding:1.4rem 0 2.2r
 <link rel="stylesheet" href="/nav.css">
 </head>
 <body>
-<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">Toll<span>kit</span></a><div class="sn-links"><a href="/wallet">Wallet</a><a href="/tools">Tools</a><a href="/connect">Connect</a><a href="/bots">Bots</a><a href="/command" aria-current="page">Live</a><a href="/report">Report</a></div></div></nav>
+<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">TOLL<span>kit</span></a><div class="sn-links"><a href="/wallet">Wallet</a><a href="/wallet#autopilot">Autopilot</a><a href="/bots">Bots</a><a href="/tools">Tools</a><a href="/connect">Connect</a><a href="/command" aria-current="page">Live</a></div></div></nav>
 
 <main class="wrap">
 <header class="head">
  <div>
-  <div class="eyebrow">Tollkit · live</div>
+  <div class="eyebrow">TOLLkit · live</div>
   <h1>Command center</h1>
-  <p class="lede">Every Tollkit service in one place: whether it's up, how fast it answers, who's checking prices and what's being paid for. Numbers refresh every 15 seconds.</p>
+  <p class="lede">Every TOLLkit service in one place: whether it's up, how fast it answers, who's checking prices and what's being paid for. Numbers refresh every 15 seconds.</p>
  </div>
  <div class="livebar"><span class="live" id="live"><i></i><span id="upd">Loading…</span></span><span id="ownerchip"></span></div>
 </header>
@@ -135,8 +135,8 @@ footer{border-top:1px solid var(--line2);margin-top:2.5rem;padding:1.4rem 0 2.2r
 <section class="grid" id="kpis"></section>
 
 <section class="grid">
- <div class="card c8"><h2>Network</h2><p class="sub">Payment networks and incoming requests flowing into each Tollkit service and its tools.</p>
-  <canvas id="map" role="img" aria-label="Map of Tollkit services and tools"></canvas>
+ <div class="card c8"><h2>Network</h2><p class="sub">Payment networks and incoming requests flowing into each TOLLkit service and its tools.</p>
+  <canvas id="map" role="img" aria-label="Map of TOLLkit services and tools"></canvas>
   <div class="maplegend" id="maplegend"></div></div>
  <div class="card c4"><h2>Paid calls, live</h2><p class="sub">The latest calls that settled. No wallets or amounts shown.</p><ul class="feed" id="feed"></ul></div>
 </section>
@@ -320,7 +320,7 @@ function renderOwner(){var o=D.ops,el=$("owner");if(!o){el.innerHTML="";return}
  var bu=(o.buyers||[]).slice().sort(function(a,b){return n(b.spent_usd)-n(a.spent_usd)}).slice(0,10);
  h+='<div class="card c6"><h2>Top buyers</h2><p class="sub">By amount spent. Samplers are wallets that pay many sellers tiny amounts to test them.</p><div class="tablewrap"><table><thead><tr><th>Wallet</th><th class="r">Calls</th><th class="r">Spent</th><th class="r">Last</th></tr></thead><tbody>'+bu.map(function(b){return '<tr><td class="mono"><a href="'+esc(b.explorer_url||"#")+'" rel="noopener" target="_blank">'+esc(b.payer_short||b.payer)+'</a>'+(b.sampler&&b.sampler.likely?' <span class="chip">sampler</span>':'')+(b.returning?' <span class="chip">returning</span>':'')+'</td><td class="r num">'+esc(b.calls)+'</td><td class="r num">'+esc(usd(b.spent_usd))+'</td><td class="r num dim">'+esc(ago(b.last_at))+'</td></tr>'}).join("")+'</tbody></table></div></div></section>';
  var ft=(ai.by_tier||{}).fast||{},sm=(ai.by_tier||{}).smart||{},tk=ai.tokens||{};
- h+='<section class="grid"><div class="card c8"><h2>Tollkit AI chat</h2><p class="sub">Fast is Claude Haiku, Smart is Claude Sonnet. What wallets paid per step against what Anthropic charged, from the token counts on each call'+(ai.since?" · since "+esc(new Date(ai.since).toLocaleString()):"")+'.</p><div class="minis">'+
+ h+='<section class="grid"><div class="card c8"><h2>TOLLkit AI chat</h2><p class="sub">Fast is Claude Haiku, Smart is Claude Sonnet. What wallets paid per step against what Anthropic charged, from the token counts on each call'+(ai.since?" · since "+esc(new Date(ai.since).toLocaleString()):"")+'.</p><div class="minis">'+
   [["Steps",fmt(at.steps),n(at.owner_steps)+" yours"],["Paid to us",usd(at.revenue_usd),""],["Anthropic cost",usd(at.cost_usd),""],["Margin",at.margin_pct==null?"—":at.margin_pct+"%",usd(at.margin_usd)],["Cost per step",at.cost_per_step_usd==null?"—":"$"+n(at.cost_per_step_usd).toFixed(4),"price $0.02 / $0.04"]].map(function(x){return '<div class="mini"><div class="k">'+esc(x[0])+'</div><div class="v">'+esc(x[1])+'</div><div class="f">'+esc(x[2])+'</div></div>'}).join("")+'</div>'+
   '<div class="tablewrap" style="margin-top:.8rem"><table><thead><tr><th>Model</th><th class="r">Steps</th><th class="r">Paid</th><th class="r">Cost</th><th class="r">Margin</th><th class="r hs">Per step</th></tr></thead><tbody>'+[["Fast · 2¢",ft],["Smart · 4¢",sm]].map(function(r){var x=r[1];return '<tr><td>'+esc(r[0])+'</td><td class="r num">'+esc(n(x.steps))+'</td><td class="r num">'+esc(usd(x.revenue_usd))+'</td><td class="r num">'+esc(usd(x.cost_usd))+'</td><td class="r num">'+esc(x.margin_pct==null?"—":x.margin_pct+"%")+'</td><td class="r num hs">'+esc(x.cost_per_step_usd==null?"—":"$"+n(x.cost_per_step_usd).toFixed(4))+'</td></tr>'}).join("")+'</tbody></table></div>'+
   '<h2 style="margin-top:1rem">Tokens</h2>'+hbars([{name:"Cache reads",v:tk.cache_read,label:"cheapest, 0.1× input"},{name:"Input",v:tk.input},{name:"Cache writes",v:tk.cache_write,label:"1.25–2× input"},{name:"Output",v:tk.output}],"g")+'</div>';
