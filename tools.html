@@ -129,7 +129,7 @@
 
   <section class="card" id="chain">
     <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>On-chain</h2>
-    <p class="sub">Read live from Base, Ethereum or Solana. No price feeds, no middlemen.</p>
+    <p class="sub">Read live from Base, Ethereum or Solana, plus crypto news, Hyperliquid perps and Chainlink price history.</p>
     <table>
       <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
       <tbody>
@@ -140,6 +140,10 @@
         <tr><td class="name"><b>Token check<em class="trial">3 free/day</em></b><span>Before you buy or accept a token: what it is, its price and liquidity, and warnings read from the chain, including who controls the contract and whether it can mint, pause, blacklist or change fees.</span></td><td class="ids"><code>token_check</code><code>POST chain.tollkit.dev/chain/check</code></td><td class="price" data-route="POST /chain/check">$0.004</td></tr>
         <tr><td class="name"><b>Wallet portfolio</b><span>Every holding priced from on-chain pools, the wallet&rsquo;s total in USD, and liquidity warnings.</span></td><td class="ids"><code>wallet_portfolio</code><code>POST chain.tollkit.dev/chain/portfolio</code></td><td class="price" data-route="POST /chain/portfolio">$0.005</td></tr>
         <tr><td class="name"><b>Pre-trade check</b><span>One call before a trade: USD price, pool depth, chain warnings, your trade size vs the pool (rough price impact), your wallet&rsquo;s current holding, and recent web results. Facts, not advice.</span></td><td class="ids"><code>pretrade_check</code><code>POST chain.tollkit.dev/chain/pretrade</code></td><td class="price" data-route="POST /chain/pretrade">$0.01</td></tr>
+        <tr><td class="name"><b>Crypto news</b><span>Recent news for a coin or topic from the past hour, day or week, with publisher, date and link, plus a short AI read of the coverage: mood, summary and themes. Not advice.</span></td><td class="ids"><code>crypto_news</code><code>POST chain.tollkit.dev/chain/news</code></td><td class="price" data-route="POST /chain/news">$0.004</td></tr>
+        <tr><td class="name"><b>Perps market</b><span>Hyperliquid perpetuals: mark price, 24h change, hourly funding (and annualized), open interest, volume and max leverage, for the coins you name or the top markets. Funding history for one coin.</span></td><td class="ids"><code>perps_market</code><code>POST chain.tollkit.dev/chain/perps</code></td><td class="price" data-route="POST /chain/perps">$0.001</td></tr>
+        <tr><td class="name"><b>Market pulse</b><span>The market in one call: Fear &amp; Greed Index (by Alternative.me), BTC, ETH and SOL with 24h change, funding and Chainlink price, funding extremes, top gainers and losers.</span></td><td class="ids"><code>crypto_market_pulse</code><code>POST chain.tollkit.dev/chain/pulse</code></td><td class="price" data-route="POST /chain/pulse">$0.003</td></tr>
+        <tr><td class="name"><b>Price history</b><span>Past USD prices for ETH, BTC, SOL, LINK and more over up to 365 days, read from Chainlink&rsquo;s price feeds on Ethereum, with high, low and change.</span></td><td class="ids"><code>price_history</code><code>POST chain.tollkit.dev/chain/history</code></td><td class="price" data-route="POST /chain/history">$0.002</td></tr>
       </tbody>
     </table>
   </section>
