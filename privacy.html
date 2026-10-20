@@ -74,6 +74,7 @@
   <li><strong>Reading pages, screenshots, PDFs and product data</strong>: our browser visits the web address you give, like any visitor.</li>
   <li><strong>Public data</strong>: tickers to the SEC (EDGAR); coordinates to the US National Weather Service or MET Norway; addresses to the US Census Bureau geocoder; airport codes to the FAA; currency codes to the European Central Bank. IP lookups use a database on our own server, so the address isn&rsquo;t sent anywhere.</li>
   <li><strong>On-chain tools</strong>: wallet, token and transaction addresses go to public blockchain endpoints for Base, Ethereum and Solana.</li>
+  <li><strong>Crypto market tools</strong>: crypto news queries go to Serper, and the headlines it returns go to Anthropic&rsquo;s API (Claude) for the short read; coin names go to Hyperliquid&rsquo;s public API; price history and the market pulse read Chainlink price feeds on Ethereum; the market pulse also reads the Fear &amp; Greed Index from Alternative.me, which receives nothing from you.</li>
   <li><strong>Payments</strong>: the signed payment goes to Coinbase&rsquo;s x402 facilitator, which settles it on the blockchain.</li>
 </ul>
 <p>The server runs on Fly.io and this website on Cloudflare, which may keep standard connection logs under their own policies.</p>
