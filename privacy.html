@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tollkit API privacy policy</title>
+<meta name="description" content="What Tollkit's paid API and MCP server keep when you or your AI agent call a tool, what goes to which outside service, and what is never stored.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
+<style>
+  :root { color-scheme:dark; --bg:#0a0a0a; --panel:#111; --line:#242424; --line-soft:#1c1c1c; --text:#e5e5e5; --muted:#8a8a8a; --dim:#707070; --accent:#4a8eff; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; -webkit-font-smoothing:antialiased; }
+  .container { max-width:760px; margin:0 auto; padding:0 16px; }
+  a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.9em; }
+  nav.top { border-bottom:1px solid var(--line-soft); padding:.9rem 0; }
+  nav.top .container { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  .brand { font-weight:700; letter-spacing:-.02em; color:var(--text); } .brand .dot { color:var(--accent); }
+  nav.top .links { display:flex; gap:1.1rem; font-size:.9rem; } nav.top .links a { color:var(--muted); }
+  header.head { padding:2.4rem 0 .6rem; }
+  h1 { font-size:2rem; letter-spacing:-.03em; margin:0 0 .4rem; }
+  h2 { font-size:1.15rem; margin:2rem 0 .4rem; }
+  .lede { color:var(--muted); margin:0; font-size:1.02rem; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.1rem 1.3rem; margin-top:1rem; }
+  ul { padding-left:1.2rem; } li { margin:.3rem 0; }
+  .mut { color:var(--muted); }
+  footer { border-top:1px solid var(--line-soft); margin-top:2.5rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; } footer a { color:var(--muted); }
+</style>
+<link rel="stylesheet" href="/nav.css">
+</head>
+<body>
+<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">Toll<span>kit</span></a><div class="sn-links"><a href="/wallet">Wallet</a><a href="/tools">Tools</a><a href="/connect">Connect</a><a href="/bots">Bots</a><a href="/command">Live</a><a href="/report">Report</a></div></div></nav>
+<main class="container">
+<header class="head">
+  <h1>Tollkit API privacy policy</h1>
+  <p class="lede">For Tollkit&rsquo;s paid tools: the HTTP API on api, web, data, chain and attest.tollkit.dev, and the MCP server at extract.tollkit.dev/mcp. Effective October 20, 2026. The Tollkit Wallet extension has <a href="/wallet/privacy">its own policy</a>.</p>
+</header>
+
+<div class="card">
+  <strong>In short:</strong> no accounts, no cookies, no analytics, no ads. What you send a tool is used to answer that call and isn&rsquo;t saved. When you pay, we record which tool the payment was for, alongside the payment itself, which is already public on the blockchain. A few things are kept only when you ask us to, such as an alert you set up.
+</div>
+
+<h2>Who we are</h2>
+<p>Tollkit is made by Tollkit LLC, USA. Questions or requests: <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>.</p>
+
+<h2>What you send a tool</h2>
+<p>Each tool takes an input: a web address, a search query, some text, a ticker, a wallet or token address, coordinates or a street address. We use it to answer that one call and don&rsquo;t save it, with one exception: to tell price checks apart from real questions, we keep a short public label for some inputs, such as a website&rsquo;s domain (not the full address), a stock ticker, a token contract, a currency pair, an airport code or a network name. Search queries, wallet addresses, IP addresses, street addresses and text you send are never kept, only counted.</p>
+
+<h2>When you pay</h2>
+<p>Payments are made in USDC with the x402 protocol. For each paid call we record the time, the tool, the network, the paying wallet address and the transaction ID. The payment itself is public on the Base or Solana blockchain. Our public stats page shows only counts, tools, networks and times, not wallets. A failed call isn&rsquo;t charged.</p>
+
+<h2>Kept for a short time, in memory only</h2>
+<ul>
+  <li>Request counts per minute and response times, for 24 hours, to show whether the service is healthy.</li>
+  <li>Free trial calls through MCP: a count per caller, keyed by IP address, reset each day.</li>
+  <li>If you send an Idempotency-Key header, that paid answer is kept for 10 minutes so a retry with the same key isn&rsquo;t charged twice.</li>
+</ul>
+<p>These are cleared when the server restarts and are never written to disk.</p>
+
+<h2>Kept only when you ask</h2>
+<ul>
+  <li><strong>Weigh Station monitoring</strong>: the endpoint you want watched, the web address for your alerts, and the wallet that signed up. Kept for the paid period.</li>
+  <li><strong>Low-balance alerts</strong>: the public wallet addresses to watch and where to send the alert (a web address, an email, or both). Alert emails are sent through Resend. You can delete your alerts with a signature from the same wallet.</li>
+  <li><strong>Market report emails</strong>: your email address, if you subscribe. We send nothing until you confirm it.</li>
+  <li><strong>Page proofs (attest)</strong>: not kept. You get the whole signed record; we keep only the key that signs it.</li>
+</ul>
+
+<h2>Outside services that receive your input</h2>
+<p>Some tools need another service to answer. Only what that call needs is sent, over HTTPS.</p>
+<ul>
+  <li><strong>Web search</strong>: your search query goes to Serper (serper.dev), and to Tavily (tavily.com) if Serper is down.</li>
+  <li><strong>Summaries and page briefs</strong>: the text to summarize goes to Anthropic&rsquo;s API (Claude).</li>
+  <li><strong>Reading pages, screenshots, PDFs and product data</strong>: our browser visits the web address you give, like any visitor.</li>
+  <li><strong>Public data</strong>: tickers to the SEC (EDGAR); coordinates to the US National Weather Service or MET Norway; addresses to the US Census Bureau geocoder; airport codes to the FAA; currency codes to the European Central Bank. IP lookups use a database on our own server, so the address isn&rsquo;t sent anywhere.</li>
+  <li><strong>On-chain tools</strong>: wallet, token and transaction addresses go to public blockchain endpoints for Base, Ethereum and Solana.</li>
+  <li><strong>Payments</strong>: the signed payment goes to Coinbase&rsquo;s x402 facilitator, which settles it on the blockchain.</li>
+</ul>
+<p>The server runs on Fly.io and this website on Cloudflare, which may keep standard connection logs under their own policies.</p>
+
+<h2>What we don&rsquo;t do</h2>
+<ul>
+  <li>No accounts, cookies, analytics, tracking or ads.</li>
+  <li>We don&rsquo;t sell data or share it for advertising.</li>
+  <li>We don&rsquo;t use your inputs to train AI models.</li>
+</ul>
+
+<h2>Your requests</h2>
+<p>To ask what we hold about a wallet address or email, or to have it deleted, write to <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>. Payments on the blockchain can&rsquo;t be deleted by anyone.</p>
+
+<h2>Changes</h2>
+<p>If this policy changes, the new version will be posted here with a new effective date.</p>
+</main>
+<footer>
+  <div class="container">
+    <div class="brand" style="margin-bottom:.3rem">Toll<span class="dot">kit</span></div>
+    Tollkit LLC, USA &middot; <a href="/tools">Tools</a> &middot; <a href="/wallet/privacy">Wallet privacy</a> &middot; <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
+  </div>
+</footer>
+</body>
+</html>
