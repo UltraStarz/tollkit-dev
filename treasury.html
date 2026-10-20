@@ -33,7 +33,14 @@
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap" id="gate" hidden>
+<header>
+  <h1>Treasury</h1>
+  <p class="lede">This page is for the TOLLkit operator. Open it from your owner link (the one with <code>#k=</code>), the same link that switches on the owner view on <a href="/command">Live</a>.</p>
+</header>
+<p class="sm dim" id="gateMsg"></p>
+</div>
+<div class="wrap" id="page" hidden>
 <header>
   <h1>Treasury</h1>
   <p class="lede">TOLLkit's fee revenue on Base, Ethereum and Solana, and a weekly sweep that turns it into USDC. Everything is signed in your own wallet. This page never sees a key, and TOLLkit's fee wallets pay no TOLLkit fee on their own swaps.</p>
@@ -297,7 +304,25 @@
   }
   // For the page's own browser test.
   window.tkTreasury = { rows: function () { return ROWS; }, convert: convert, draw: draw };
-  boot();
+
+  // --- operator only: the same ops key Live uses (#k=… once, then this browser remembers it)
+  function readKey() {
+    var m = /(?:^#|&)k=([^&]+)/.exec(location.hash || "");
+    if (m) { var k = decodeURIComponent(m[1]); try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {} try { localStorage.setItem("tk_ops_key", k); } catch (e) {} return k; }
+    try { return localStorage.getItem("tk_ops_key"); } catch (e) { return null; }
+  }
+  async function gate() {
+    var key = readKey();
+    if (!key) { $("gate").hidden = false; return; }
+    try {
+      var r = await fetch(API + "/ops.json", { headers: { authorization: "Bearer " + key }, cache: "no-store" });
+      if (r.status === 401) { try { localStorage.removeItem("tk_ops_key"); } catch (e) {} $("gateMsg").textContent = "That owner link's key doesn't match any more. Open a fresh owner link."; $("gate").hidden = false; return; }
+      if (!r.ok) throw new Error("HTTP " + r.status);
+    } catch (e) { $("gateMsg").textContent = "Couldn't check the key just now (" + e.message + "). Reload to try again."; $("gate").hidden = false; return; }
+    $("page").hidden = false;
+    boot();
+  }
+  gate();
 })();
 </script>
 </body>

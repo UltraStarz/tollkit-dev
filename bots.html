@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bot board — TOLLkit</title>
-<meta name="description" content="How TOLLkit Wallet's rule-based trading bots do for the people who share their results: trades, success rate and median result per bot.">
+<title>Bots — TOLLkit</title>
+<meta name="description" content="TOLLkit Wallet's bots: buy on a schedule, buy dips, protect a position, trail a stop, take profits in steps, trade a range. Each one works inside the caps you set. Plus the results people chose to share.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="/motion.css">
 <style>
@@ -32,6 +32,16 @@
   .num small { display:block; color:var(--dim); font-size:.72rem; }
   .num b { font-size:1.15rem; font-weight:650; white-space:nowrap; }
   .ok { color:var(--ok); } .bad { color:var(--bad); }
+  .board { display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:2rem; }
+  .board h2 { font-size:1.2rem; margin:0; }
+  .disc { color:var(--dim); font-size:.82rem; margin:.3rem 0 0; max-width:44rem; }
+  .cta { display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.1rem; }
+  .btn { display:inline-flex; align-items:center; border-radius:8px; padding:.55rem 1rem; font-size:.9rem; font-weight:600; border:1px solid transparent; }
+  .btn-primary { background:var(--accent); color:#05070d; } .btn-primary:hover { background:#63a0ff; text-decoration:none; }
+  .btn-secondary { color:var(--text); border-color:var(--line); } .btn-secondary:hover { border-color:#3a3a3a; text-decoration:none; }
+  footer { border-top:1px solid var(--line-soft); margin-top:2.5rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; }
+  footer a { color:var(--muted); }
+  .brand { font-weight:700; letter-spacing:-.02em; color:var(--text); } .brand .dot { color:var(--accent); }
   .tokens { margin-top:.7rem; font-size:.8rem; color:var(--dim); }
   .empty { color:var(--dim); font-size:.86rem; }
   .note { margin:1.6rem 0 3rem; color:var(--dim); font-size:.82rem; max-width:44rem; }
@@ -40,16 +50,26 @@
 <link rel="stylesheet" href="/nav.css">
 </head>
 <body>
-<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">TOLL<span>kit</span></a><div class="sn-links"><a href="/wallet">Wallet</a><a href="/wallet#autopilot">Autopilot</a><a href="/bots" aria-current="page">Bots</a><a href="/tools">Tools</a><a href="/connect">Connect</a><a href="/command">Live</a></div></div></nav>
+<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">TOLL<span>kit</span></a><div class="sn-links"><a href="/wallet">Wallet</a><a href="/wallet#autopilot">Autopilot</a><a href="/bots" aria-current="page">Bots</a><a href="/tools">Tools</a><a href="/tools#connect">Connect</a><a href="/command">Live</a></div></div></nav>
 <main class="container">
   <header class="head">
-    <h1>Bot board</h1>
-    <p class="lede">TOLLkit Wallet's bots are plain rules, no AI: buy on a schedule, buy dips, protect a position, trail a stop, take profits in steps, or trade a range. These are the results people chose to share from their wallets.</p>
-    <div class="meta" id="meta">Loading…</div>
+    <h1>Bots: rules you pick</h1>
+    <p class="lede">Buy on a schedule, buy dips, protect a position, trail a stop, take profits in steps, trade a range. Each one works inside the caps you set and runs while the wallet is open. New bots start on paper, so you see what one would have done before it spends anything.</p>
+    <div class="cta"><a class="btn btn-primary" href="/wallet">Get TOLLkit Wallet</a><a class="btn btn-secondary" href="/wallet#autopilot">Or let Autopilot pick</a></div>
   </header>
+  <div class="board">
+    <h2>Shared results</h2>
+    <div class="meta" id="meta" style="margin:0">Loading…</div>
+  </div>
+  <p class="disc" id="note">Self-reported by TOLLkit Wallet users who turned sharing on. Not verified on chain. Past results don't predict future ones, and none of this is advice.</p>
   <div class="grid" id="grid"></div>
-  <p class="note" id="note">Self-reported by TOLLkit Wallet users who turned sharing on. Not verified on chain. Past results don't predict future ones, and none of this is advice.</p>
 </main>
+<footer>
+  <div class="container">
+    <div class="brand" style="margin-bottom:.3rem">TOLL<span class="dot">kit</span></div>
+    Operated by Tollkit LLC &middot; <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a> &middot; <a href="/wallet/terms">Wallet terms</a> &middot; <a href="/wallet/privacy">Wallet privacy</a> &middot; <a href="/status">Status</a> &middot; <a href="/">tollkit.dev</a>
+  </div>
+</footer>
 <script>
 (function () {
   var NAMES = { dca: ["Steady buyer", "Buys a fixed dollar amount on a schedule."], dip: ["Buy the dip", "Buys after a drop, sells after a recovery."], protect: ["Protect a position", "Stop-loss and take-profit together."], trail: ["Trailing stop", "Follows the price up, sells after a fall from the high."], ladder: ["Take-profit ladder", "Sells in three steps as the price rises."], grid: ["Grid trader", "Buys each level on the way down, sells a level higher."] };
@@ -57,11 +77,11 @@
   function pct(n) { return n === null || n === undefined ? "—" : (n > 0 ? "+" : "") + n + "%"; }
   fetch("https://api.tollkit.dev/wallet/bots/leaderboard").then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }).then(function (d) {
     document.getElementById("meta").textContent = d.installs + " wallet" + (d.installs === 1 ? "" : "s") + " sharing · updated " + new Date(d.updated).toLocaleString();
-    if (d.note) document.getElementById("note").textContent = d.note + " None of this is advice.";
+    if (d.note) document.getElementById("note").textContent = String(d.note).replace(/Tollkit/g, "TOLLkit") + " None of this is advice.";
     document.getElementById("grid").innerHTML = d.templates.map(function (t) {
       var n = NAMES[t.template] || [t.template, ""], few = t.bots < 3;
       return '<div class="card"><h2>' + esc(n[0]) + '</h2><div class="what">' + esc(n[1]) + '</div>' + (few ? '<div class="empty">Not enough shared results yet (' + t.bots + ' bot' + (t.bots === 1 ? "" : "s") + ').</div>' :
-        '<div class="nums"><div class="num"><small>Bots</small><b>' + t.bots + '</b></div><div class="num"><small>Trades</small><b>' + t.trades + '</b></div><div class="num"><small>Went through</small><b>' + (t.success_rate === null ? "—" : t.success_rate + "%") + '</b></div><div class="num"><small>Median result</small><b class="' + (t.median_result_pct > 0 ? "ok" : t.median_result_pct < 0 ? "bad" : "") + '">' + pct(t.median_result_pct) + '</b></div></div>' +
+        '<div class="nums"><div class="num"><small>Bots</small><b>' + t.bots + '</b></div><div class="num"><small>Trades</small><b>' + t.trades + '</b></div><div class="num"><small>Went through</small><b>' + (t.success_rate === null ? "—" : t.success_rate + "%") + '</b></div><div class="num"><small>Median result (self-reported)</small><b>' + pct(t.median_result_pct) + '</b></div></div>' +
         (t.tokens && t.tokens.length ? '<div class="tokens">Most used on: ' + t.tokens.map(function (x) { return esc(x.token) + " (" + x.bots + ")"; }).join(", ") + '</div>' : "")) + '</div>';
     }).join("");
   }).catch(function (e) { document.getElementById("meta").innerHTML = '<span class="err">The board isn’t available right now (' + esc(e.message) + ').</span>'; });

@@ -4,3 +4,7 @@
 /authorize.html /wallet 301
 /stats /command 301
 /stats.html /command 301
+/connect /tools#connect 301
+/connect.html /tools#connect 301
+/tollkit-town /wallet 301
+/tollkit-town.html /wallet 301

@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>All tools and prices — TOLLkit</title>
-<meta name="description" content="Every TOLLkit tool for AI agents with its price: web pages, on-chain data, SEC filings, IP lookup, weather, exchange rates, product data and signed page proofs. Pay per call in USDC; failed calls are free.">
-<meta property="og:title" content="TOLLkit — all tools and prices">
-<meta property="og:description" content="Every tool, what it does and what it costs. Pay per call in USDC, no account.">
+<title>Tools — TOLLkit</title>
+<meta name="description" content="The tools TOLLkit Wallet's AI reaches for, and how to connect any other AI to them: web pages, on-chain data, crypto news and prices, SEC filings, weather, product data and signed page proofs. Paid per call in USDC; free calls every day; a failed call costs nothing.">
+<meta property="og:title" content="TOLLkit tools: every tool, its price, and how to connect your AI">
+<meta property="og:description" content="Every tool, what it does and what it costs, plus the one address that connects Claude, ChatGPT, Cursor or VS Code to them.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tollkit.dev/tools">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,SFMono-Regular,monospace' font-size='56' font-weight='700' fill='%234a8eff' text-anchor='middle'%3Et%3C/text%3E%3C/svg%3E">
@@ -82,6 +82,32 @@
   .live { font-size:.78rem; color:var(--dim); margin:1rem 0 0; }
   footer { border-top:1px solid var(--line-soft); margin-top:2.5rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; }
   footer a { color:var(--muted); }
+
+  /* connect */
+  .connect { scroll-margin-top:1rem; }
+  .urlbox { display:flex; gap:.5rem; align-items:center; background:#08090c; border:1px solid var(--accent-dim); border-radius:10px; padding:.55rem .55rem .55rem .9rem; margin:.9rem 0 .4rem; }
+  .urlbox code { flex:1; font-size:.95rem; color:#cfe0ff; overflow-x:auto; white-space:nowrap; }
+  .urlnote { font-size:.84rem; color:var(--muted); margin:0 0 .4rem; }
+  .picker { padding:.4rem 0 0; }
+  .pointer { display:flex; gap:.8rem; align-items:flex-start; background:var(--panel-2); border:1px solid var(--line); border-radius:10px; padding:.8rem .95rem; margin-top:1rem; font-size:.9rem; color:var(--muted); }
+  .pointer svg { width:22px; height:22px; flex:none; color:var(--accent); margin-top:.1rem; }
+  .pointer b { color:var(--text); display:block; margin-bottom:.1rem; }
+  .pointer a { white-space:nowrap; }
+  /* builders */
+  details.card { padding:0; }
+  details.card summary { cursor:pointer; list-style:none; padding:1.1rem 1.4rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; font-weight:600; }
+  details.card summary::-webkit-details-marker { display:none; }
+  details.card summary span { color:var(--dim); font-weight:400; font-size:.85rem; }
+  details.card summary::after { content:"+"; color:var(--dim); font-size:1.2rem; line-height:1; }
+  details.card[open] summary::after { content:"\2013"; }
+  details.card .inner { padding:0 1.4rem 1.2rem; border-top:1px solid var(--line-soft); }
+  details.card .inner h3 { font-size:.95rem; margin:1.1rem 0 .3rem; }
+  details.card .inner p { margin:.3rem 0; color:var(--muted); font-size:.9rem; }
+  details.card .inner p strong { color:var(--text); }
+  .cmd { display:flex; gap:.5rem; align-items:center; background:#08090c; border:1px solid var(--line); border-radius:10px; padding:.5rem .5rem .5rem .9rem; margin:.5rem 0; }
+  .cmd code { flex:1; font-size:.85rem; color:#cdd6e4; overflow-x:auto; white-space:nowrap; }
+  .btn-sm { padding:.4rem .75rem; font-size:.82rem; }
+  @media (max-width:560px) { h1 { font-size:1.6rem; } .urlbox code { font-size:.82rem; } }
 </style>
 <link rel="stylesheet" href="/motion.css">
 <script src="/motion.js"></script>
@@ -89,31 +115,46 @@
 </head>
 <body>
 
-<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">TOLL<span>kit</span></a><div class="sn-links"><a href="/wallet">Wallet</a><a href="/wallet#autopilot">Autopilot</a><a href="/bots">Bots</a><a href="/tools" aria-current="page">Tools</a><a href="/connect">Connect</a><a href="/command">Live</a></div></div></nav>
+<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">TOLL<span>kit</span></a><div class="sn-links"><a href="/wallet">Wallet</a><a href="/wallet#autopilot">Autopilot</a><a href="/bots">Bots</a><a href="/tools" aria-current="page">Tools</a><a href="/tools#connect">Connect</a><a href="/command">Live</a></div></div></nav>
 
 <header class="head">
   <div class="container">
-    <h1>All tools and prices</h1>
-    <p class="lede">Every TOLLkit tool in one place. Your agent pays per call in USDC on Base or Solana, with <strong>no account and no API key</strong>. Each call shows its price before anything is paid, and <strong>a call that fails costs nothing</strong>. Tools marked <em class="trial">3 free/day</em> give three free calls a day through the MCP connector, so you can try them before setting up a wallet.</p>
+    <h1>Tools</h1>
+    <p class="lede">These are the tools TOLLkit Wallet's AI reaches for. Any other AI can use them too: <strong>paid per call in USDC</strong>, free calls every day, and <strong>a failed call costs nothing</strong>. Tools marked <em class="trial">3 free/day</em> give three free calls a day once your AI is connected, no wallet needed.</p>
     <ul class="facts">
-      <li><b>28</b> paid tools</li>
-      <li><b>8</b> free tools</li>
+      <li><b>34</b> paid tools</li>
+      <li><b>7</b> free tools</li>
       <li>From <b>$0.001</b> a call</li>
-      <li>One connector: <code>api.tollkit.dev/mcp</code></li>
+      <li>No account, no API key</li>
     </ul>
     <nav class="jump" aria-label="Jump to">
-      <a href="#web">Web pages</a><a href="#chain">On-chain</a><a href="#data">Public data</a><a href="#extract">Products</a><a href="#attest">Proof</a><a href="#free">Free tools</a><a href="#sellers">For sellers</a>
+      <a href="#connect">Connect your AI</a><a href="#web">Web pages</a><a href="#chain">On-chain</a><a href="#data">Public data</a><a href="#extract">Products</a><a href="#attest">Proof</a><a href="#free">Free tools</a><a href="#paying">How paying works</a><a href="#builders">For builders</a>
     </nav>
   </div>
 </header>
 
 <main class="container">
 
+  <section class="card connect" id="connect">
+    <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>Connect your AI</h2>
+    <p class="sub">One web address. Nothing to install, no account, no API key. Pick your app for the three steps.</p>
+    <div class="urlbox">
+      <code id="theUrl">https://api.tollkit.dev/mcp</code>
+      <button type="button" class="btn btn-primary btn-sm" data-copy="https://api.tollkit.dev/mcp">Copy</button>
+    </div>
+    <p class="urlnote">Connect TOLLkit Wallet and your AI pays from it, inside the tool-spend cap you set. Without a wallet it just shows the price, and the free tools work straight away.</p>
+    <div class="picker" data-connect-inline></div>
+    <div class="pointer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h13v4"/><path d="M3 7v11a2 2 0 0 0 2 2h15V9H5a2 2 0 0 1-2-2z"/><circle cx="16" cy="14.5" r="1.2"/></svg>
+      <div><b>Want your AI to run your wallet, not just read tools?</b>Do that from inside TOLLkit Wallet: it hands your AI the wallet with the limits you set. <a href="/wallet">Get TOLLkit Wallet &rarr;</a></div>
+    </div>
+  </section>
+
   <section class="card" id="web">
     <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M7 13h10"/><path d="M7 16h6"/></svg>Web pages</h2>
     <p class="sub">Rendered in a real browser, so JavaScript-heavy pages work.</p>
     <table>
-      <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
+      <thead><tr><th>Tool</th><th>Name / HTTP route</th><th class="price">Price</th></tr></thead>
       <tbody>
         <tr><td class="name"><b>Read a page<em class="trial">3 free/day</em></b><span>Any page&rsquo;s visible text, title and final URL, up to 50,000 characters.</span></td><td class="ids"><code>read_page</code><code>POST web.tollkit.dev/read</code></td><td class="price" data-route="POST /read">$0.002</td></tr>
         <tr><td class="name"><b>Screenshot a page<em class="trial">3 free/day</em></b><span>A 1280&times;800 JPEG of how the page looks, with its SHA-256.</span></td><td class="ids"><code>screenshot_page</code><code>POST web.tollkit.dev/screenshot</code></td><td class="price" data-route="POST /screenshot">$0.003</td></tr>
@@ -131,7 +172,7 @@
     <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>On-chain</h2>
     <p class="sub">Read live from Base, Ethereum or Solana, plus crypto news, Hyperliquid perps and Chainlink price history.</p>
     <table>
-      <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
+      <thead><tr><th>Tool</th><th>Name / HTTP route</th><th class="price">Price</th></tr></thead>
       <tbody>
         <tr><td class="name"><b>Wallet balance<em class="trial">3 free/day</em></b><span>ETH or SOL, USDC (and USDT on Ethereum and Solana) plus up to 20 tokens you name.</span></td><td class="ids"><code>wallet_balance</code><code>POST chain.tollkit.dev/chain/balance</code></td><td class="price" data-route="POST /chain/balance">$0.002</td></tr>
         <tr><td class="name"><b>Token info<em class="trial">3 free/day</em></b><span>What a token really is: name, symbol, decimals, total supply (and mint authority on Solana).</span></td><td class="ids"><code>token_info</code><code>POST chain.tollkit.dev/chain/token</code></td><td class="price" data-route="POST /chain/token">$0.002</td></tr>
@@ -152,7 +193,7 @@
     <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>Public data</h2>
     <p class="sub">Straight from the official public sources.</p>
     <table>
-      <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
+      <thead><tr><th>Tool</th><th>Name / HTTP route</th><th class="price">Price</th></tr></thead>
       <tbody>
         <tr><td class="name"><b>Company filings<em class="trial">3 free/day</em></b><span>A US public company&rsquo;s profile and latest SEC filings, with links. By ticker or CIK.</span></td><td class="ids"><code>sec_company</code><code>POST data.tollkit.dev/sec/company</code></td><td class="price" data-route="POST /sec/company">$0.002</td></tr>
         <tr><td class="name"><b>Company financials</b><span>Revenue, profit, EPS, assets, cash and more: 4 years plus the latest quarter, as filed.</span></td><td class="ids"><code>sec_financials</code><code>POST data.tollkit.dev/sec/financials</code></td><td class="price" data-route="POST /sec/financials">$0.004</td></tr>
@@ -175,7 +216,7 @@
     <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg>Product data</h2>
     <p class="sub">Any store&rsquo;s product page as clean JSON.</p>
     <table>
-      <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
+      <thead><tr><th>Tool</th><th>Name / HTTP route</th><th class="price">Price</th></tr></thead>
       <tbody>
         <tr><td class="name"><b>Product details</b><span>Price, stock, brand, SKU, images and variants from one product page.</span></td><td class="ids"><code>get_product_details</code><code>POST /extract</code></td><td class="price" data-route="POST /extract">$0.01</td></tr>
         <tr><td class="name"><b>Compare products</b><span>Up to five product pages in one call and one payment.</span></td><td class="ids"><code>compare_products</code><code>POST /extract/batch</code></td><td class="price" data-route="POST /extract/batch">$0.04</td></tr>
@@ -187,7 +228,7 @@
     <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l2.4 1.8 3-.2.9 2.9 2.5 1.7-1 2.8 1 2.8-2.5 1.7-.9 2.9-3-.2L12 22l-2.4-1.8-3 .2-.9-2.9-2.5-1.7 1-2.8-1-2.8 2.5-1.7.9-2.9 3 .2z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>Proof of a page</h2>
     <p class="sub">For terms, prices or claims you may need to prove later.</p>
     <table>
-      <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
+      <thead><tr><th>Tool</th><th>Name / HTTP route</th><th class="price">Price</th></tr></thead>
       <tbody>
         <tr><td class="name"><b>Prove what a page said</b><span>Signed, timestamped record of a page&rsquo;s text and screenshot. Anyone can verify it, free.</span></td><td class="ids"><code>attest_page</code><code>POST attest.tollkit.dev/attest</code></td><td class="price" data-route="POST /attest">$0.05</td></tr>
       </tbody>
@@ -198,7 +239,7 @@
     <h2><svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M7 21h10"/><path d="M5 7h14"/><path d="M5 7l-3 7a3.5 3.5 0 0 0 6 0z"/><path d="M19 7l-3 7a3.5 3.5 0 0 0 6 0z"/></svg>Free tools</h2>
     <p class="sub">No payment, ever.</p>
     <table>
-      <thead><tr><th>Tool</th><th>MCP tool / HTTP</th><th class="price">Price</th></tr></thead>
+      <thead><tr><th>Tool</th><th>Name / HTTP route</th><th class="price">Price</th></tr></thead>
       <tbody>
         <tr><td class="name"><b>Find a paid tool</b><span>Describe a job; get matching x402 services, each checked live. <a href="/weigh-station">Weigh Station</a>.</span></td><td class="ids"><code>find_service</code><code>GET /find?q=&hellip;</code></td><td class="price free">Free</td></tr>
         <tr><td class="name"><b>Check before paying</b><span>What any x402 service really charges and which wallet gets paid.</span></td><td class="ids"><code>check_service</code><code>GET /check?url=&hellip;</code></td><td class="price free">Free</td></tr>
@@ -211,44 +252,60 @@
     </table>
   </section>
 
-  <section class="card" id="sellers">
-    <h2>For x402 sellers</h2>
-    <p class="sub">Paid by the seller, never by agents, so checks stay free and neutral.</p>
-    <table>
-      <thead><tr><th>Tool</th><th>HTTP</th><th class="price">Price</th></tr></thead>
-      <tbody>
-        <tr><td class="name"><b>Endpoint monitoring</b><span>Your endpoint checked every 15 minutes for 30 days, with a signed webhook when it goes down, changes price or changes wallet.</span></td><td class="ids"><code>POST /weigh/subscribe</code><code>30 days</code></td><td class="price" data-route="POST /weigh/subscribe">$5.00</td></tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="card">
+  <section class="card" id="paying">
     <h2>How paying works</h2>
     <ul class="how">
-      <li><b>1. Ask</b>Your agent calls a tool. Without a payment it gets the price back, not an error.</li>
-      <li><b>2. Pay</b>It signs a USDC payment on Base or Solana from its own wallet. No ETH or SOL needed for fees.</li>
+      <li><b>1. Ask</b>Your AI calls a tool. Without a payment it gets the price back, not an error.</li>
+      <li><b>2. Pay</b>It signs a USDC payment on Base or Solana from the wallet it was given. No ETH or SOL needed for fees.</li>
       <li><b>3. Get the result</b>The call runs and settles. If it fails, nothing is charged. Each answer comes with a receipt, and a retry with the same <code>Idempotency-Key</code> isn&rsquo;t charged twice.</li>
     </ul>
     <div class="cta">
-      <button type="button" class="btn btn-primary" data-connect>Connect to your AI</button>
-      <a class="btn btn-secondary" href="/wallet">Get TOLLkit Wallet</a>
+      <a class="btn btn-primary" href="/wallet">Get TOLLkit Wallet</a>
+      <a class="btn btn-secondary" href="#connect">Connect your AI</a>
     </div>
     <p class="live" id="live">Prices shown are the ones the service charges.</p>
   </section>
 
-  <p class="credit" style="margin-top:1.4rem">For developers: <a href="https://extract.tollkit.dev/openapi.json">OpenAPI</a> &middot; <a href="https://api.tollkit.dev/llms.txt">llms.txt</a> &middot; <a href="https://extract.tollkit.dev/.well-known/x402">x402 manifest</a> &middot; HTTP routes are on <code>https://extract.tollkit.dev</code> unless shown otherwise.</p>
+  <details class="card" id="builders">
+    <summary>For builders <span>skills, plugin, OpenAPI, llms.txt, monitoring for sellers</span></summary>
+    <div class="inner">
+      <h3>Skills and plugin</h3>
+      <p>The same tools, packaged so an agent knows when to use them. Source: <a href="https://github.com/UltraStarz/tollkit-skills">github.com/UltraStarz/tollkit-skills</a>.</p>
+      <p><strong>Any agent that supports skills</strong> (Claude Code, Cursor, Codex and others):</p>
+      <div class="cmd"><code>npx skills add UltraStarz/tollkit-skills</code><button type="button" class="btn btn-secondary btn-sm" data-copy="npx skills add UltraStarz/tollkit-skills">Copy</button></div>
+      <p><strong>Claude Code plugin</strong> (adds the skills and the MCP server): run <code>/plugin marketplace add UltraStarz/tollkit-skills</code>, then <code>/plugin install tollkit@tollkit</code>.</p>
+      <p><strong>AgentCash</strong>: <code>npx agentcash@latest add https://web.tollkit.dev</code> (and the same for chain, data and extract).</p>
+      <h3>Machine-readable</h3>
+      <p><a href="https://api.tollkit.dev/llms.txt">llms.txt</a> (every tool, its URL, body and price) &middot; OpenAPI, one per hostname: <a href="https://web.tollkit.dev/openapi.json">web</a>, <a href="https://chain.tollkit.dev/openapi.json">chain</a>, <a href="https://data.tollkit.dev/openapi.json">data</a>, <a href="https://extract.tollkit.dev/openapi.json">extract</a>, <a href="https://attest.tollkit.dev/openapi.json">attest</a> &middot; <a href="https://extract.tollkit.dev/.well-known/x402">x402 manifest</a>.</p>
+      <p>HTTP routes in the tables are on <code>https://extract.tollkit.dev</code> unless shown otherwise. Each paid answer includes a <code>receipt</code> (request id, tool, price, payment tx).</p>
+      <h3>Selling a tool yourself?</h3>
+      <p><a href="/weigh-station">Weigh Station</a> checks any x402 endpoint for free. Monitoring is paid by the seller, never by agents, so the checks stay free and neutral.</p>
+      <table>
+        <thead><tr><th>Tool</th><th>HTTP route</th><th class="price">Price</th></tr></thead>
+        <tbody>
+          <tr><td class="name"><b>Endpoint monitoring</b><span>Your endpoint checked every 15 minutes for 30 days, with a signed webhook when it goes down, changes price or changes wallet.</span></td><td class="ids"><code>POST /weigh/subscribe</code><code>30 days</code></td><td class="price" data-route="POST /weigh/subscribe">$5.00</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
 
 </main>
 
 <footer>
   <div class="container">
     <div class="brand" style="margin-bottom:.3rem">TOLL<span class="dot">kit</span></div>
-    Operated by Tollkit LLC &middot; <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a> &middot; <a href="/status">Status</a> &middot; <a href="/">tollkit.dev</a>
+    Operated by Tollkit LLC &middot; <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a> &middot; <a href="/status">Status</a> &middot; <a href="/terms">API terms</a> &middot; <a href="/privacy">API privacy</a> &middot; <a href="/">tollkit.dev</a>
   </div>
 </footer>
 
 <script src="/connect-widget.js" defer></script>
 <script>
+document.querySelectorAll('[data-copy]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var t = b.dataset.copy, done = function () { var o = b.textContent; b.textContent = 'Copied'; setTimeout(function () { b.textContent = o; }, 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, done); else done();
+  });
+});
 // Keep the prices above honest: read the ones the service actually charges.
 (function () {
   fetch('https://extract.tollkit.dev/health', { cache: 'no-store' })
@@ -258,12 +315,14 @@
       var n = 0;
       document.querySelectorAll('[data-route]').forEach(function (td) {
         var p = d.prices[td.getAttribute('data-route')];
-        if (p) { td.textContent = p.replace(/^\$5\.00$/, '$5.00'); n++; }
+        if (p) { td.textContent = p; n++; }
       });
       if (n) document.getElementById('live').textContent = 'Prices checked live against the service just now.';
     })
     .catch(function () {});
 })();
+// Opened with #builders in the address: show that section.
+if (location.hash === '#builders') { var b = document.getElementById('builders'); if (b) b.open = true; }
 </script>
 </body>
 </html>

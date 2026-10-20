@@ -163,7 +163,7 @@
     this.onPick = opts.onPick || function () {};
   }
   Picker.prototype.grid = function () {
-    var h = '<h3>Where do you want to use Tollkit?</h3>' +
+    var h = '<h3>Where do you want to use TOLLkit?</h3>' +
       '<p class="tkc-lead">Pick your app. No account, no API key.</p><div class="tkc-grid">';
     APPS.forEach(function (a) {
       h += '<button type="button" class="tkc-app" data-tkc-app="' + a.id + '">' + svg(a.icon) +
@@ -177,8 +177,8 @@
     var a = APPS.filter(function (x) { return x.id === id; })[0];
     if (!a) return this.grid();
     var check = this.url === DEFAULT_URL
-      ? 'Ask it: <b>“Use Tollkit’s try_it_free tool.”</b> It’s free and returns a real result.'
-      : 'Ask it: <b>“What Tollkit tools can you see?”</b> It should list them.';
+      ? 'Ask it: <b>“Use TOLLkit’s try_it_free tool.”</b> It’s free and returns a real result.'
+      : 'Ask it: <b>“What TOLLkit tools can you see?”</b> It should list them.';
     this.root.innerHTML =
       '<button type="button" class="tkc-back" data-tkc-back>← All apps</button>' +
       '<div class="tkc-head">' + svg(a.icon) + '<div><h3>' + esc(a.name) + '</h3></div></div>' +
@@ -223,7 +223,7 @@
     lastFocus = document.activeElement;
     overlay = document.createElement('div');
     overlay.className = 'tkc tkc-overlay';
-    overlay.innerHTML = '<div class="tkc-dialog" role="dialog" aria-modal="true" aria-label="Connect Tollkit to your AI">' +
+    overlay.innerHTML = '<div class="tkc-dialog" role="dialog" aria-modal="true" aria-label="Connect TOLLkit to your AI">' +
       '<button type="button" class="tkc-x" aria-label="Close">×</button><div class="tkc-body"></div></div>';
     document.body.appendChild(overlay);
     document.body.style.overflow = 'hidden';

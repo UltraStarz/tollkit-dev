@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Command center — TOLLkit</title>
+<title>Live — TOLLkit</title>
 <meta name="description" content="Live state of every TOLLkit service: uptime, response times, price checks and paid calls, updated every 15 seconds.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='ui-monospace,monospace' font-size='56' font-weight='700' text-anchor='middle' fill='%234a8eff'%3Et%3C/text%3E%3C/svg%3E">
 <style>
@@ -119,13 +119,13 @@ footer{border-top:1px solid var(--line2);margin-top:2.5rem;padding:1.4rem 0 2.2r
 <link rel="stylesheet" href="/nav.css">
 </head>
 <body>
-<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">TOLL<span>kit</span></a><div class="sn-links"><a href="/wallet">Wallet</a><a href="/wallet#autopilot">Autopilot</a><a href="/bots">Bots</a><a href="/tools">Tools</a><a href="/connect">Connect</a><a href="/command" aria-current="page">Live</a></div></div></nav>
+<nav class="sitenav" aria-label="Main"><div class="sn-in"><a class="sn-brand" href="/">TOLL<span>kit</span></a><div class="sn-links"><a href="/wallet">Wallet</a><a href="/wallet#autopilot">Autopilot</a><a href="/bots">Bots</a><a href="/tools">Tools</a><a href="/tools#connect">Connect</a><a href="/command" aria-current="page">Live</a></div></div></nav>
 
 <main class="wrap">
 <header class="head">
  <div>
   <div class="eyebrow">TOLLkit · live</div>
-  <h1>Command center</h1>
+  <h1>Live</h1>
   <p class="lede">Every TOLLkit service in one place: whether it's up, how fast it answers, who's checking prices and what's being paid for. Numbers refresh every 15 seconds.</p>
  </div>
  <div class="livebar"><span class="live" id="live"><i></i><span id="upd">Loading…</span></span><span id="ownerchip"></span></div>
@@ -159,14 +159,14 @@ footer{border-top:1px solid var(--line2);margin-top:2.5rem;padding:1.4rem 0 2.2r
 </section>
 
 <section class="grid">
- <div class="card c6"><h2>Directory ranks</h2><p class="sub" id="ranksub">Where each tool shows up when an agent searches the x402 directories.</p><div id="ranks"></div></div>
+ <div class="card c6"><h2>Directory ranks</h2><p class="sub" id="ranksub">Where each tool shows up when an AI searches the tool directories.</p><div id="ranks"></div></div>
  <div class="card c6"><h2>Listings, bots and incidents</h2><p class="sub">Coinbase Bazaar listing status, the public bot board, and the latest up/down changes.</p><div id="misc"></div></div>
 </section>
 
 <div id="owner"></div>
 </main>
 
-<footer><div class="wrap">Toll<span style="color:var(--accent)">kit</span> · <a href="/">tollkit.dev</a> · <a href="/status">Status history</a> · Data: <a href="https://api.tollkit.dev/stats.json">stats.json</a>, <a href="https://status.tollkit.dev/status.json">status.json</a></div></footer>
+<footer><div class="wrap">TOLL<span style="color:var(--accent)">kit</span> · Operated by Tollkit LLC · <a href="/">tollkit.dev</a> · <a href="/status">Status history</a> · Data: <a href="https://api.tollkit.dev/stats.json">stats.json</a>, <a href="https://status.tollkit.dev/status.json">status.json</a></div></footer>
 <div class="tip" id="tip" role="status" aria-live="polite"></div>
 
 <script>
@@ -297,7 +297,7 @@ function renderChecks(){var h=D.health||{},out=[];var sc=(h.self_test&&h.self_te
  if(h.version)out.push(chk("Server","v"+h.version+" · up "+Math.round(n(h.uptime_seconds)/3600)+"h","good"));
  $("checks").innerHTML=out.length?'<div class="checks">'+out.join("")+'</div>'+(h.self_test&&h.self_test.checked_at?'<div class="sub" style="margin:.6rem 0 0">Self-tests last ran '+esc(ago(h.self_test.checked_at))+'.</div>':''):'<div class="empty">—</div>'}
 function renderRanks(){var lr=(D.stats||{}).listing_ranks;var it=(lr&&lr.items)||[];if(!it.length){$("ranks").innerHTML='<div class="empty">No rank checks yet.</div>';return}
- $("ranksub").textContent="Where each tool shows up when an agent searches the x402 directories"+(lr.checked_at?" · checked "+ago(lr.checked_at):"")+".";
+ $("ranksub").textContent="Where each tool shows up when an AI searches the tool directories"+(lr.checked_at?" · checked "+ago(lr.checked_at):"")+".";
  var rows=it.slice().sort(function(a,b){return n(a.rank||999)-n(b.rank||999)});
  $("ranks").innerHTML='<div class="tablewrap" style="max-height:330px;overflow:auto"><table><thead><tr><th>Search</th><th>Tool</th><th class="r">Rank</th><th class="r">Listed</th></tr></thead><tbody>'+rows.map(function(r){return '<tr><td>'+esc(r.query)+'</td><td class="mono">'+esc(r.path)+'</td><td class="r num">'+(r.rank?esc(r.rank)+'<span class="dim"> / '+esc(r.results)+'</span>':'<span class="dim">—</span>')+'</td><td class="r">'+(r.listed?badge("good","yes"):badge("warn","no"))+'</td></tr>'}).join("")+'</tbody></table></div>'}
 function renderMisc(){var s=D.stats||{},bz=s.bazaar_catalog||{},b=D.board,inc=(D.status&&D.status.incidents)||[];var cnt={};Object.keys(bz).forEach(function(k){var x=bz[k].status||"unknown";cnt[x]=(cnt[x]||0)+1});

@@ -1,26 +1,29 @@
-# Tollkit
+# TOLLkit
 
-> Tollkit Wallet: a self-custody wallet an AI agent can trade and pay from, inside limits its owner sets (Base, Ethereum, Solana). https://tollkit.dev/wallet
+> TOLLkit Wallet: a self-custody wallet where an AI trades and pays for you, inside limits only you can change (Base, Ethereum, Solana). https://tollkit.dev/wallet
+> Three ways it trades: Autopilot (coming soon: AI picks and adjusts strategies inside your limits), Bots (rules you pick), Your AI (sets things up, you approve). Paper first; runs while the app is open.
 >
-> Pay-per-call tools for AI agents, paid per call in USDC with x402 on Base or Solana. No account, no API key. Web pages, PDFs and search; SEC filings and due diligence; weather anywhere, US airport delays, geocoding, IP lookup and exchange rates; wallets, token prices, token checks and a pre-trade check on Base, Ethereum and Solana; x402 market data (best tools for a task, seller lookups, a weekly dataset); product prices; signed page proofs. Failed calls are never charged.
+> TOLLkit tools: pay-per-call tools for AI agents, paid per call in USDC with x402 on Base or Solana. No account, no API key. Web pages, PDFs and search; crypto news, perps, market pulse and price history; SEC filings and due diligence; weather anywhere, US airport delays, geocoding, IP lookup and exchange rates; wallets, token prices, token checks and a pre-trade check on Base, Ethereum and Solana; x402 market data (best tools for a task, seller lookups, a weekly dataset); product prices; signed page proofs. Failed calls are never charged.
 
 ## Start here
 
 - MCP: add https://api.tollkit.dev/mcp as a remote MCP server. A paid tool called without `payment` returns its price quote; pay it with your x402 wallet and call again. No wallet yet? The everyday tools (read, screenshot, PDF, weather, airport delays, geocoding, FX, IP, wallet/token/transaction lookups, token price, token check, SEC company) give 3 free calls a day through MCP.
 - HTTP: every tool, its URL, body and price: https://api.tollkit.dev/llms.txt
 - OpenAPI, one per hostname: https://web.tollkit.dev/openapi.json, https://data.tollkit.dev/openapi.json, https://chain.tollkit.dev/openapi.json, https://extract.tollkit.dev/openapi.json, https://attest.tollkit.dev/openapi.json
-- Agent skill: `npx skills add https://tollkit.dev` or `npx skills add UltraStarz/tollkit-skills` (also a Claude Code plugin from the same repo)
+- Agent skill: `npx skills add UltraStarz/tollkit-skills` (also a Claude Code plugin from the same repo)
 - AgentCash: `npx agentcash@latest add https://web.tollkit.dev` (and chain, data, extract)
 - Receipts and safe retries: every paid answer includes `receipt` (request_id, tool, price_usdc, payment_tx). Send an `Idempotency-Key` header; the same key and body within 10 minutes returns the same answer with no second charge.
 
 ## Pages
 
-- [All tools and prices](https://tollkit.dev/tools)
-- [Connect to your AI](https://tollkit.dev/connect)
+- [TOLLkit Wallet](https://tollkit.dev/wallet)
+- [Bots: rules you pick, and shared results](https://tollkit.dev/bots)
+- [Tools and prices, and how to connect your AI](https://tollkit.dev/tools)
 - [Weigh Station: free checks for any x402 endpoint](https://tollkit.dev/weigh-station)
 - [Weekly x402 market report (free)](https://tollkit.dev/report)
-- [Live sales and usage](https://tollkit.dev/stats)
+- [Live: calls, tools and uptime right now](https://tollkit.dev/command)
 - [Status](https://tollkit.dev/status)
+- [Wallet terms](https://tollkit.dev/wallet/terms) · [Wallet privacy](https://tollkit.dev/wallet/privacy) · [API terms](https://tollkit.dev/terms) · [API privacy](https://tollkit.dev/privacy)
 
 ## Contact
 

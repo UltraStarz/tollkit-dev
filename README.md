@@ -1,38 +1,46 @@
 # tollkit.dev
 
-Static landing page for the **tollkit.dev** brand — a family of paid developer tools that AI agents call over the [x402](https://x402.org) protocol.
+The TOLLkit website: a static site on Cloudflare Pages. Push to `main` and it deploys.
 
-- **Live:** <https://tollkit.dev> (apex, hosted on Cloudflare Pages)
-- **Products:** weigh-station (free) · tollkit-web — read a page as text $0.002, screenshot $0.003, page brief $0.007, PDF to text $0.005, search and read $0.015 · tollkit-chain — wallet balance, token info, transaction lookup $0.002, token price $0.001, token check $0.004, wallet portfolio $0.005, pre-trade check $0.01 (Base, Ethereum and Solana) · tollkit-data — SEC company $0.002, financials $0.004, company snapshot $0.006, due diligence $0.03, IP lookup $0.002 (DB-IP Lite), weather $0.002 (NWS in the US, MET Norway elsewhere), exchange rates $0.002 (ECB) · [tollkit-extract](https://extract.tollkit.dev) — product data, $0.01 a page or $0.04 for up to five · tollkit-attest — signed page proof, $0.05 · [tollkit-sms](https://sms.tollkit.dev) — from $0.03 a message (coming soon) · /command (live command center; owner view with key)
+TOLLkit Wallet is the product: a self-custody wallet where Autopilot, bots or the owner's own AI trade inside limits only the owner can change. The pay-per-call tools (web pages, on-chain data, public data, product data, signed page proofs) are what the wallet's AI reaches for, and any other AI can connect to them at `https://api.tollkit.dev/mcp`.
 
-## Structure
+The code behind the site lives elsewhere: the server in `x402-starter`, the wallet in `tollkit-wallet` (plus `tollkit-extension` and `tollkit-mobile`).
 
-Single static HTML file. No build step. Edit `index.html`, push, Cloudflare Pages auto-deploys.
+## Pages
 
-```
-tollkit-dev/
-├── index.html      # entire site (HTML + inline CSS)
-└── README.md
-```
+| Path | What it is |
+|---|---|
+| `/` | Home: the wallet, the three ways it trades, the toolbox |
+| `/wallet` | TOLLkit Wallet: download, limits, Autopilot (coming soon), bots, your AI |
+| `/bots` | Bots: the rules you can pick, and results people chose to share |
+| `/tools` | Every tool and price, plus `#connect`: the address and app steps for Claude, ChatGPT, Cursor, VS Code and the command line |
+| `/weigh-station` | Free checks for any x402 endpoint; paid monitoring for sellers |
+| `/command` | Live: calls, tools and uptime right now (owner view with the ops key) |
+| `/report` | Weekly x402 market report |
+| `/status` | Uptime history (data from `status-worker/`) |
+| `/wallet/terms`, `/wallet/privacy` | Wallet legal pages |
+| `/terms`, `/privacy` | API legal pages |
+| `/treasury` | Operator only: the weekly fee sweep. Opens with the ops key; noindex |
 
-The dark palette and typography intentionally match `sms.tollkit.dev` so the brand feels coherent across subdomains.
+Redirects (`_redirects`): `/connect` → `/tools#connect`, `/stats` → `/command`, `/fund` and `/authorize` → `/wallet`, `/tollkit-town` → `/wallet`.
 
-## Local preview
+## Shared files
+
+- `nav.css`: the site nav (`TOLL<span>kit</span>` wordmark, links Wallet · Autopilot · Bots · Tools · Connect · Live). Every page includes it.
+- `motion.css`, `motion.js`: the fade-in on scroll.
+- `connect-widget.js`: the "Connect your AI" app picker. Any element with `data-connect` opens it as a dialog; `data-connect-inline` renders it in place.
+- `wallet/img/`: wallet screenshots and the Autopilot render.
+- `skills/`: the skill zips linked from Weigh Station.
+- `treasury/`: the pinned ethers and solana-web3 builds and the token list the sweep page uses (see `NOTICE.txt`).
+- `llms.txt`, `robots.txt`, `sitemap.xml`: for crawlers and AIs.
+
+## Editing
+
+No build step. Edit the HTML, check it locally, push.
 
 ```bash
 python3 -m http.server 8000
 # open http://localhost:8000
 ```
 
-## Deploy
-
-Push to `main`. Cloudflare Pages is connected to this repo and auto-deploys.
-
-## Adding a new product card
-
-In `index.html`, find the `#products` section and copy one of the existing `.product` divs. Three pieces to update:
-
-- `<h3>` — the product name (e.g. `x402-extract`)
-- `.badge` — `live` (green) or `soon` (gray)
-- `.product-body` — one-sentence pitch
-- `.product-meta` — link to the product's live URL + npm + github
+House rules: the name is styled **TOLLkit** on the site (the legal name stays Tollkit LLC); no city names; every price on `/tools` is read live from the service's `/health` so the tables stay honest; keep the skills command spelled one way, `npx skills add UltraStarz/tollkit-skills`.
