@@ -34,7 +34,7 @@
 <main class="container">
 <header class="head">
   <h1>TOLLkit Wallet privacy policy</h1>
-  <p class="lede">For the TOLLkit Wallet extension for Chrome. Effective October 15, 2026. This version adds the Autopilot chat, Connect your AI, the token list and token check, and bots.</p>
+  <p class="lede">For the TOLLkit Wallet extension for Chrome. Effective October 22, 2026. This version adds Autopilot, Run 24/7, alerts and Telegram, renames the chat to Tollkit AI, and removes staking.</p>
 </header>
 
 <div class="card">
@@ -49,7 +49,7 @@
 <ul>
   <li><strong>Your recovery phrase and keys</strong>, encrypted with a key made from your password (scrypt, then AES-256-GCM; the Base/Ethereum key also in the standard Ethereum keystore format). Your password is never written to disk.</li>
   <li>While the wallet is unlocked, your password is kept in Chrome's session storage, which stays in memory, so the wallet keeps running while you use it. It's removed when you lock the wallet, when it auto-locks, or when Chrome closes.</li>
-  <li>Your wallet addresses, settings and spending limits, tokens you added, the sites you've connected (their web addresses), your autopilot rules and bots with their trade counts, your Autopilot chat messages, the address for Connect your AI if you turned it on, and a list of your recent sends, swaps, moves, cash outs, stakes, payments and site transactions.</li>
+  <li>Your wallet addresses, settings and spending limits, tokens you added, the sites you've connected (their web addresses), your orders, alerts and bots with their trade counts, your Autopilot settings and strategies with its decisions, your Tollkit AI chat messages, your Telegram bot details if you set them up, the address for Connect your AI if you turned it on, and a list of your recent sends, swaps, moves, cash outs, payments and site transactions.</li>
 </ul>
 <p>The extension runs on web pages only so sites can ask to connect to your wallet. It doesn't read page content or record the sites you visit. A site appears in your connected list only after you approve it.</p>
 
@@ -57,23 +57,25 @@
 <p>All of these go over HTTPS, and only when the feature is used.</p>
 <ul>
   <li><strong>Blockchain networks</strong>, to show balances and send what you approve: your addresses and signed transactions go to the Base network's public endpoint (mainnet.base.org), an Ethereum endpoint (ethereum-rpc.publicnode.com) and, for Solana, to TOLLkit's server (api.tollkit.dev), which passes them to our Solana provider, Helius. Transactions you send are public on the blockchain, like any wallet's.</li>
-  <li><strong>Prices</strong>: coin names go to Coinbase's public price service, and token contract addresses to DefiLlama. Your address isn't included.</li>
+  <li><strong>Prices</strong>: coin names go to Coinbase's public price service, and token contract addresses to DefiLlama. Alerts on indicators (like RSI) fetch hourly prices the same way. Your address isn't included.</li>
   <li><strong>Swaps</strong>: the coins, amount and your address go through TOLLkit's server to 0x (Base and Ethereum) or Jupiter (Solana) for a price. For Solana swaps, the signed swap goes through the same path to be sent.</li>
   <li><strong>Move between networks</strong>: for USDC, the networks and amount go to Circle's public service (iris-api.circle.com) for its fee, and the transaction's ID to check when it arrives. For ETH, the networks, amount and your address go through TOLLkit's server to Across for a route.</li>
   <li><strong>Cash out</strong>: TOLLkit's server asks Coinbase for a sell link with your address, the network, the coin and the amount, and then asks for that sale's status so the wallet knows where to send. Selling happens on Coinbase's site, under Coinbase's own privacy policy.</li>
-  <li><strong>Stake SOL</strong>: your Solana address goes through TOLLkit's server to Helius to list your stake accounts. The list of validators comes from TOLLkit's server.</li>
   <li><strong>Buy</strong>: TOLLkit's server asks Coinbase for a checkout link with your address, the network, the coin and the amount, plus your IP address, which Coinbase requires. Payment happens on Coinbase's site, under Coinbase's own privacy policy.</li>
   <li><strong>Sites you connect</strong>: a site you approve sees your address, and gets the signatures and transactions you approve one by one. You can disconnect a site in Settings.</li>
   <li><strong>Token balances and lists</strong>: to find the tokens you hold, your Base and Ethereum addresses go to the networks' public endpoints and your Ethereum address to Blockscout (eth.blockscout.com); your Solana address and the token mints you hold go to Jupiter (api.jup.ag) for token names and verification. The Uniswap token list (tokens.uniswap.org) is downloaded once a day. Token logos load from the sites the token lists name.</li>
   <li><strong>Token check</strong>: when you add a token, its network and contract or mint address go to TOLLkit's server, which reads the token's contract and market from the blockchain. Your own address isn't sent.</li>
-  <li><strong>Autopilot chat</strong> (only if you use it): your messages, the conversation so far, and the wallet facts Claude asks for (such as balances, prices, limits and your rules) go to TOLLkit's server, which sends them to Anthropic's Claude API to get a reply. Each step is paid by your wallet in USDC, so the payment (amount and your paying address) is public on the blockchain. Anthropic handles the data under its commercial terms; TOLLkit's server doesn't store the conversation.</li>
+  <li><strong>Tollkit AI chat</strong> (only if you use it): your messages, the conversation so far, and the wallet facts Claude asks for (such as balances, prices, limits and your rules) go to TOLLkit's server, which sends them to Anthropic's Claude API to get a reply. Each step is paid by your wallet in USDC, so the payment (amount and your paying address) is public on the blockchain. Anthropic handles the data under its commercial terms; TOLLkit's server doesn't store the conversation.</li>
+  <li><strong>Autopilot</strong> (only if you turn it on): the wallet reads TOLLkit's shared market snapshot (prices, funding, Fear &amp; Greed, news), which doesn't include anything about you. When the market moved, it sends your Autopilot settings and limits, its strategies and their results, and your own rules on the same coins to TOLLkit's server, which sends them to Anthropic's Claude API for one decision. Each decision is paid by your wallet ($0.005 in USDC), so the payment is public on the blockchain. TOLLkit's server doesn't store them.</li>
+  <li><strong>Run 24/7</strong> (only for the rules you switch it on for): your wallet address, those rules (the coin, amounts, prices and schedule) and the permissions your wallet signs for them go to TOLLkit's server, which keeps them so it can run the rules while your device is off. On Base these are permission slips your wallet signs; on Solana it is a capped token allowance your wallet approves on the blockchain. When a rule is due, the server asks 0x or Jupiter for a swap (sending your address and the amounts), sends it, and pays the network fee. It keeps a record of each trade it made (time, amounts, transaction id, up to 300 per wallet) so the wallet can show it. Turning 24/7 off removes your rules from the server and cancels the permissions.</li>
+  <li><strong>Telegram</strong> (only if you set it up): approval requests and alerts go from the wallet straight to Telegram (api.telegram.org) through the bot you created, and your replies come back the same way. They don't pass through TOLLkit's server.</li>
   <li><strong>Connect your AI</strong> (only if you turn it on): the AI app you add the address to sends its requests through TOLLkit's server to the wallet in your browser, and the wallet's answers go back the same way. TOLLkit's server keeps only a one-way hash of the address's secret part, in memory. Anyone who has the full address can use the wallet within your limits, so keep it private; Turn off or New address stops it at once.</li>
   <li><strong>Bot board</strong>: the wallet reads TOLLkit's public bot board. Only if you turn on sharing in the Bots tab, it sends once a day, per bot: the bot type, network, token symbol, status, how many trades went through or failed, the result in percent, and how many days it has run, with a random id for your install. No addresses, dollar amounts, transaction ids or keys.</li>
-  <li><strong>Payments to tools</strong>: before the wallet pays a tool or service (including the chat), the tool's web address goes to TOLLkit's seller check (api.tollkit.dev/check). Payment addresses are compared with a public list of sanctioned addresses, downloaded from GitHub.</li>
+  <li><strong>Payments to tools</strong>: before the wallet pays a tool or service (including the chat and Autopilot), the tool's web address goes to TOLLkit's seller check (api.tollkit.dev/check). Payment addresses are compared with a public list of sanctioned addresses, downloaded from GitHub.</li>
 </ul>
 
 <h2>What TOLLkit's server keeps</h2>
-<p>TOLLkit's server doesn't save wallet requests to logs or a database. The bot board keeps the shared bot results described above for 30 days. It holds your IP address in memory for about a minute to limit how many requests one computer can make. It never receives your password, recovery phrase or private keys.</p>
+<p>TOLLkit's server doesn't save wallet requests to logs or a database, except what Run 24/7 needs: the rules, signed permissions and trade records described above, for as long as 24/7 is on (trade records stay so the wallet can show them). The bot board keeps the shared bot results described above for 30 days. It holds your IP address in memory for about a minute to limit how many requests one computer can make. It never receives your password, recovery phrase or private keys.</p>
 
 <h2>What we don't do</h2>
 <ul>
@@ -86,7 +88,8 @@
 <h2>Your control</h2>
 <ul>
   <li>Lock the wallet any time, and set auto-lock in Settings.</li>
-  <li>The Autopilot chat, Connect your AI and bot sharing are off until you use or turn them on. New chat clears the chat; Turn off removes the AI address; unticking sharing stops reports.</li>
+  <li>Tollkit AI, Autopilot, Run 24/7, Telegram, Connect your AI and bot sharing are off until you use or turn them on. New chat clears the chat; Turn off removes the AI address; unticking sharing stops reports.</li>
+  <li>Turn off Run 24/7 on a rule, or use Revoke in Settings, to remove it from TOLLkit's server. On Solana, Revoke also cancels the allowance and unwraps any SOL set aside for it.</li>
   <li>Settings → Remove wallet, or removing the extension, deletes everything it stored in your browser. Keep your recovery phrase: without it, TOLLkit can't restore your wallet, because we never have it.</li>
 </ul>
 
