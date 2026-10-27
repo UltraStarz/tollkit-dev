@@ -115,6 +115,25 @@ details.tv[open] summary{margin-bottom:.4rem}
 .dim{color:var(--dim)}.mut{color:var(--muted)}
 footer{border-top:1px solid var(--line2);margin-top:2.5rem;padding:1.4rem 0 2.2rem;font-size:.84rem;color:var(--dim)}
 .loading{opacity:.55;transition:opacity .2s}
+/* 0.31.0: revenue counter (owner view) */
+.rev{position:relative;margin-top:12px;border:1px solid #1e3358;border-radius:14px;padding:18px 18px 16px;background:radial-gradient(600px 220px at 12% 0%,rgba(74,142,255,.16),transparent 70%),linear-gradient(180deg,#0d1422,#0a0f18);overflow:hidden}
+.rev .top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.rev .lbl{font:600 .7rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);text-shadow:0 0 12px var(--glow)}
+.rev .big{font:700 clamp(2.4rem,7vw,4rem)/1 var(--mono);letter-spacing:-.03em;margin-top:.45rem;font-variant-numeric:tabular-nums;text-shadow:0 0 28px rgba(74,142,255,.25)}
+.rev .big small{font-size:.42em;color:var(--muted);letter-spacing:0}
+.rev .split{display:flex;gap:14px;flex-wrap:wrap;font:.8rem var(--mono);color:var(--muted);margin-top:.5rem}
+.rev .split b{color:var(--text);font-weight:600}
+.rev .dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:.35rem;vertical-align:0}
+.rev .wins{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;min-width:min(100%,520px)}
+.rev .win{border:1px solid var(--line);border-radius:10px;padding:.55rem .7rem;background:rgba(5,7,11,.45)}
+.rev .win .k{font:600 .62rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.rev .win .v{font:650 1.25rem var(--mono);margin-top:.2rem;font-variant-numeric:tabular-nums}
+.rev .win .f{font:.68rem var(--mono);color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rev .body{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:16px;margin-top:14px}
+@media (max-width:860px){.rev .body{grid-template-columns:1fr}.rev .wins{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:520px){.rev{padding:14px 12px}.rev .wins{gap:6px}.rev .win{padding:.45rem .5rem}.rev .win .v{font-size:1rem}.rev .win .f{white-space:normal;font-size:.62rem}}
+.rev .notes{margin:.8rem 0 0;padding-left:1.1rem;font-size:.76rem;color:var(--dim)}.rev .notes li{margin:.15rem 0}
+.rev .est{color:var(--warn);font:.66rem var(--mono)}
 @media (prefers-reduced-motion:reduce){.live i,.feed li.new{animation:none}}
 </style>
 <link rel="stylesheet" href="/nav.css">
@@ -132,6 +151,8 @@ footer{border-top:1px solid var(--line2);margin-top:2.5rem;padding:1.4rem 0 2.2r
  <div class="livebar"><span class="live" id="live"><i></i><span id="upd">Loading…</span></span><span id="ownerchip"></span></div>
 </header>
 <div id="ownernote"></div>
+
+<div id="revtop"></div>
 
 <section class="grid" id="kpis"></section>
 
@@ -235,7 +256,7 @@ function poll(){if(document.hidden)return;tick++;var jobs=[get(API+"/stats.json"
 document.addEventListener("visibilitychange",function(){if(!document.hidden)poll()});
 
 /* ---------- render ---------- */
-function renderAll(){try{renderHead();renderKpis();renderFeed();renderHosts();renderTraffic();renderFunnel();renderTools();renderDays();renderChecks();renderRanks();renderMisc();renderOwner();mapData()}catch(e){if(window.console)console.error(e)}}
+function renderAll(){try{renderHead();renderRevenue();renderKpis();renderFeed();renderHosts();renderTraffic();renderFunnel();renderTools();renderDays();renderChecks();renderRanks();renderMisc();renderOwner();mapData()}catch(e){if(window.console)console.error(e)}}
 function renderHead(){var s=D.stats,live=$("live");var stale=!lastOk||Date.now()-lastOk>60000;live.classList.toggle("stale",stale);
  $("upd").textContent=lastOk?(stale?"Stale · last update ":"Live · updated ")+new Date(lastOk).toLocaleTimeString():"Loading…";
  $("ownerchip").innerHTML=D.ops?'<span class="chip owner">'+ICON.good+'Owner view on · <button type="button" onclick="tkForget()">Forget key</button></span>':KEY?'<span class="chip">Checking owner key…</span>':'';
@@ -307,14 +328,40 @@ function renderMisc(){var s=D.stats||{},bz=s.bazaar_catalog||{},b=D.board,inc=(D
  var il=inc.slice().sort(function(a,b){return Date.parse(b.at)-Date.parse(a.at)}).slice(0,6);
  $("misc").innerHTML=bzh+'<h2 style="margin-top:1rem">Latest up/down changes</h2>'+(il.length?'<div class="tablewrap"><table><tbody>'+il.map(function(x){return '<tr><td class="mono">'+esc(String(x.host).replace(".tollkit.dev",""))+'</td><td>'+(x.to==="up"?badge("good","back up"):badge("crit","went down"))+(x.why?' <span class="dim">'+esc(x.why)+'</span>':'')+'</td><td class="r num dim">'+esc(ago(x.at))+'</td></tr>'}).join("")+'</tbody></table></div>':'<div class="empty">No incidents recorded.</div>')}
 
+/* ---------- revenue counter (owner view, 0.31.0) ---------- */
+var REVC={tools:"#3987e5",swap_evm:"#199e70",swap_solana:"#9b6ef3",bot_solana:"#d95926",bridge:"#fab219"};
+var REVN={tools:"Tool sales",swap_evm:"Swaps & bots · Base/Ethereum",swap_solana:"Swaps · Solana",bot_solana:"24/7 bots · Solana",bridge:"Moves between networks"};
+var revShown=null;
+function money(v){v=n(v);return "$"+v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}
+function money4(v){v=n(v);return v>0&&v<0.01?"$"+v.toFixed(4):money(v)}
+function countTo(el,to){var from=revShown==null?0:revShown;revShown=to;if(RM||from===to){el.textContent=money(to);return}var t0=performance.now(),dur=from===0?1400:700;
+ (function step(t){var k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,3);el.textContent=money(from+(to-from)*e);if(k<1)requestAnimationFrame(step)})(t0)}
+function renderRevenue(){var el=$("revtop"),r=D.ops&&D.ops.revenue;if(!r){el.innerHTML="";revShown=null;return}
+ var a=r.all_time||{},keys=["tools","swap_evm","swap_solana","bot_solana","bridge"],src={};(r.fees_by_source||[]).forEach(function(x){src[x.source]=x});
+ var win=function(lbl,w){w=w||{};return '<div class="win"><div class="k">'+esc(lbl)+'</div><div class="v">'+esc(money4(w.total))+'</div><div class="f">tools '+esc(money4(w.tools))+' · fees '+esc(money4(w.fees))+'</div></div>'};
+ var d=(r.by_day||[]),cols=d.map(function(x,i){return {label:x.date,parts:[x.tools].concat(keys.slice(1).map(function(k){return (x.fees||{})[k]})),tick:i%7===0||(i===d.length-1&&i%7>=4)?x.date.slice(5):""}});
+ var rows=keys.map(function(k){return {name:REVN[k],v:k==="tools"?a.tools:(src[k]||{}).usd,label:k==="tools"?"paid calls":((src[k]||{}).count||0)+" fees"+((src[k]||{}).estimated?" · some estimated":""),k:k}});
+ var rec=(r.recent_fees||[]).slice(0,5);
+ var h='<section class="rev" aria-label="Revenue"><div class="top"><div><div class="lbl">Revenue · all time</div><div class="big" id="revbig">'+esc(revShown==null?"$0.00":money(revShown))+'</div>'+
+  '<div class="split"><span><i class="dot" style="background:'+REVC.tools+'"></i>Tool sales <b>'+esc(money4(a.tools))+'</b></span><span><i class="dot" style="background:'+REVC.swap_evm+'"></i>Wallet fees <b>'+esc(money4(a.fees))+'</b></span></div></div>'+
+  '<div class="wins">'+win("Today",r.today)+win("7 days",r.d7)+win("30 days",r.d30)+'</div></div>'+
+  '<div class="body"><div><h2 style="font:600 .72rem/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 .4rem">Per day · last 30 days</h2>'+legend(keys.map(function(k){return REVN[k]}),keys.map(function(k){return REVC[k]}))+'<div class="chart" id="revchart"></div>'+
+   table(["Day","Tool sales","Wallet fees","Total"],d.map(function(x){var f=keys.slice(1).reduce(function(s,k){return s+n((x.fees||{})[k])},0);return [x.date,money4(x.tools),money4(f),money4(x.total)]}),1)+'</div>'+
+  '<div><h2 style="font:600 .72rem/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 .4rem">By source · all time</h2>'+
+   rows.map(function(x){var mx=Math.max.apply(null,rows.map(function(y){return n(y.v)}).concat([0.000001]));return '<div class="hb"><span class="n" title="'+esc(x.name)+'">'+esc(x.name)+'</span><span class="track"><span class="bar" style="display:block;background:'+REVC[x.k]+';width:'+Math.max(.5,n(x.v)/mx*100).toFixed(1)+'%"'+tipAttr(money4(x.v),x.label)+'></span></span><span class="v">'+esc(money4(x.v))+'</span></div>'}).join("")+
+   '<h2 style="font:600 .72rem/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:1rem 0 .3rem">Latest wallet fees</h2>'+
+   (rec.length?'<div class="tablewrap"><table><tbody>'+rec.map(function(f){return '<tr'+tipAttr(money4(f.usd),(f.amount!=null?f.amount+" "+(f.token||"")+" · ":"")+f.chain+(f.est?" · estimated":""))+'><td style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:0;width:100%"><i class="dot" style="background:'+REVC[f.source]+'"></i>'+esc(f.name)+(f.est?' <span class="est">est.</span>':'')+'</td><td class="r num">'+esc(money4(f.usd))+'</td><td class="r num dim">'+esc(ago(f.at))+'</td></tr>'}).join("")+'</tbody></table></div>':'<div class="empty">No wallet fees yet. They show up here within about 15 minutes of a trade.</div>')+'</div></div>'+
+  '<ul class="notes">'+(r.notes||[]).map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+Object.keys(r.sources||{}).filter(function(k){return r.sources[k]&&r.sources[k].ok===false&&r.sources[k].error}).map(function(k){return '<li style="color:#ec835a">'+esc(REVN[k]||k)+': '+esc(r.sources[k].error)+'</li>'}).join("")+'</ul></section>';
+ el.innerHTML=h;countTo($("revbig"),n(a.total));var rc=$("revchart");if(rc)rc.innerHTML=vbars(cols,keys.map(function(k){return REVC[k]}),keys.map(function(k){return REVN[k]}),230,{aria:"Revenue per day by source",af:usd,vf:money4,w:rc.clientWidth})}
+
 /* ---------- owner view ---------- */
 function sumRev(days,k){return days.slice(-k).reduce(function(a,d){return a+n(d.revenue_usd)},0)}
 function renderOwner(){var o=D.ops,el=$("owner");if(!o){el.innerHTML="";return}
  var t=o.totals||{},bd=o.by_day||[],ex=t.excluding_samplers||{},ai=o.ai_chat||{},at=ai.total||{},m=o.machine||{};
- var tiles=[["Revenue · today",usd(sumRev(bd,1)),n((bd[bd.length-1]||{}).calls)+" paid calls"],["Revenue · 7 days",usd(sumRev(bd,7)),""],["Revenue · 30 days",usd(sumRev(bd,30)),""],["Revenue · all time",usd(t.revenue_usd),n(t.unique_payers)+" buyers"],["Without samplers",usd(ex.revenue_usd),n(ex.paid_calls)+" calls · "+n(ex.unique_payers)+" buyers"],["AI chat margin",at.margin_pct==null?"—":at.margin_pct+"%",usd(at.margin_usd)+" on "+n(at.steps)+" steps"]];
+ var tiles=[["Tool sales · today",usd(sumRev(bd,1)),n((bd[bd.length-1]||{}).calls)+" paid calls"],["Tool sales · 7 days",usd(sumRev(bd,7)),""],["Tool sales · 30 days",usd(sumRev(bd,30)),""],["Tool sales · all time",usd(t.revenue_usd),n(t.unique_payers)+" buyers"],["Without samplers",usd(ex.revenue_usd),n(ex.paid_calls)+" calls · "+n(ex.unique_payers)+" buyers"],["AI chat margin",at.margin_pct==null?"—":at.margin_pct+"%",usd(at.margin_usd)+" on "+n(at.steps)+" steps"]];
  var h='<div class="sect"><h3>Owner view</h3></div><section class="grid">'+tiles.map(function(x,i){return '<div class="card kpi c2"><div class="label">'+esc(x[0])+'</div><div class="value">'+esc(x[1])+'</div><div class="foot">'+esc(x[2])+'</div>'+(i===2?spark(bd.slice(-30).map(function(d){return d.revenue_usd})):'')+'</div>'}).join("")+'</section>';
  var d30=bd.slice(-30),cols=d30.map(function(x,i){return {label:x.date,parts:[x.revenue_usd],tick:i%7===0||(i===d30.length-1&&i%7>=4)?x.date.slice(5):""}});
- h+='<section class="grid"><div class="card c8"><h2>Revenue per day</h2><p class="sub">Last 30 days, USDC, every paid call including samplers and your own.</p><div class="chart" id="revday"></div>'+table(["Day","Paid calls","Revenue"],d30.map(function(x){return [x.date,x.calls,usd(x.revenue_usd)]}),1)+'</div>';
+ h+='<section class="grid"><div class="card c8"><h2>Tool sales per day</h2><p class="sub">Last 30 days, USDC, every paid call including samplers and your own.</p><div class="chart" id="revday"></div>'+table(["Day","Paid calls","Revenue"],d30.map(function(x){return [x.date,x.calls,usd(x.revenue_usd)]}),1)+'</div>';
  var bc=o.by_chain||[];h+='<div class="card c4"><h2>By network</h2><p class="sub">All time.</p>'+hbars(bc.map(function(c){return {name:c.chain,v:c.revenue_usd,label:n(c.calls)+" calls · "+n(c.unique_payers)+" buyers"}}),"",usd)+'<h2 style="margin-top:1rem">Buyers</h2><div class="minis"><div class="mini"><div class="k">Unique</div><div class="v">'+esc(n(t.unique_payers))+'</div></div><div class="mini"><div class="k">Returning</div><div class="v">'+esc(n(o.returning_buyers))+'</div></div><div class="mini"><div class="k">Your own calls</div><div class="v">'+esc(n(o.hidden_owner_calls))+'</div><div class="f">hidden from totals</div></div></div></div></section>';
  var tools=(o.by_tool||[]).filter(function(x){return n(x.revenue_usd)>0}).sort(function(a,b){return n(b.revenue_usd)-n(a.revenue_usd)});
  h+='<section class="grid"><div class="card c6"><h2>Revenue by tool</h2><p class="sub">All time.</p>'+hbars(tools.slice(0,12).map(function(x){return {name:x.name,v:x.revenue_usd,label:n(x.calls)+" calls"}}),"",usd)+table(["Tool","Calls","Revenue"],tools.map(function(x){return [x.name,x.calls,usd(x.revenue_usd)]}),1)+'</div>';
