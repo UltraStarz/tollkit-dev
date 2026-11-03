@@ -97,6 +97,13 @@
     .shot img { max-width:280px; }
   }
   @media (max-width:440px) { .limits { grid-template-columns:1fr; } .builders { padding:1.2rem; } }
+  /* Store buttons, greyed out until the iPhone and Android apps are approved. Plain glyphs, not Apple's or Google's
+     logos: their badge rules only allow the official badges once an app is live (swap them in then). */
+  .stores { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:.9rem; }
+  .store { display:inline-flex; align-items:center; gap:.6rem; padding:.42rem 1rem .42rem .8rem; border-radius:10px; background:#fff; color:#000; opacity:.38; cursor:not-allowed; user-select:none; line-height:1.1; }
+  .store svg { width:24px; height:24px; flex:none; }
+  .store small { display:block; font-size:.62rem; font-weight:500; letter-spacing:.01em; }
+  .store b { display:block; font-size:1.08rem; font-weight:600; letter-spacing:-.01em; }
 </style>
 <link rel="stylesheet" href="/motion.css">
 <script src="/motion.js"></script>
@@ -115,6 +122,10 @@
     <div class="ctas">
       <a class="btn primary" href="/wallet">Get the wallet</a>
       <a class="btn" href="/wallet#autopilot">See how it decides</a>
+    </div>
+    <div class="stores" aria-label="iPhone and Android apps, coming soon">
+      <span class="store" role="link" aria-disabled="true" title="Coming soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.6"/><path d="M10.5 18.5h3"/></svg><span><small>Coming soon to the</small><b>App Store</b></span></span>
+      <span class="store" role="link" aria-disabled="true" title="Coming soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.8v16.4a.8.8 0 0 0 1.2.7l13.4-8.2a.8.8 0 0 0 0-1.4L7.2 3.1A.8.8 0 0 0 6 3.8z"/></svg><span><small>Coming soon on</small><b>Google Play</b></span></span>
     </div>
     <div class="note">Base, Ethereum and Solana. <a href="https://chromewebstore.google.com/detail/tollkit-wallet/benfiblmdipfooognnelmflpoleaanpb">On the Chrome Web Store</a>.</div>
   </div>
