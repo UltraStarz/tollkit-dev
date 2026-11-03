@@ -80,13 +80,14 @@
 
   /* Builders */
   .builders { background:linear-gradient(135deg,rgba(74,142,255,.08),rgba(139,123,255,.05) 60%,transparent); border-radius:18px; padding:1.6rem 1.6rem 1.4rem; }
-  .builders h2 .mono { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:-.02em; }
+  /* The wordmark in the nav's font: a monospace capital O reads as a zero ("T0LL"). */
+  .builders h2 .mono { font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Inter,system-ui,sans-serif; font-weight:800; letter-spacing:-.02em; }
   .builders h2 .mono span { color:var(--accent); }
   .links { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1rem; }
 
   footer {  padding:1.8rem 0 3rem; color:var(--dim); font-size:.84rem; }
   footer a { color:var(--muted); }
-  footer .brand { font:700 .95rem ui-monospace,SFMono-Regular,monospace; color:#c8c8c8; margin-bottom:.35rem; } footer .brand span { color:var(--accent); }
+  footer .brand { font:800 .95rem -apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Inter,system-ui,sans-serif; letter-spacing:-.02em; color:#c8c8c8; margin-bottom:.35rem; } footer .brand span { color:var(--accent); }
   footer .legal { color:#555; font-size:.78rem; margin-top:1rem; max-width:40rem; line-height:1.55; }
 
   @media (max-width:860px) { .ways { grid-template-columns:1fr; } .product.ap .pic { display:none; } .limits { grid-template-columns:repeat(2,1fr); } .promises { grid-template-columns:1fr; } .tb { grid-template-columns:1fr; } }
