@@ -35,6 +35,8 @@
   .note { font-size:.8rem; color:var(--dim); margin-top:.8rem; }
 
   .shot { position:relative; margin:0; justify-self:center; }
+  .exn { margin:10px 0 0; text-align:center; font-size:.75rem; color:var(--dim); }
+  .pic .exn { position:absolute; left:0; right:0; top:3px; margin:0; font-size:.68rem; z-index:1; }
   .shot img { display:block; width:100%; max-width:320px; height:auto; border-radius:20px; border:1px solid #2a2d38; box-shadow:0 30px 80px -30px rgba(74,142,255,.45), 0 10px 30px -10px rgba(0,0,0,.8); }
   .shot .tag { position:absolute; top:-13px; left:50%; transform:translateX(-50%); white-space:nowrap; z-index:2; font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:.35rem .7rem; border-radius:99px; color:#fff; background:linear-gradient(90deg,var(--accent),var(--violet)); box-shadow:0 8px 24px -8px rgba(74,142,255,.8); }
 
@@ -115,7 +117,7 @@
     </div>
     <div class="note">Base, Ethereum and Solana. <a href="https://chromewebstore.google.com/detail/tollkit-wallet/benfiblmdipfooognnelmflpoleaanpb">On the Chrome Web Store</a>.</div>
   </div>
-  <figure class="shot"><span class="tag">Autopilot</span><img src="/wallet/img/autopilot.webp" width="400" height="820" alt="The Autopilot screen in TOLLkit Wallet with example numbers: live result, budget, the Run 24/7 switch, and two strategies (one live, one on paper with its trial progress)."></figure>
+  <figure class="shot"><span class="tag">Autopilot</span><img src="/wallet/img/autopilot.webp" width="400" height="820" alt="The Autopilot screen in TOLLkit Wallet with example numbers: live result, budget, the Run 24/7 switch, and two strategies (one live, one on paper with its trial progress)."><figcaption class="exn">Example numbers</figcaption></figure>
 </header>
 
 <section>
@@ -124,11 +126,11 @@
   <p class="section-sub">All three work inside the same limits, and every trade shows in Activity with its receipt.</p>
   <div class="ways">
     <div class="product ap">
-      <div class="pic"><img src="/wallet/img/autopilot.webp" alt="" loading="lazy"></div>
+      <div class="pic"><img src="/wallet/img/autopilot.webp" alt="" loading="lazy"><span class="exn">Example numbers</span></div>
       <div class="body"><div class="lbl">Autopilot</div><h3>Adapts to the market</h3><p>Reads prices, funding, news and Fear &amp; Greed every half hour. Tests every strategy on paper first, goes live only if it beat holding USDC, and shows its reasons for every change.</p></div>
     </div>
     <div class="product">
-      <div class="pic"><img src="/wallet/img/bots.webp" alt="" loading="lazy"></div>
+      <div class="pic"><img src="/wallet/img/bots.webp" alt="" loading="lazy"><span class="exn">Example numbers</span></div>
       <div class="body"><div class="lbl">Bots</div><h3>Rules you pick</h3><p>Steady buys, dips, stop-losses, profit ladders and grids. No AI. Replay a bot over the last 30 days before it starts.</p></div>
     </div>
     <div class="product">
