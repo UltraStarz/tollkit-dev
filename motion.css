@@ -128,7 +128,7 @@ header.head.has-aurora .aurora {
 
 /* ── Nav: underline that draws in, shadow once you scroll ───────── */
 .m nav.top { transition: box-shadow .4s ease, border-color .4s ease, background .4s ease; }
-.m nav.top.scrolled { box-shadow: 0 10px 30px -14px rgba(0,0,0,.8); border-bottom-color: #262626; }
+.m nav.top.scrolled { box-shadow: 0 10px 30px -14px rgba(0,0,0,.8);  }
 .m nav.top .links a {
   background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
   transition: background-size .35s var(--ease-out), color .2s ease; padding-bottom: 2px;
