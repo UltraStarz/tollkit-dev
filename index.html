@@ -104,7 +104,9 @@
   .store svg { width:24px; height:24px; flex:none; }
   .store small { display:block; font-size:.62rem; font-weight:500; letter-spacing:.01em; }
   .store b { display:block; font-size:1.08rem; font-weight:600; letter-spacing:-.01em; }
-  .playbadge { display:inline-flex; line-height:0; margin:-11px -6px; }
+  .cwsbadge { display:inline-flex; line-height:0; }
+  .cwsbadge img { height:46px; width:auto; }
+  .playbadge { display:inline-flex; line-height:0; margin:-11px; }
   .playbadge img { height:68px; width:auto; }
 </style>
 <link rel="stylesheet" href="/motion.css">
@@ -125,11 +127,12 @@
       <a class="btn primary" href="/wallet">Get the wallet</a>
       <a class="btn" href="/wallet#autopilot">See how it decides</a>
     </div>
-    <div class="stores" aria-label="Phone apps: Android on Google Play, iPhone coming soon">
+    <div class="stores" aria-label="Get TOLLkit Wallet: Chrome Web Store, Google Play, App Store coming soon">
+      <a class="cwsbadge" href="https://chromewebstore.google.com/detail/tollkit-wallet/benfiblmdipfooognnelmflpoleaanpb" aria-label="Get TOLLkit Wallet on the Chrome Web Store"><img src="/wallet/img/chrome-web-store-badge.png" width="496" height="150" alt="Available in the Chrome Web Store"></a>
       <span class="store" role="link" aria-disabled="true" title="Coming soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.6"/><path d="M10.5 18.5h3"/></svg><span><small>Coming soon to the</small><b>App Store</b></span></span>
       <a class="playbadge" href="https://play.google.com/store/apps/details?id=dev.tollkit.wallet" aria-label="Get TOLLkit Wallet on Google Play"><img src="/wallet/img/google-play-badge.png" width="646" height="250" alt="Get it on Google Play"></a>
     </div>
-    <div class="note">Base, Ethereum and Solana. <a href="https://chromewebstore.google.com/detail/tollkit-wallet/benfiblmdipfooognnelmflpoleaanpb">On the Chrome Web Store</a>.</div>
+    <div class="note">Base, Ethereum and Solana.</div>
   </div>
   <figure class="shot"><span class="tag">Autopilot</span><img src="/wallet/img/autopilot.webp?v=1103" width="400" height="820" alt="The Autopilot screen in TOLLkit Wallet with example numbers: live result, budget, the Run 24/7 switch, and two strategies (one live, one on paper with its trial progress)."><figcaption class="exn">Example numbers</figcaption></figure>
 </header>
@@ -210,7 +213,7 @@
   <div class="container">
     <div class="brand">TOLL<span>kit</span></div>
     Tollkit LLC, USA &middot; <a href="/wallet">Wallet</a> &middot; <a href="/report">Report</a> &middot; <a href="/status">Status</a> &middot; <a href="/terms">Terms</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>
-    <div class="legal">Google Play and the Google Play logo are trademarks of Google LLC. TOLLkit is operated by Tollkit LLC, a limited liability company in the USA. Tools are paid with the open <a href="https://x402.org" target="_blank" rel="noopener">x402</a> protocol; settlement in USDC on Base or Solana. Screenshots show example numbers. © 2026.</div>
+    <div class="legal">Google Play, the Google Play logo and Chrome Web Store are trademarks of Google LLC. TOLLkit is operated by Tollkit LLC, a limited liability company in the USA. Tools are paid with the open <a href="https://x402.org" target="_blank" rel="noopener">x402</a> protocol; settlement in USDC on Base or Solana. Screenshots show example numbers. © 2026.</div>
   </div>
 </footer>
 </body>
