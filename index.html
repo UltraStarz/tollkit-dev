@@ -11,7 +11,7 @@
 <meta property="og:description" content="A self-custody wallet where Autopilot, bots or your AI do the trading, inside limits only you can change.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tollkit.dev">
-<meta property="og:image" content="https://tollkit.dev/wallet/img/autopilot.webp?v=1105">
+<meta property="og:image" content="https://tollkit.dev/wallet/img/autopilot.webp?v=1106">
 <link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>
   :root { color-scheme:dark; --bg:#000; --panel:#000; --panel2:#1e2027; --line:#2c2f3a; --line-soft:#1f2129; --text:#f1f2f6; --muted:#979aab; --dim:#7d8091; --accent:#4a8eff; --violet:#8b7bff; --ok:#3ccf91; --warn:#f5b84a; }
@@ -99,15 +99,16 @@
   @media (max-width:440px) { .limits { grid-template-columns:1fr; } .builders { padding:1.2rem; } }
   /* Store buttons: Google Play's official badge (live Nov 4); the App Store one stays greyed out until Apple approves. Plain glyphs, not Apple's or Google's
      logos: their badge rules only allow the official badges once an app is live (swap them in then). */
-  .stores { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:.9rem; }
-  .store { display:inline-flex; align-items:center; gap:.6rem; padding:.42rem 1rem .42rem .8rem; border-radius:10px; background:#fff; color:#000; opacity:.38; cursor:not-allowed; user-select:none; line-height:1.1; }
-  .store svg { width:24px; height:24px; flex:none; }
-  .store small { display:block; font-size:.62rem; font-weight:500; letter-spacing:.01em; }
-  .store b { display:block; font-size:1.08rem; font-weight:600; letter-spacing:-.01em; }
-  .cwsbadge { display:inline-flex; line-height:0; }
-  .cwsbadge img { height:46px; width:auto; }
-  .playbadge { display:inline-flex; line-height:0; margin:-11px; }
-  .playbadge img { height:68px; width:auto; }
+  .stores { display:grid; grid-template-columns:repeat(3,minmax(0,170px)); gap:12px; margin-top:.9rem; align-items:stretch; }
+.stores > * { width:100%; aspect-ratio:496/150; box-sizing:border-box; border-radius:10px; overflow:hidden; }
+.store { display:flex; align-items:center; justify-content:center; gap:7%; padding:0 8%; min-width:0; background:#fff; color:#000; opacity:.38; cursor:not-allowed; user-select:none; line-height:1.1; container-type:inline-size; }
+.store svg { width:15cqw; height:15cqw; flex:none; }
+.store small { display:block; font-size:6.4cqw; font-weight:500; letter-spacing:.01em; white-space:nowrap; }
+.store b { display:block; font-size:11cqw; font-weight:600; letter-spacing:-.01em; white-space:nowrap; }
+.cwsbadge { display:block; line-height:0; }
+.cwsbadge img { width:100%; height:100%; display:block; }
+.playbadge { display:block; line-height:0; }
+.playbadge img { width:114.54%; height:auto; max-width:none; display:block; margin:-7.27% 0 0 -7.27%; }
 </style>
 <link rel="stylesheet" href="/motion.css">
 <script src="/motion.js"></script>
@@ -129,12 +130,12 @@
     </div>
     <div class="stores" aria-label="Get TOLLkit Wallet: Chrome Web Store, Google Play, App Store coming soon">
       <a class="cwsbadge" href="https://chromewebstore.google.com/detail/tollkit-wallet/benfiblmdipfooognnelmflpoleaanpb" aria-label="Get TOLLkit Wallet on the Chrome Web Store"><img src="/wallet/img/chrome-web-store-badge.png" width="496" height="150" alt="Available in the Chrome Web Store"></a>
-      <span class="store" role="link" aria-disabled="true" title="Coming soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.6"/><path d="M10.5 18.5h3"/></svg><span><small>Coming soon to the</small><b>App Store</b></span></span>
       <a class="playbadge" href="https://play.google.com/store/apps/details?id=dev.tollkit.wallet" aria-label="Get TOLLkit Wallet on Google Play"><img src="/wallet/img/google-play-badge.png" width="646" height="250" alt="Get it on Google Play"></a>
+      <span class="store" role="link" aria-disabled="true" title="Coming soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.6"/><path d="M10.5 18.5h3"/></svg><span><small>Coming soon to the</small><b>App Store</b></span></span>
     </div>
     <div class="note">Base, Ethereum and Solana.</div>
   </div>
-  <figure class="shot"><span class="tag">Autopilot</span><img src="/wallet/img/autopilot.webp?v=1105" width="400" height="820" alt="The Autopilot screen in TOLLkit Wallet with example numbers: live result, budget, the Run 24/7 switch, and two strategies (one live, one on paper with its trial progress)."><figcaption class="exn">Example numbers</figcaption></figure>
+  <figure class="shot"><span class="tag">Autopilot</span><img src="/wallet/img/autopilot.webp?v=1106" width="400" height="820" alt="The Autopilot screen in TOLLkit Wallet with example numbers: live result, budget, the Run 24/7 switch, and two strategies (one live, one on paper with its trial progress)."><figcaption class="exn">Example numbers</figcaption></figure>
 </header>
 
 <section>
@@ -143,15 +144,15 @@
   <p class="section-sub">All three work inside the same limits, and every trade shows in Activity with its receipt.</p>
   <div class="ways">
     <div class="product ap">
-      <div class="pic"><img src="/wallet/img/autopilot.webp?v=1105" alt="" loading="lazy"><span class="exn">Example numbers</span></div>
+      <div class="pic"><img src="/wallet/img/autopilot.webp?v=1106" alt="" loading="lazy"><span class="exn">Example numbers</span></div>
       <div class="body"><div class="lbl">Autopilot</div><h3>Adapts to the market</h3><p>Reads prices, funding, news and Fear &amp; Greed every half hour. Tests every strategy on paper first, goes live only if it beat holding USDC, and shows its reasons for every change.</p></div>
     </div>
     <div class="product">
-      <div class="pic"><img src="/wallet/img/bots.webp?v=1105" alt="" loading="lazy"><span class="exn">Example numbers</span></div>
+      <div class="pic"><img src="/wallet/img/bots.webp?v=1106" alt="" loading="lazy"><span class="exn">Example numbers</span></div>
       <div class="body"><div class="lbl">Bots</div><h3>Rules you pick</h3><p>Steady buys, dips, stop-losses, profit ladders and grids. No AI. Replay a bot over the last 30 days before it starts.</p></div>
     </div>
     <div class="product">
-      <div class="pic"><img src="/wallet/img/connect.webp" alt="" loading="lazy"></div>
+      <div class="pic"><img src="/wallet/img/connect.webp?v=1106" alt="" loading="lazy"></div>
       <div class="body"><div class="lbl">Your AI</div><h3>Sets it up, you approve</h3><p>Connect Claude or ChatGPT, or add your own AI key and chat in the wallet. It sets up what you describe, and nothing turns on until you tap it.</p></div>
     </div>
   </div>
