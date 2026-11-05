@@ -1,7 +1,7 @@
 # TOLLkit
 
 > TOLLkit Wallet: a self-custody wallet where an AI trades and pays for you, inside limits only you can change (Base, Ethereum, Solana). https://tollkit.dev/wallet
-> Three ways it trades: Autopilot (coming soon: AI picks and adjusts strategies inside your limits), Bots (rules you pick), Your AI (sets things up, you approve). Paper first; runs while the app is open.
+> Three ways it trades: Autopilot (AI picks and adjusts strategies inside your limits; the only part that acts on its own), Bots (rules you pick), Your AI (sets things up, sees what Autopilot does, you approve). Paper first; with Run 24/7, SOL on Solana and ETH on Base keep trading while your devices are off.
 >
 > TOLLkit tools: pay-per-call tools for AI agents, paid per call in USDC with x402 on Base or Solana. No account, no API key. Web pages, PDFs and search; crypto news, perps, market pulse and price history; SEC filings and due diligence; weather anywhere, US airport delays, geocoding, IP lookup and exchange rates; wallets, token prices, token checks and a pre-trade check on Base, Ethereum and Solana; x402 market data (best tools for a task, seller lookups, a weekly dataset); product prices; signed page proofs. Failed calls are never charged.
 
