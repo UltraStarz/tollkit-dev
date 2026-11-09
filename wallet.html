@@ -129,6 +129,8 @@
       <li>Goes live only after it beat holding USDC after fees for the paper period you set. A live strategy that's losing goes back to paper.</li>
       <li>Every decision is logged with its reasons and the signals behind it. Tap one to read them.</li>
       <li>You set the budget, a cap per trade, a cap per token, and daily and weekly loss stops that pause everything. One switch turns it all off.</li>
+      <li>Trade sizes come from the cash that's actually free. Pick Same size, or Add profits so each trade grows with what it made.</li>
+      <li>The Pipeline tab shows each stage as it runs, and a short list sums up what happened while you were away.</li>
       <li>Decides with your own AI key, only when the market moved. No TOLLkit fee.</li>
       <li>Pace is Adaptive by default: busier while a coin is quiet, no new buys while it's falling.</li>
       <li>Steer it from the AI chat: it sees every decision, keeps your standing notes ("be careful this week"), and hands Autopilot new strategies or settings for you to approve. Only Autopilot acts on its own.</li>
@@ -164,6 +166,7 @@
       <li>Each bot shows its trades, failures and result, on a price chart that marks where it buys and sells.</li>
       <li>Before a bot starts, drag its lines on the chart to set it up, and replay it over the last 30 days of prices.</li>
       <li>Bots check prices every 15 seconds while the wallet is open.</li>
+      <li>Short on USDC, a bot waits and says so, then buys once the cash is there, instead of failing the trade.</li>
       <li>See how bots do for other people on the <a href="/bots">bot board</a>.</li>
     </ul>
   </div>
@@ -174,7 +177,7 @@
   <div class="text">
     <div class="kicker">Connect your AI</div>
     <h2>Your AI sets it up. You decide.</h2>
-    <p>Claude reads your balances and recent prices and sets up the swap, rule or bot you describe. It doesn't pick coins or prices for you, and nothing turns on until you tap it. In the wallet's chat it also sees everything Autopilot does and can ask Autopilot to run a strategy or change a setting, which you approve. Connected AI apps work inside the same limits, can't withdraw, and never see your keys.</p>
+    <p>Claude reads your balances and recent prices and sets up the swap, rule or bot you describe. Name a trade, like "$100 of SOL, buy low and sell high," and it sets up exactly that, with the size options laid out. It doesn't pick coins or prices for you, and nothing turns on until you tap it. In the wallet's chat it also sees everything Autopilot does and can ask Autopilot to run a strategy or change a setting, which you approve. Connected AI apps work inside the same limits, can't withdraw, and never see your keys.</p>
     <ul>
       <li>Chat in the wallet with your own key from Claude, ChatGPT or OpenRouter, using any model it offers. Your AI company bills you directly.</li>
       <li>One tap copies your private address and opens Claude's connectors page. Paste it and click Add.</li>
