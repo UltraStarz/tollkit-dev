@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://tollkit.dev/wallet/app-review">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOLLkit Wallet: how it works</title>
+<meta name="description" content="A full explanation of TOLLkit Wallet for app reviewers: every feature, how automated trading works, where money goes, what TOLLkit earns, and what it never does.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root { color-scheme:dark; --bg:#000; --line:#2c2f3a; --text:#f1f2f6; --muted:#979aab; --dim:#7d8091; --accent:#4a8eff; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; -webkit-font-smoothing:antialiased; }
+  .container { max-width:780px; margin:0 auto; padding:0 16px; }
+  a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+  header.head { padding:2.4rem 0 .6rem; }
+  h1 { font-size:2rem; letter-spacing:-.03em; margin:0 0 .4rem; }
+  h2 { font-size:1.2rem; margin:2.2rem 0 .4rem; padding-top:1.2rem; border-top:1px solid var(--line); }
+  h3 { font-size:1rem; margin:1.3rem 0 .2rem; }
+  .lede { color:var(--muted); margin:0; font-size:1.02rem; }
+  .card { border:1px solid var(--line); border-radius:12px; padding:1rem 1.2rem; margin-top:1rem; }
+  ul { padding-left:1.2rem; } li { margin:.3rem 0; }
+  table { width:100%; border-collapse:collapse; margin:.6rem 0; font-size:.95rem; }
+  th,td { text-align:left; padding:.45rem .5rem; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:600; }
+  .mut { color:var(--muted); }
+  footer { margin-top:2.5rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; } footer a { color:var(--muted); }
+</style>
+<link rel="stylesheet" href="/nav.css">
+</head>
+<body>
+<main class="container">
+<header class="head">
+  <h1>TOLLkit Wallet: how it works</h1>
+  <p class="lede">A complete explanation of the app for App Review and anyone evaluating it. Made by Tollkit LLC (USA), enrolled in the Apple Developer Program as an organization. Contact: <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>. Updated November 10, 2026, for iOS version 0.9.12.</p>
+</header>
+
+<div class="card">
+  <strong>In short:</strong> TOLLkit Wallet is a self-custody crypto wallet. Keys are created on the device and never leave it; TOLLkit never holds anyone's money. Users set spending limits, and then, if they choose, rule-based bots, an automated strategy manager called Autopilot, or their own AI can trade inside those limits. Nothing is hidden, nothing is switched on remotely, and the app works the same in every region where it's offered. TOLLkit earns one thing: a fee on swaps, shown in every quote.
+</div>
+
+<h2>Already reviewed and approved elsewhere</h2>
+<ul>
+  <li><strong>Google Play:</strong> TOLLkit Wallet for Android is published on Google Play (the same app and code as this iOS build).</li>
+  <li><strong>Chrome Web Store:</strong> the TOLLkit Wallet extension is published on the Chrome Web Store.</li>
+  <li><strong>Coinbase:</strong> Coinbase approved TOLLkit for Coinbase Onramp and Offramp, which power Buy and Cash out. Card and bank payments happen on Coinbase's own pages; TOLLkit never sees card or bank details.</li>
+</ul>
+
+<h2>Nothing is hidden</h2>
+<ul>
+  <li>No review mode, no remote feature switches, no server flags that turn features on later, and no code downloaded after install. Every feature described here is in the submitted build.</li>
+  <li>No region-specific behavior beyond the law: the app isn't offered in the EU or mainland China, Buy and Cash out follow Coinbase's own country support, and TOLLkit's server refuses requests from sanctioned regions.</li>
+  <li>Some features only <em>act</em> once the wallet holds funds. In a new, empty wallet they show their setup screens, and automated trading runs on paper (pretend money, marked PAPER). That's why a reviewer with an empty wallet sees practice trades, not real ones. We're glad to provide a test wallet with a small balance.</li>
+</ul>
+
+<h2>Getting started</h2>
+<p>No account, no email, no login. Tap <strong>Create a new wallet</strong>, choose a password (Face ID optional), and write down the 12-word recovery phrase. The app checks three of the words. To remove the wallet, type RESET on the unlock screen and tap Remove wallet. Existing MetaMask or Phantom phrases can be imported and give the same addresses.</p>
+
+<h2>Every feature, tab by tab</h2>
+<h3>Home</h3>
+<ul>
+  <li>Balance across Base, Ethereum and Solana, with a chart, and the tokens held.</li>
+  <li><strong>Buy</strong> and <strong>Sell</strong> open Coinbase's hosted pages (Onramp/Offramp).</li>
+  <li><strong>Swap</strong>: trade one coin for another. The quote shows the least you'll receive and TOLLkit's fee before you confirm. Swaps are routed by 0x (Base, Ethereum) and Jupiter (Solana), signed on the device.</li>
+  <li><strong>Send</strong> and <strong>Receive</strong>. Sending money out of the wallet always requires the password.</li>
+  <li><strong>Bridge</strong>: move USDC (Circle CCTP) or ETH (Across) between networks.</li>
+  <li>Token check: before adding a token, TOLLkit reads it from the blockchain and warns in plain words if it looks risky (for example, if its owner can mint more).</li>
+</ul>
+<h3>Bots</h3>
+<p>Rule-based bots with no AI: buy the dip, take-profit ladder, grid trader, Smart DCA, rebalancer, infinity grid, split order, trade on a signal (RSI/MACD/breakout), and a Range bot (Orca liquidity). The user sees every setting and every level on a TradingView chart before starting. Each bot shows its trades, failures and result. Practice bots trade pretend money and are labeled PAPER.</p>
+<h3>Orders</h3>
+<p>Scheduled buys, stop-losses, take-profits, trailing stops and price or indicator alerts. Alerts only notify; they never trade.</p>
+<h3>Autopilot</h3>
+<ul>
+  <li>Off until the user turns it on and sets a budget, a cap per trade, a cap per token, and daily and weekly loss stops (Settings &gt; Autopilot).</li>
+  <li>It reads market data (prices, funding, Fear &amp; Greed, news and social signals) and, using the <em>user's own AI key</em>, adjusts a few strategies. Without a key it doesn't start new strategies and says so.</li>
+  <li><strong>Every new strategy trades on paper first.</strong> One that beats holding USDC over its trial goes live with real money when the user taps <strong>Go live</strong>, or automatically only if the user has turned on <strong>Active mode</strong> (off by default).</li>
+  <li>Live strategies then place real trades on their own, always inside the budget and caps. Loss stops pause everything, and one switch turns Autopilot off. Every decision is logged with its reasons.</li>
+</ul>
+<h3>AI tab</h3>
+<ul>
+  <li>Chat with the user's own AI (Anthropic, OpenAI, xAI or OpenRouter), using their own key, billed by that company. TOLLkit doesn't sell AI in the iOS app.</li>
+  <li>The AI explains holdings and sets up the swap, order or bot the user describes; nothing runs until the user taps it.</li>
+  <li><strong>Connect your AI</strong> (optional): the user can give an outside AI app such as Claude a private connector address. That AI can then make trades and pay small fees for paid web tools (see below), only inside the user's limits. It can't withdraw, can't change limits, and never sees keys. Trades over the user's approval amount wait for their OK.</li>
+</ul>
+<h3>Activity</h3>
+<p>Every swap, send, bot trade and payment, with receipts and links to the blockchain.</p>
+<h3>Settings</h3>
+<ul>
+  <li><strong>Limits &amp; safety</strong>: most per swap, most per day, an approval threshold, payment limits, which networks are allowed. Changing them requires the password; bots, Autopilot and AI apps can't change them.</li>
+  <li><strong>Run 24/7</strong> (off by default): see below.</li>
+  <li>Devices (optional encrypted sync), Recovery, Lock &amp; security (auto-lock, Face ID).</li>
+</ul>
+
+<h2>Run 24/7: how trading continues while the phone is off</h2>
+<ul>
+  <li>Off by default. The user turns it on and sets a cap.</li>
+  <li>On Solana the wallet approves a capped token allowance on-chain; on Base it signs permission slips limited to a coin, amount, floor price and time window. TOLLkit's server can't trade past either.</li>
+  <li>The server only executes the user's own live bots, orders and Autopilot strategies. Every trade swaps inside the user's own wallet and the server checks the output goes back to the user's address before signing. TOLLkit never takes custody.</li>
+  <li>Switching it off, or revoking in Settings, cancels the permission. TOLLkit pays the network fee for these trades.</li>
+</ul>
+
+<h2>Paying for web tools (x402)</h2>
+<p>A connected AI app may pay small amounts of USDC to outside sellers of paid web tools (for example a web search or page reader) using the x402 payment standard, inside the user's payment limits (per payment, per day, per seller). These are payments from the user's wallet to third parties, like sending crypto; they don't unlock any feature or content of TOLLkit Wallet, and TOLLkit doesn't sell digital goods or features in the app. There are no In-App Purchases because nothing in the app is for sale.</p>
+
+<h2>Money: what TOLLkit earns</h2>
+<table>
+  <tr><th>What</th><th>Fee</th></tr>
+  <tr><td>Swaps</td><td>0.5% of the trade, included in the quote</td></tr>
+  <tr><td>Grid, infinity grid and Smart DCA bot trades</td><td>0.25%, included in the quote</td></tr>
+  <tr><td>Bridging USDC or ETH</td><td>0.25%, plus the bridge's own fee</td></tr>
+  <tr><td>Run 24/7 trades</td><td>Same as the trade; TOLLkit pays the network fee</td></tr>
+  <tr><td>Your own AI</td><td>No TOLLkit fee; the AI company bills the user</td></tr>
+  <tr><td>Buy and cash out</td><td>Coinbase shows its own fee on its pages</td></tr>
+</table>
+<p class="mut">No subscriptions, no paid features, no ads, no data sales.</p>
+
+<h2>Regulatory position</h2>
+<ul>
+  <li>TOLLkit Wallet is non-custodial: keys are generated and stored on the device (iOS Keychain, this device only), and TOLLkit can never move funds without the user's own signature or a capped, revocable on-chain permission the user grants.</li>
+  <li>TOLLkit doesn't operate an exchange, order book or market. Swaps are executed on-chain by third-party aggregators (0x, Jupiter). Fiat buying and selling is provided by Coinbase on Coinbase's pages.</li>
+  <li>No ICOs, token sales, futures, margin, lending, securities or yield products, and no crypto rewards for tasks.</li>
+  <li>Automated trading is a tool the user configures and caps; it's not investment advice, and the app says so.</li>
+</ul>
+
+<h2>Privacy</h2>
+<p>No accounts, no analytics, no ads. The recovery phrase, keys and password never leave the device. Addresses and swap details are sent only to the services that need them (blockchain nodes, price services, 0x, Jupiter, Coinbase), mostly through TOLLkit's server. Full details: <a href="/wallet/privacy">tollkit.dev/wallet/privacy</a>.</p>
+
+<h2>Services the app uses</h2>
+<p>TOLLkit's server (api.tollkit.dev, quotes, prices, signals, Run 24/7); 0x and Jupiter (swaps); Circle CCTP and Across (bridging); Coinbase Onramp and Offramp (buy and cash out); public Base, Ethereum and Solana nodes and Helius (Solana); Coinbase Exchange, DefiLlama and GeckoTerminal (prices); news and social sources for Autopilot's market read; the user's own AI provider.</p>
+
+<footer>Tollkit LLC · <a href="/wallet">TOLLkit Wallet</a> · <a href="/wallet/privacy">Privacy</a> · <a href="/wallet/terms">Terms</a></footer>
+</main>
+</body>
+</html>
