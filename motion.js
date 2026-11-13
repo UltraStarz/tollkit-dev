@@ -11,7 +11,7 @@
   var REVEAL = [
     'section h2', 'section .section-sub', '.product', '.step', '.promises li', '.dev-line', 'footer .row',
     'main > .urlbox', 'main > .urlnote', 'main > .card', 'main > .grid2', '.use', '.grp', '.tool',
-    '.ws-card', '.faq', '.alert', '.path'
+    '.ws-card', '.faq', '.alert', '.path', '.feature li', '.band li', '.shot'
   ].join(',');
   var LIFT = '.product, .step, .promises li, .use, .ws-card, .path';
   var SPOT = '.product, .step, .promises li, .use, main > .card, .ws-card, .urlbox, .path';
@@ -91,6 +91,32 @@
         }, { passive: true });
       }
 
+      // Phone screenshots: a light passes over the glass as each arrives; they lean toward the pointer and drift
+      // a little against the scroll.
+      var shots = Array.prototype.slice.call(document.querySelectorAll('.shot'));
+      shots.forEach(function (f) {
+        var img = f.querySelector('img'); if (!img) return;
+        var g = document.createElement('span'); g.className = 'glare'; g.setAttribute('aria-hidden', 'true'); f.appendChild(g);
+        function fit() { g.style.left = img.offsetLeft + 'px'; g.style.top = img.offsetTop + 'px'; g.style.width = img.offsetWidth + 'px'; g.style.height = img.offsetHeight + 'px'; }
+        if (img.complete) fit(); else img.addEventListener('load', fit); addEventListener('resize', fit);
+        var lit = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { f.classList.add('lit'); lit.disconnect(); } }); }, { threshold: 0.35 });
+        lit.observe(f);
+        if (fine) {
+          f.addEventListener('pointermove', function (ev) {
+            var r = img.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width - 0.5, y = (ev.clientY - r.top) / r.height - 0.5;
+            img.style.setProperty('--ry', (x * 7).toFixed(2) + 'deg'); img.style.setProperty('--rx', (-y * 5).toFixed(2) + 'deg');
+          });
+          f.addEventListener('pointerleave', function () { img.style.removeProperty('--ry'); img.style.removeProperty('--rx'); });
+        }
+      });
+      function shotDrift() {
+        for (var i = 0; i < shots.length; i++) {
+          var r = shots[i].getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) continue;
+          var off = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+          shots[i].style.translate = '0 ' + Math.max(-22, Math.min(22, off * -36)).toFixed(1) + 'px';
+        }
+      }
+
       // Nav shadow and scroll progress.
       var nav = document.querySelector('nav.top');
       var bar = document.createElement('div');
@@ -104,6 +130,7 @@
           var y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
           if (nav) nav.classList.toggle('scrolled', y > 8);
           bar.style.setProperty('--p', max > 0 ? Math.min(1, y / max).toFixed(4) : 0);
+          shotDrift();
         });
       }
       addEventListener('scroll', onScroll, { passive: true });
