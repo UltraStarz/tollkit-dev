@@ -35,7 +35,7 @@
 <main class="container">
 <header class="head">
   <h1>TOLLkit API privacy policy</h1>
-  <p class="lede">For TOLLkit&rsquo;s paid tools: the HTTP API on api, web, data, chain and attest.tollkit.dev, and the MCP server at extract.tollkit.dev/mcp. Effective November 3, 2026. The TOLLkit Wallet extension has <a href="/wallet/privacy">its own policy</a>.</p>
+  <p class="lede">For TOLLkit&rsquo;s paid tools: the HTTP API on api, web, data, chain and attest.tollkit.dev, and the MCP server at extract.tollkit.dev/mcp. Effective November 17, 2026. The TOLLkit Wallet extension has <a href="/wallet/privacy">its own policy</a>.</p>
 </header>
 
 <div class="card">
@@ -73,8 +73,9 @@
   <li><strong>Summaries and page briefs</strong>: the text to summarize goes to Anthropic&rsquo;s API (Claude).</li>
   <li><strong>Reading pages, screenshots, PDFs and product data</strong>: our browser visits the web address you give, like any visitor.</li>
   <li><strong>Public data</strong>: tickers to the SEC (EDGAR); coordinates to the US National Weather Service or MET Norway; addresses to the US Census Bureau geocoder; airport codes to the FAA; currency codes to the European Central Bank. IP lookups use a database on our own server, so the address isn&rsquo;t sent anywhere.</li>
-  <li><strong>On-chain tools</strong>: wallet, token and transaction addresses go to public blockchain endpoints for Base, Ethereum and Solana.</li>
+  <li><strong>On-chain tools</strong>: wallet, token and transaction addresses go to public blockchain endpoints for Base, Ethereum and Solana. The token check and pre-trade check may also send a token&rsquo;s address to DexScreener (api.dexscreener.com) to find where it trades when the blockchain readers find no pool.</li>
   <li><strong>Crypto market tools</strong>: crypto news queries go to Serper, and the headlines it returns go to Anthropic&rsquo;s API (Claude) for the short read; coin names go to Hyperliquid&rsquo;s public API; price history and the market pulse read Chainlink price feeds on Ethereum; the market pulse also reads the Fear &amp; Greed Index from Alternative.me, which receives nothing from you.</li>
+  <li><strong>X pulse</strong>: the coin or topic you ask about goes to xAI&rsquo;s API (Grok), which reads public posts on X to answer.</li>
   <li><strong>Payments</strong>: the signed payment goes to Coinbase&rsquo;s x402 facilitator, which settles it on the blockchain.</li>
 </ul>
 <p>The server runs on Fly.io and this website on Cloudflare, which may keep standard connection logs under their own policies.</p>
