@@ -62,7 +62,7 @@
   <li><strong>New design.</strong> Every screen was restyled: a balance chart on Home, round Buy, Sell, Swap, Send, Receive and Bridge buttons, and tabs along the bottom (Home, AI, Autopilot, Bots, Orders, Activity). The features behind them are the same.</li>
   <li><strong>Autopilot</strong> has a <strong>Real money / Practice</strong> switch, so pretend results are never mixed with real ones, and a <strong>Pipeline</strong> tab that says in plain words what Autopilot is doing. "Paper" is now called "Practice" (two intro screens still say "paper"; it means the same pretend-money practice).</li>
   <li><strong>Bots</strong> check prices every 5 seconds while the app is open (it was 15).</li>
-  <li><strong>Settings &gt; Appearance</strong>: light, dark and darker themes, and the Home mascot can be shown, faded or hidden.</li>
+  <li><strong>Settings &gt; Appearance</strong>: light, dark and darker themes (Darker is the default), and the Home mascot can be shown, faded or hidden.</li>
   <li><strong>A loading screen</strong> shows until balances have loaded.</li>
   <li><strong>Removed from the iPhone app:</strong> build 87 let the in-app AI chat pay TOLLkit small USDC fees for extra data lookups. Our review notes didn't describe that, which was our mistake. That code has been removed from the iPhone app (build 89), not switched off: the in-app chat makes no payments of any kind.</li>
 </ul>
@@ -94,6 +94,7 @@
 <h3>AI tab</h3>
 <ul>
   <li>Chat with the user's own AI (Anthropic, OpenAI, xAI or OpenRouter), using their own key, billed by that company. TOLLkit doesn't sell AI in the iOS app, and the in-app chat can't make payments or buy anything.</li>
+  <li>The chat can show a price chart for a coin and a button that opens the Swap screen with two coins picked. Both are display only: nothing trades until the user confirms on the Swap screen.</li>
   <li>The AI explains holdings and sets up the swap, order or bot the user describes; nothing runs until the user taps it.</li>
   <li><strong>Connect your AI</strong> (optional): the user can give an outside AI app such as Claude a private connector address. That AI can then make trades and pay small fees for paid web tools (see below), only inside the user's limits. It can't withdraw, can't change limits, and never sees keys. Trades over the user's approval amount wait for their OK.</li>
 </ul>
