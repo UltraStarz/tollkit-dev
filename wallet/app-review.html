@@ -34,7 +34,7 @@
 <main class="container">
 <header class="head">
   <h1>TOLLkit Wallet: how it works</h1>
-  <p class="lede">A complete explanation of the app for App Review and anyone evaluating it. Made by Tollkit LLC (USA), enrolled in the Apple Developer Program as an organization. Contact: <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>. Updated November 10, 2026, for iOS version 0.9.12.</p>
+  <p class="lede">A complete explanation of the app for App Review and anyone evaluating it. Made by Tollkit LLC (USA), enrolled in the Apple Developer Program as an organization. Contact: <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>. Updated November 16, 2026, for iOS version 0.9.22 (build 89).</p>
 </header>
 
 <div class="card">
@@ -52,7 +52,19 @@
 <ul>
   <li>No review mode, no remote feature switches, no server flags that turn features on later, and no code downloaded after install. Every feature described here is in the submitted build.</li>
   <li>No region-specific behavior beyond the law: the app isn't offered in the EU or mainland China, Buy and Cash out follow Coinbase's own country support, and TOLLkit's server refuses requests from sanctioned regions.</li>
-  <li>Some features only <em>act</em> once the wallet holds funds. In a new, empty wallet they show their setup screens, and automated trading runs on paper (pretend money, marked PAPER). That's why a reviewer with an empty wallet sees practice trades, not real ones. We're glad to provide a test wallet with a small balance.</li>
+  <li>The app does load <em>data</em> from the network: prices, balances, quotes, a market summary for Autopilot, and the price list of web tools a connected outside AI may pay for. It loads no code and no switches that change which features exist.</li>
+  <li>Some features only <em>act</em> once the wallet holds funds. In a new, empty wallet they show their setup screens, and automated trading practices with pretend money. Practice results sit behind the <strong>Practice</strong> side of Autopilot's <strong>Real money / Practice</strong> switch, and practice bots are labeled Practice. That's why a reviewer with an empty wallet sees practice trades, not real ones. We're glad to provide a test wallet with a small balance.</li>
+</ul>
+
+<h2>What changed since version 0.9.12</h2>
+<p>Earlier review material described version 0.9.12. Version 0.9.22 is the same app with a new look; this page and the review video now describe 0.9.22.</p>
+<ul>
+  <li><strong>New design.</strong> Every screen was restyled: a balance chart on Home, round Buy, Sell, Swap, Send, Receive and Bridge buttons, and tabs along the bottom (Home, AI, Autopilot, Bots, Orders, Activity). The features behind them are the same.</li>
+  <li><strong>Autopilot</strong> has a <strong>Real money / Practice</strong> switch, so pretend results are never mixed with real ones, and a <strong>Pipeline</strong> tab that says in plain words what Autopilot is doing. "Paper" is now called "Practice" (two intro screens still say "paper"; it means the same pretend-money practice).</li>
+  <li><strong>Bots</strong> check prices every 5 seconds while the app is open (it was 15).</li>
+  <li><strong>Settings &gt; Appearance</strong>: light, dark and darker themes, and the Home mascot can be shown, faded or hidden.</li>
+  <li><strong>A loading screen</strong> shows until balances have loaded.</li>
+  <li><strong>Removed from the iPhone app:</strong> build 87 let the in-app AI chat pay TOLLkit small USDC fees for extra data lookups. Our review notes didn't describe that, which was our mistake. That code has been removed from the iPhone app (build 89), not switched off: the in-app chat makes no payments of any kind.</li>
 </ul>
 
 <h2>Getting started</h2>
@@ -69,19 +81,19 @@
   <li>Token check: before adding a token, TOLLkit reads it from the blockchain and warns in plain words if it looks risky (for example, if its owner can mint more).</li>
 </ul>
 <h3>Bots</h3>
-<p>Rule-based bots with no AI: buy the dip, take-profit ladder, grid trader, Smart DCA, rebalancer, infinity grid, split order, trade on a signal (RSI/MACD/breakout), and a Range bot (Orca liquidity). The user sees every setting and every level on a TradingView chart before starting. Each bot shows its trades, failures and result. Practice bots trade pretend money and are labeled PAPER.</p>
+<p>Rule-based bots with no AI: buy the dip, take-profit ladder, grid trader, Smart DCA, rebalancer, infinity grid, split order, trade on a signal (RSI/MACD/breakout), and a Range bot (Orca liquidity). The user sees every setting and every level on a TradingView chart before starting. Each bot shows its trades, failures and result. Practice bots trade pretend money and are labeled Practice. Bots check prices every 5 seconds while the app is open.</p>
 <h3>Orders</h3>
 <p>Scheduled buys, stop-losses, take-profits, trailing stops and price or indicator alerts. Alerts only notify; they never trade.</p>
 <h3>Autopilot</h3>
 <ul>
   <li>Off until the user turns it on and sets a budget, a cap per trade, a cap per token, and daily and weekly loss stops (Settings &gt; Autopilot).</li>
   <li>It reads market data (prices, funding, Fear &amp; Greed, news and social signals) and, using the <em>user's own AI key</em>, adjusts a few strategies. Without a key it doesn't start new strategies and says so.</li>
-  <li><strong>Every new strategy trades on paper first.</strong> One that beats both holding USDC and keeping half its money in the coin over a trial of at least 3 days and 10 trades goes live with real money, at a quarter of its size until it passes the same test with real money over at least five finished rounds, when the user taps <strong>Go live</strong>, or automatically only if the user has turned on <strong>Active mode</strong> (off by default).</li>
+  <li><strong>Every new strategy practices with pretend money first</strong> (shown under Practice). One that beats both holding USDC and keeping half its money in the coin over a trial of at least 3 days and 10 trades goes live with real money, at a quarter of its size until it passes the same test with real money over at least five finished rounds, when the user taps <strong>Go live</strong>, or automatically only if the user has turned on <strong>Active mode</strong> (off by default).</li>
   <li>Live strategies then place real trades on their own, always inside the budget and caps. Loss stops pause everything, and one switch turns Autopilot off. Every decision is logged with its reasons.</li>
 </ul>
 <h3>AI tab</h3>
 <ul>
-  <li>Chat with the user's own AI (Anthropic, OpenAI, xAI or OpenRouter), using their own key, billed by that company. TOLLkit doesn't sell AI in the iOS app.</li>
+  <li>Chat with the user's own AI (Anthropic, OpenAI, xAI or OpenRouter), using their own key, billed by that company. TOLLkit doesn't sell AI in the iOS app, and the in-app chat can't make payments or buy anything.</li>
   <li>The AI explains holdings and sets up the swap, order or bot the user describes; nothing runs until the user taps it.</li>
   <li><strong>Connect your AI</strong> (optional): the user can give an outside AI app such as Claude a private connector address. That AI can then make trades and pay small fees for paid web tools (see below), only inside the user's limits. It can't withdraw, can't change limits, and never sees keys. Trades over the user's approval amount wait for their OK.</li>
 </ul>
