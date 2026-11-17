@@ -27,6 +27,9 @@
   ul { padding-left:1.2rem; } li { margin:.3rem 0; }
   .mut { color:var(--muted); }
   footer {  margin-top:2.5rem; padding:1.6rem 0 3rem; color:var(--dim); font-size:.84rem; } footer a { color:var(--muted); }
+  table { width:100%; border-collapse:collapse; margin:.6rem 0 1rem; font-size:.88rem; display:block; overflow-x:auto; }
+  th,td { text-align:left; padding:.45rem .5rem; border-bottom:1px solid var(--line, #2c2f3a); vertical-align:top; }
+  th { color:var(--muted, #979aab); font-weight:600; white-space:nowrap; }
 </style>
 <link rel="stylesheet" href="/nav.css">
 </head>
@@ -35,12 +38,26 @@
 <main class="container">
 <header class="head">
   <h1>TOLLkit Wallet privacy policy</h1>
-  <p class="lede">For the TOLLkit Wallet extension for Chrome and the TOLLkit Wallet app for Android, iPhone and iPad. Effective October 28, 2026. This version adds the iPhone and iPad app.</p>
+  <p class="lede">For the TOLLkit Wallet extension for Chrome and the TOLLkit Wallet app for Android, iPhone and iPad. Effective November 17, 2026. This version adds a summary table, how long each kind of data is kept and how to delete it, Think 24/7 (where Autopilot keeps deciding on TOLLkit&rsquo;s server), and the paid tools the in-app AI can use on Chrome and Android.</p>
 </header>
 
 <div class="card">
   <strong>In short:</strong> your recovery phrase and keys stay in your browser, encrypted with your password. TOLLkit has no accounts, no analytics and no ads, and never sees your password, phrase or keys. To show balances and send transactions, the wallet talks to blockchain networks and price services, and only sends what each one needs.
 </div>
+
+<h2>Summary</h2>
+<table>
+  <tr><th>Data</th><th>Where it&rsquo;s kept</th><th>Who receives it</th><th>How long</th></tr>
+  <tr><td>Recovery phrase, keys, password</td><td>Only on your device, encrypted</td><td>No one. TOLLkit never receives them.</td><td>Until you remove the wallet</td></tr>
+  <tr><td>Settings, limits, bots, orders, Autopilot, chat history, activity list</td><td>On your device</td><td>No one, unless you turn on Sync, Run 24/7 or Think 24/7 (below)</td><td>Until you delete them or remove the wallet</td></tr>
+  <tr><td>Wallet addresses and signed transactions</td><td>On the public blockchains</td><td>Blockchain networks, swap and bridge services, and sites you connect, only to do what you ask</td><td>Blockchains are permanent</td></tr>
+  <tr><td>Your own AI key</td><td>On your device. With Think 24/7, also on TOLLkit&rsquo;s server, encrypted</td><td>The AI company you chose</td><td>Until you remove the key or turn off Think 24/7</td></tr>
+  <tr><td>Chat messages and the wallet facts the AI asks for</td><td>On your device</td><td>The AI company you chose, straight from your device</td><td>On your device until New chat; at the AI company, under its terms</td></tr>
+  <tr><td>Run 24/7 rules, permissions and trade records; Think 24/7 strategies and decisions</td><td>TOLLkit&rsquo;s server</td><td>TOLLkit; swap services and your AI company when a rule or decision runs</td><td>While the feature is on; trade records up to 300 per wallet, decisions up to 100</td></tr>
+  <tr><td>Synced data (Sync my devices)</td><td>TOLLkit&rsquo;s server, encrypted so we can&rsquo;t read it</td><td>Only your own devices</td><td>Until you ask us to delete it</td></tr>
+  <tr><td>Paid tool calls (payer address, tool, amount, transaction id)</td><td>TOLLkit&rsquo;s server and the public blockchain</td><td>TOLLkit, as the seller</td><td>Kept as sales records</td></tr>
+  <tr><td>IP address</td><td>TOLLkit&rsquo;s server memory</td><td>No one; Coinbase receives it only when you Buy</td><td>About a minute</td></tr>
+</table>
 
 <h2>Who we are</h2>
 <p>TOLLkit Wallet is made by Tollkit LLC, USA. Questions: <a href="mailto:hello@tollkit.dev">hello@tollkit.dev</a>.</p>
@@ -69,18 +86,30 @@
   <li><strong>Sites you connect</strong>: a site you approve sees your address, and gets the signatures and transactions you approve one by one. You can disconnect a site in Settings.</li>
   <li><strong>Token balances and lists</strong>: to find the tokens you hold, your Base and Ethereum addresses go to the networks' public endpoints and your Ethereum address to Blockscout (eth.blockscout.com); your Solana address and the token mints you hold go to Jupiter (api.jup.ag) for token names and verification. The Uniswap token list (tokens.uniswap.org) is downloaded once a day. Token logos load from the sites the token lists name.</li>
   <li><strong>Token check</strong>: when you add a token, its network and contract or mint address go to TOLLkit's server, which reads the token's contract and market from the blockchain. Your own address isn't sent.</li>
-  <li><strong>Your own AI</strong> (only if you add a key): your key for Anthropic, OpenAI, OpenRouter or xAI (Grok) stays on your device and is sent only to that company. The phone app keeps it in your phone's secure storage (the iOS Keychain or the Android Keystore); the extension keeps it in Chrome's storage, encrypted with your wallet password. Your messages, any pictures you attach, the conversation so far, and the wallet facts the AI asks for (such as balances, prices, limits and your rules) go straight from your device to that company, not through TOLLkit's server. That company handles them under its own terms and bills you. If you use Grok, it may search public posts on X to answer you; xAI bills your account for the posts it reads. Pictures are shrunk on your device before sending; after the reply, the app keeps only a small preview. Autopilot uses the same key: when the market moved, it sends your Autopilot settings and limits, its strategies and their results, your own rules on the same coins, and the shared market snapshot straight to that company for one decision. Remove key deletes the key from your device.</li>
+  <li><strong>Your own AI</strong> (only if you add a key): your key for Anthropic, OpenAI, OpenRouter or xAI (Grok) stays on your device and is sent only to that company, unless you turn on Think 24/7 (below). The phone app keeps it in your phone's secure storage (the iOS Keychain or the Android Keystore); the extension keeps it in Chrome's storage, encrypted with your wallet password. Your messages, any pictures you attach, the conversation so far, and the wallet facts the AI asks for (such as balances, prices, limits and your rules) go straight from your device to that company, not through TOLLkit's server. That company handles them under its own terms and bills you. If you use Grok, it may search public posts on X to answer you; xAI bills your account for the posts it reads. Pictures are shrunk on your device before sending; after the reply, the app keeps only a small preview. Autopilot uses the same key: when the market moved, it sends your Autopilot settings and limits, its strategies and their results, your own rules on the same coins, and the shared market snapshot straight to that company for one decision. Remove key deletes the key from your device.</li>
   <li><strong>Autopilot</strong> (only if you turn it on): the wallet reads TOLLkit's shared market snapshot (prices, funding, Fear &amp; Greed, news, and meme coins people are posting about on X, read by xAI's Grok on TOLLkit's server), which doesn't include anything about you. When the market moved, it asks your own AI for one decision, as described above under Your own AI; without a key it makes none.</li>
+  <li><strong>Think 24/7</strong> (part of Run 24/7 on Solana, only if you turn it on): so Autopilot can keep deciding while your device is off, each 24/7 sync sends TOLLkit&rsquo;s server your Autopilot settings and limits, your Solana Autopilot strategies and their results, and, if you use your own AI key, that key. The key is stored encrypted (AES-256-GCM) and is read back only to make your own Autopilot&rsquo;s decisions while your device is off; it is never shown, shared or used for anything else. When a decision is due, the server sends that same information and the shared market snapshot to your AI company (or, if you prepaid TOLLkit to decide for you, to TOLLkit&rsquo;s AI provider, Anthropic). The server keeps a log of up to 100 decisions it made so the wallet can show them when you&rsquo;re back. If you prepay, the server keeps your balance, the Solana transaction ids of your top-ups and how many decisions you used. Turning off Think 24/7 or Run 24/7, or removing your key, deletes the key and the strategies from the server.</li>
   <li><strong>Run 24/7</strong> (only for the rules you switch it on for): your wallet address, those rules (the coin, amounts, prices and schedule) and the permissions your wallet signs for them go to TOLLkit's server, which keeps them so it can run the rules while your device is off. On Base these are permission slips your wallet signs; on Solana it is a capped token allowance your wallet approves on the blockchain. When a rule is due, the server asks 0x or Jupiter for a swap (sending your address and the amounts), sends it, and pays the network fee. It keeps a record of each trade it made (time, amounts, transaction id, up to 300 per wallet) so the wallet can show it. Turning 24/7 off removes your rules from the server and cancels the permissions.</li>
   <li><strong>Sync my devices</strong> (off unless you turn it on): your bots, rules, Autopilot settings, trade history and token list are encrypted on your device with a key made from your wallet&rsquo;s own keys, then stored on TOLLkit&rsquo;s server so your other devices can read them. We can&rsquo;t read them. Turning sync off stops it; email us to delete the stored copy.</li>
   <li><strong>Telegram</strong> (only if you set it up): approval requests and alerts go from the wallet straight to Telegram (api.telegram.org) through the bot you created, and your replies come back the same way. They don't pass through TOLLkit's server.</li>
   <li><strong>Connect your AI</strong> (only if you turn it on): the AI app you add the address to sends its requests through TOLLkit's server to the wallet in your browser, and the wallet's answers go back the same way. TOLLkit's server keeps only a one-way hash of the address's secret part, in memory. Anyone who has the full address can use the wallet within your limits, so keep it private; Turn off or New address stops it at once.</li>
   <li><strong>Bot board</strong>: the wallet reads TOLLkit's public bot board. Only if you turn on sharing in the Bots tab, it sends once a day, per bot: the bot type, network, token symbol, status, how many trades went through or failed, the result in percent, and how many days it has run, with a random id for your install. No addresses, dollar amounts, transaction ids or keys.</li>
+  <li><strong>TOLLkit tools in the chat</strong> (Chrome and Android; not in the iPhone app): if you let the in-app AI use TOLLkit&rsquo;s paid tools, the tool&rsquo;s input (for example a token address, a web page address or a search phrase) goes to TOLLkit&rsquo;s tool service with a small USDC payment from your wallet, inside your payment limits, and the result comes back to your device. The tool service uses the input only to answer that call. As the seller, TOLLkit keeps a record of the sale: the paying address, the tool, the amount and the transaction id, which are also public on the blockchain.</li>
   <li><strong>Payments to tools</strong>: before the wallet pays a tool or service (including the chat and Autopilot), the tool's web address goes to TOLLkit's seller check (api.tollkit.dev/check). Payment addresses are compared with a public list of sanctioned addresses, downloaded from GitHub.</li>
 </ul>
 
 <h2>What TOLLkit's server keeps</h2>
-<p>TOLLkit's server doesn't save wallet requests to logs or a database, except what Run 24/7 needs: the rules, signed permissions and trade records described above, for as long as 24/7 is on (trade records stay so the wallet can show them). The bot board keeps the shared bot results described above for 30 days. It holds your IP address in memory for about a minute to limit how many requests one computer can make. It never receives your password, recovery phrase or private keys.</p>
+<p>TOLLkit's server doesn't save wallet requests to logs or a database, except:</p>
+<ul>
+  <li>Run 24/7: the rules, signed permissions and trade records described above, while 24/7 is on (trade records, up to 300 per wallet, stay so the wallet can show them).</li>
+  <li>Think 24/7: your encrypted AI key, your Autopilot settings and strategies, and up to 100 decisions, while it&rsquo;s on; your prepaid balance and top-up transaction ids if you prepay.</li>
+  <li>Sync my devices: your encrypted copy, which we can&rsquo;t read.</li>
+  <li>Sales records of paid tool calls: paying address, tool, amount and transaction id.</li>
+  <li>The bot board: the shared bot results described above, for 30 days.</li>
+</ul>
+<p>It holds your IP address in memory for about a minute to limit how many requests one computer can make. It never receives your password, recovery phrase or private keys.</p>
+<h2>How it&rsquo;s protected</h2>
+<p>Everything sent travels over HTTPS. On your device, your phrase and keys are encrypted with your password, and the phone apps use the iOS Keychain or Android Keystore. On TOLLkit&rsquo;s server, AI keys are encrypted at rest and synced data is encrypted on your device before it&rsquo;s sent. Access to the server is limited to Tollkit LLC.</p>
 
 <h2>What we don't do</h2>
 <ul>
@@ -93,8 +122,9 @@
 <h2>Your control</h2>
 <ul>
   <li>Lock the wallet any time, and set auto-lock in Settings.</li>
-  <li>Your own AI, Autopilot, Run 24/7, Telegram, Connect your AI and bot sharing are off until you use or turn them on. New chat clears the chat; Turn off removes the AI address; unticking sharing stops reports.</li>
+  <li>Your own AI, Autopilot, Run 24/7, Think 24/7, Sync, Telegram, Connect your AI and bot sharing are off until you use or turn them on. Remove key deletes your AI key from your device and from TOLLkit&rsquo;s server. New chat clears the chat; Turn off removes the AI address; unticking sharing stops reports.</li>
   <li>Turn off Run 24/7 on a rule, or use Revoke in Settings, to remove it from TOLLkit's server. On Solana, Revoke also cancels the allowance and unwraps any SOL set aside for it.</li>
+  <li>Email hello@tollkit.dev from anywhere to have us delete anything TOLLkit&rsquo;s server holds for your wallet address (Run 24/7, Think 24/7, synced data). Sales records of paid tool calls are kept for our accounts, and anything on a blockchain can&rsquo;t be deleted by anyone.</li>
   <li>Settings → Remove wallet, or removing the extension, deletes everything it stored in your browser. Keep your recovery phrase: without it, TOLLkit can't restore your wallet, because we never have it.</li>
 </ul>
 
